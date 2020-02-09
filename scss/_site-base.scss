@@ -125,12 +125,12 @@ a {
 	&.text-center {
 		&:before {
 			content: "";
-			left: 50%;
+			left: 20%;
 			top: 0;
 			transform: translateX(-50%);
 			position: absolute;
-			width: 40px;
-			height: 2px;
+			width: 20px;
+			height:2px;
 			background: $primary;
 		}	
 	}
@@ -170,7 +170,7 @@ a {
 .bg-text-line {
   display: inline;
   background: $black;
-  box-shadow: 20px 0 0 $black, -20px 0 0 $black;
+  box-shadow: 100px 0 0 $black, -20px 0 0 $black;
 }
 
 .bg-image {

@@ -149,7 +149,7 @@ a:hover {
 
 .site-section-heading.text-center:before {
   content: "";
-  left: 50%;
+  left: 100%;
   top: 0;
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
@@ -198,7 +198,7 @@ a:hover {
   display: inline;
   background: #000;
   -webkit-box-shadow: 20px 0 0 #000, -20px 0 0 #000;
-  box-shadow: 20px 0 0 #000, -20px 0 0 #000;
+  box-shadow: 100px 0 0 #000, -20px 0 0 #000;
 }
 
 .bg-image {
