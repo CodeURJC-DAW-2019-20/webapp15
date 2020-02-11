@@ -2,11 +2,12 @@
 
 # Name of application: 
 'Mis resultados'
-# Members of the dev team: 
-Álvaro Orbaneja Gómez a.orbaneja@alumnos.urjc.es aorbaneja
+# Members of the dev team:
+|        **Member**        |          **URJC email**          |        **GitHub**       |
+|:---|:---|:---|
+| *Álvaro Orbaneja Gómez* | a.orbaneja@alumnos.urjc.es   | [aorbaneja](https://github.com/aorbaneja) |
+| *Juan Enrique Antón Marazuela*       | je.anton@alumnos.urjc.es    | [juanAntonMarazuela](https://github.com/juanAntonMarazuela) |
 
-
-Juan Enrique Antón Marazuela je.anton@alumnos.urjc.es juanAntonMarazuela
 # Entitys:
 Users and Teams.
 
@@ -23,10 +24,8 @@ Admin user: Entity team have a field of near matches (near matches 1,2 and 3). A
 
 
 # Images:
-The team entity has an associated image for the team shield.
-
-
-The user entity has an associated image for the user's photo.
+## Página de inicio
+![Página de inicio](screenshots/inicio.PNG)
 # Graphics: 
 The leaderboard.
 # Complementary technology:
