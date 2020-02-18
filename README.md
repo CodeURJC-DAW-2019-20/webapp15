@@ -25,23 +25,23 @@ Admin user: Entity team have a field of near matches (near matches 1,2 and 3). A
 
 # Images:
 ## Página de inicio
-![Página de inicio](Fase&#32;1/screenshots/inicio.PNG)
+![Página de inicio](screenshots/inicio.PNG)
 ## Login
-![Login](Fase&#32;1/screenshots/login.PNG)
+![Login](screenshots/login.PNG)
 ## Registro
-![Registro](Fase&#32;1/screenshots/registro.PNG)
+![Registro](screenshots/registro.PNG)
 ## Apuestas
-![Apuestas](Fase&#32;1/screenshots/apuestas.PNG)
+![Apuestas](screenshots/apuestas.PNG)
 ## Clasificación
-![Clasificación](Fase&#32;1/screenshots/clasificacion.PNG)
+![Clasificación](screenshots/clasificacion.PNG)
 ## Próximos partidos
-![Próximos partidos 1](Fase&#32;1/screenshots/partidos1.PNG)
-![Próximos partidos 2](Fase&#32;1/screenshots/partidos2.PNG)
+![Próximos partidos 1](screenshots/partidos1.PNG)
+![Próximos partidos 2](screenshots/partidos2.PNG)
 ## Equipos
-![Equipos](Fase&#32;1/screenshots/equipos.PNG)
+![Equipos](screenshots/equipos.PNG)
 ## Equipo
-![Equipo 1](Fase&#32;1/screenshots/equipo1.PNG)
-![Equipo 2](Fase&#32;1/screenshots/equipo2.PNG)
+![Equipo 1](screenshots/equipo1.PNG)
+![Equipo 2](screenshots/equipo2.PNG)
 
 
 
