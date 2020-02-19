@@ -1,4 +1,4 @@
-/*package webapp15.team;
+package webapp15.team;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,6 @@ public class Team {
 	 * Nombre de los equipos a los que se enfrenta proximamente
 	 * Controlado por el administrador
 	*/
-/*
 	private ArrayList<String> matches = new ArrayList<String>();
 	
 	public  Team() {
@@ -150,4 +149,4 @@ public class Team {
 				+ "]";
 	}
 
-}*/
+}

@@ -86,28 +86,15 @@
           </div>
         </div>
         <div class="row">
+          {{#allTeams}}      	
           <div class="mb-4 mb-lg-0 col-6 col-md-4 col-lg-2 text-center">
             <div class="player mb-5">
               <img src="images/realmadrid_escudo.png" alt="Image" class="img-fluid image rounded-circle">
-              <h2>Real Madrid</h2>
-              <span class="position">La liga</span>
+              <h2><a href="/equipo/{{name}}">{{name}}</a></h2>
+              <span class="position">{{league}}</span>
             </div>
           </div>
-          <div class="mb-4 mb-lg-0 col-6 col-md-4 col-lg-2 text-center">
-            <div class="player mb-5">
-              <img src="images/escudo_atleti.jpg" alt="Image" class="img-fluid image rounded-circle">
-              <h2>Atlético de Madrid</h2>
-              <span class="position">La liga</span>
-            </div>
-          </div>
-          <div class="mb-4 mb-lg-0 col-6 col-md-4 col-lg-2 text-center">
-            <div class="player mb-5">
-              <img src="images/escudo_barcelona.jpg" alt="Image" class="img-fluid image rounded-circle">
-              <h2>Barcelona</h2>
-              <span class="position">La liga</span>
-            </div>
-          </div>
-
+		  {{/allTeams}}
     <footer class="site-footer border-top">
       <div class="container">
         <div class="row">
