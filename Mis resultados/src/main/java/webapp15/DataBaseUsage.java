@@ -1,4 +1,4 @@
-package webapp15;
+/*package webapp15;
 
 import java.util.ArrayList;
 
@@ -25,4 +25,39 @@ public class DataBaseUsage implements CommandLineRunner{
 		
 	}
 
+}
+*/
+
+package webapp15;
+
+import webapp15.user.User;
+import webapp15.user.UserRepository;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+
+
+@Component
+public class DataBaseUsage {
+	
+    @Autowired private UserRepository userRepository;
+
+
+    @PostConstruct
+    public void init(){
+    	//USER
+        User user1 =  new User("administrador", "", "administrador@gmail.com", "1234" , "ROLE_ADMIN");
+        User user2 =  new User("Álvaro", "Orbaneja", "alvaro@gmail.com", "1234" , "ROLE_USER");
+        if(userRepository.findByEmail("administrador@gmail.com")==null)
+        	user1=userRepository.save(user1);
+        user1=userRepository.findByEmail("administrador@gmail.com");
+        if(userRepository.findByEmail("alvaro@gmail.com")==null)
+	        user2=userRepository.save(user2);
+        user2=userRepository.findByEmail("alvaro@gmail.com");
+ 
+   
+    }
 }

@@ -1,4 +1,4 @@
-package user;
+package webapp15.user;
 
 import javax.persistence.*;
 
@@ -40,14 +40,11 @@ public class User{
 	}
 	
 	
-	public User(String name, String surname, String email, String password, String fav_team,
-			Integer acc_balance, byte[] profilePicture, String... roles) {
+	public User(String name, String surname, String email, String password, String... roles) {
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.passwordHash = new BCryptPasswordEncoder().encode(password);
-		this.fav_team = fav_team;
-		this.acc_balance = acc_balance;
 		/*this.profilePicture = profilePicture;*/
 		this.roles = new ArrayList<>(Arrays.asList(roles));
 	}
@@ -56,6 +53,12 @@ public class User{
 		return this.id;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getSurname() {
 		return this.surname;
 	}

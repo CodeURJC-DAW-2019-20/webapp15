@@ -1,4 +1,4 @@
-package security;
+package webapp15.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import user.*;
+import webapp15.user.*;
 @Component
 public class UserRepositoryAuthenticationProvider implements AuthenticationProvider {
 

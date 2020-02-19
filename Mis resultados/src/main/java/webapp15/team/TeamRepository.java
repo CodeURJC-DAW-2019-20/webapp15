@@ -1,4 +1,4 @@
-package team;
+/*package webapp15.team;
 
 import java.util.Optional;
 
@@ -16,3 +16,4 @@ public interface TeamRepository extends JpaRepository<Team,Long> {
 	//Metodo para sacar la clasificacion por orden	
 	public List<Team> findByOrderPosition(String liga);
 }
+*/

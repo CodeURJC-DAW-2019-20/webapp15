@@ -1,4 +1,4 @@
-package user;
+package webapp15.user;
 
 import java.util.List;
 
