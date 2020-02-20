@@ -1,4 +1,4 @@
-/*package webapp15;
+package webapp15;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,8 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public ViewResolver viewResolver() {
         final InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setPrefix("/WEB-INF/views/");
-        bean.setSuffix(".html");
+        /*bean.setPrefix("/resources/templates/");
+        bean.setSuffix(".html");*/
         return bean;
     }
 
@@ -22,7 +22,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/static/");
     }*/
-    /*
+    
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/home").setViewName("home");
@@ -35,4 +35,4 @@ public class MvcConfig implements WebMvcConfigurer {
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.viewResolver(viewResolver());
     }
-}*/
+}
