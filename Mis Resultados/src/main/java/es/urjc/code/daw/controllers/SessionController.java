@@ -87,11 +87,6 @@ public class SessionController {
 		
         return "equipos";
 	}
-	/*@GetMapping("/")
-	public String index (Model model) {
-		
-		return "home";
-	}*/
 	
 	@GetMapping("/equipo/{name}")
 	public String equipo(Model model,@PathVariable String name) {
@@ -168,7 +163,13 @@ public class SessionController {
 
     	return horario;
 	}
-
+	
+	
+	@GetMapping("/apostar")
+	public String apostar(Model model) {
+		return "apostar";
+	}
+	
     //Método que inicializa la bbdd de toda la página
     //Ir añadiendo campos
     public  void init(Model model, HttpServletRequest request){
