@@ -35,6 +35,9 @@ public class Team {
 	*/
 	private ArrayList<String> matches = new ArrayList<String>();
 	
+	private String nameImgTemplate;
+	private String nameImgShield;
+	
 	public  Team() {
 	}
 	
@@ -54,6 +57,26 @@ public class Team {
 		this.league = league;
 		this.direction = direction;
 		this.matches = matches;
+	}
+	
+	
+	public Team(String name, Integer winners, Integer lossers, Integer tied, Integer points,
+			Integer goalsInFavor, Integer goalsAgainst, Integer position, String league, String direction,
+			ArrayList<String> matches, String nameImgTemaplate, String nameImgShield) {
+		super();
+		this.name = name;
+		this.winners = winners;
+		this.lossers = lossers;
+		this.tied = tied;
+		this.points = points;
+		this.goalsInFavor = goalsInFavor;
+		this.goalsAgainst = goalsAgainst;
+		this.position = position;
+		this.league = league;
+		this.direction = direction;
+		this.matches = matches;
+		this.nameImgTemplate = nameImgTemaplate;
+		this.nameImgShield = nameImgShield;
 	}
 
 
@@ -141,12 +164,35 @@ public class Team {
 	public String getMatch(int n) {
 		return this.matches.get(n);
 	}
+
+
+
+	public String getNameImgTemplate() {
+		return nameImgTemplate;
+	}
+
+
+	public void setNameImgTemplate(String nameImgTemplate) {
+		this.nameImgTemplate = nameImgTemplate;
+	}
+
+
+	public String getNameImgShield() {
+		return nameImgShield;
+	}
+
+
+	public void setNameImgShield(String nameImgShield) {
+		this.nameImgShield = nameImgShield;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Team [id=" + id + ", name=" + name + ", winners=" + winners + ", lossers=" + lossers + ", tied=" + tied
 				+ ", points=" + points + ", goalsInFavor=" + goalsInFavor + ", goalsAgainst=" + goalsAgainst
 				+ ", position=" + position + ", league=" + league + ", direction=" + direction + ", matches=" + matches
-				+ "]";
+				+ ", nameImgTemaplate=" + nameImgTemplate + ", nameImgShield=" + nameImgShield + "]";
 	}
 
 }

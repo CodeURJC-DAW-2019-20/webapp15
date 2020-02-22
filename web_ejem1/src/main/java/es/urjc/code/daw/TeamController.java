@@ -22,119 +22,253 @@ public class TeamController {
 	@Autowired
 	TeamRepository teamRepository;
 	
-    @PostConstruct
-    private void initDatabase() {
-    	ArrayList<String> nextMatches = new ArrayList<String>();
-    	ArrayList<String> nextMatches2 = new ArrayList<String>();
-    	ArrayList<String> nextMatches3 = new ArrayList<String>();
-    	ArrayList<String> nextMatches4 = new ArrayList<String>();
+	@Autowired
+	BetRepository betRepository;
 
-    	nextMatches.add("Osasuna");nextMatches.add("Getafe");nextMatches.add("Leganes");
-    	nextMatches2.add("Espanyol");nextMatches2.add("Valencia");nextMatches2.add("Granada");
-    	nextMatches3.add("Valladolid");nextMatches3.add("Rayo Vallecano");nextMatches3.add("Girona");
-    	nextMatches4.add("Betis");nextMatches4.add("Sevilla");nextMatches4.add("Mallorca");
-
-		Team t1 = new Team("Real Madrid",3,5,6,23,30,18,1,"La liga","Concha Espina", nextMatches);
-		Team t2 = new Team("Barcelona",4,2,3,21,28,10,2,"La liga","Canaletas",nextMatches2);
-		Team t3 = new Team("Atletico de Madrid",2,2,5,13,10,20,4,"La liga","Metropolitano",nextMatches3);
-		Team t4 = new Team("Real Sociedad",3,2,3,20,22,8,3,"La liga","Alava",nextMatches4);
-		//Team t5 = new Team("Manchester City",3,2,3,20,22,8,3,"Premier league","Manchester",new ArrayList<>());
-		
-		teamRepository.save(t1);
-		teamRepository.save(t2);
-		teamRepository.save(t3);
-		teamRepository.save(t4);
-		//teamRepository.save(t5);
-    }
+	private ArrayList<Match> betMatches = new ArrayList<Match>();
 	
-	@GetMapping("/equipos")
-	public String equipos(Model model) {
-        List<Team> allTeams = teamRepository.findAll();
-        
-        model.addAttribute("allTeams",allTeams);
-		
-        return "equipos";
-	}
 	@GetMapping("/")
-	public String index (Model model) {
-		
+	public String home(Model model) {
+		List<Team> allTeams = teamRepository.findAll();
+
+		model.addAttribute("allTeams", allTeams);
+
 		return "home";
 	}
-	
+
+	@GetMapping("/equipos")
+	public String equipos(Model model) {
+		List<Team> allTeams = teamRepository.findAll();
+
+		model.addAttribute("allTeams", allTeams);
+
+		return "equipos";
+	}
+
 	@GetMapping("/equipo/{name}")
-	public String equipo(Model model,@PathVariable String name) {
-		
-		Optional<Team> teamAux= teamRepository.findByName(name);
-		Team team ;
-		if(teamAux.isPresent()) {
+	public String equipo(Model model, @PathVariable String name) {
+
+		Optional<Team> teamAux = teamRepository.findByName(name);
+		Team team;
+		if (teamAux.isPresent()) {
 			team = teamAux.get();
-		}else {
+		} else {
 			return "error";
 		}
-		model.addAttribute("teamName",name);
-		
-		model.addAttribute("teamStats",team);
-		
+		model.addAttribute("teamName", name);
+
+		model.addAttribute("teamStats", team);
+
 		return "equipo";
 	}
-	
+
 	@GetMapping("/clasificacion")
 	public String table(Model model) {
-		
+
 		List<Team> clasificacion = teamRepository.findByLeagueOrderByPosition("La liga");
-		
-		model.addAttribute("equipoPosicion",clasificacion);
-		
+
+		model.addAttribute("equipoPosicion", clasificacion);
+
 		return "clasificacion";
 	}
 	
+	@GetMapping("/apostar")
+	public String apostar(Model model) {
+		List<Match> matches;
+		
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
+		if(betMatches.isEmpty()) {
+			model.addAttribute("codigoHtmlInicio",false);
+		}else {
+			model.addAttribute("listMatch",betMatches);
+
+			model.addAttribute("codigoHtmlInicio",true);
+
+		}
+		return "apostar"; 
+	}
+	@GetMapping("/apostar/{id}/{id2}/{id3}/{id4}")
+	public String apostar(Model model,@PathVariable String id, @PathVariable String id2, @PathVariable String id3,
+			@PathVariable String id4) {
+		List<Match> matches;
+		
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
+		model.addAttribute("codigoHtmlInicio",true);
+		
+		Optional<Team> teamAux = teamRepository.findByName(id);
+
+		Team local;
+
+		if (teamAux.isPresent()) {
+			local = teamAux.get();
+		} else {
+			local = new Team();
+		}
+		teamAux = teamRepository.findByName(id2);
+
+		Team visit;
+
+		if (teamAux.isPresent()) {
+			visit = teamAux.get();
+		} else {
+			visit = new Team();
+		}
+		Match m1 = new Match(local,visit);
+		
+		switch(id4) {
+			case "betLocal":
+				m1.setBetLocal(id3);
+				m1.setBetSelected(id3);
+				break;
+			case "betTied":
+				m1.setBetTied(id3);
+				m1.setBetSelected(id3);
+				break;
+			default:
+				m1.setBetVisit(id3);
+				m1.setBetSelected(id3);
+
+		}
+		boolean repeat=false;
+		boolean changeBet=false;
+		for(Match b: betMatches) {
+			if(b.localTeam.getName().equals(id)) {
+				if(b.betSelected.equals(m1.betSelected)) {
+					repeat = true;
+				}else {
+					repeat = false;
+					changeBet = true;
+					b.setBetSelected(m1.getBetSelected());
+				}
+			}
+		}
+		if(!repeat&&!changeBet) {
+			betMatches.add(m1);
+		}
+		
+		String totalBet = calculateBetCombinated(betMatches);
+		
+		model.addAttribute("totalBet",totalBet);
+		model.addAttribute("listMatch",betMatches);
+		
+
+		return "apostar"; 
+	}
+
+	private String calculateBetCombinated(ArrayList<Match> betMatches2) {
+		float total = 0;
+		float totalAux = 0;
+		for(Match b: betMatches2) {
+			totalAux = Float.parseFloat(b.getBetSelected());
+			if(total==0) {
+				total = totalAux;
+			}else {
+				total = total * totalAux;
+			}
+		}
+		return total+"";
+	}
+	
+	@GetMapping("apostar/deleteBet")
+	public String deleteBets(Model model) {
+		
+		betMatches.clear();
+		
+		List<Match> matches;
+		
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
+		if(betMatches.isEmpty()) {
+			model.addAttribute("codigoHtmlInicio",false);
+		}else {
+			model.addAttribute("listMatch",betMatches);
+
+			model.addAttribute("codigoHtmlInicio",true);
+
+		}
+		return "apostar"; 
+
+	}
+
 	@GetMapping("/partidos")
 	public String nextmatches(Model model) {
+		List<Match> matches;
 		
-        List<Team> allTeams = teamRepository.findAll();
-        List<Match> matches = new ArrayList<Match>();
-        for(Team t : allTeams) {
-        	String visit = t.getMatches().get(0);
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
 
-        	String local = t.getName();
-        	
-        	String horario = generateRandomDate();
-        	
-        	//Generar fecha actual + numero aleatorio
-        	Match m = new Match(local,visit,horario);
-        	
-        	System.out.println(m.toString());
-        	
-        	matches.add(m);
-        }
-        model.addAttribute("match",matches);
-        
-        
-        return "partidos";
-		
+		return "partidos";
+
 	}
+
+	public List<Match> controlNextMatches() {
+		List<Team> allTeams = teamRepository.findAll();
+		List<Match> matches = new ArrayList<Match>();
+
+		for (Team t : allTeams) {
+			String visitName = t.getMatches().get(0);
+
+			Optional<Team> teamAux = teamRepository.findByName(visitName);
+
+			Team visit;
+
+			if (teamAux.isPresent()) {
+				visit = teamAux.get();
+			} else {
+				visit = new Team();
+			}
+
+			Team local = t;
+
+			String horario = generateRandomDate();
+
+			// Generar fecha actual + numero aleatorio
+			Match m = new Match(local, visit, horario);
+
+			boolean search = false;
+			for (Match mAux : matches) {
+				if (mAux.getLocalTeam().getName().equals(visit.getName())) {
+					search = true;
+
+					break;
+				}
+			}
+			if (!search) {
+				m.setBetLocal("1.53");
+				m.setBetTied("2.53");
+				m.setBetVisit("3.43");
+				matches.add(m);
+			}
+		}
+		return matches;
+	}
+
 	public String generateRandomDate() {
-		
+
 		Calendar c = new GregorianCalendar();
 
-    	Integer diaAux =c.get(Calendar.DATE);
-    	Integer mesAux = c.get(Calendar.MONTH)+1;
-    	Integer horaAux = c.get(Calendar.HOUR_OF_DAY);
-    	
-        Random aleatorio;
-        aleatorio = new Random();
-    	
-        diaAux = aleatorio.nextInt(5)+diaAux;
-        horaAux  = aleatorio.nextInt(2)+horaAux;
-    	
-        
-        String dia = Integer.toString(diaAux);
-    	String mes = Integer.toString(mesAux);
-    	String hora =Integer.toString(horaAux);
-    	
-    	String horario = dia +"-"+ mes + "/" + hora + ":" + "00";
+		Integer diaAux = c.get(Calendar.DATE);
+		Integer mesAux = c.get(Calendar.MONTH) + 1;
+		Integer horaAux = c.get(Calendar.HOUR_OF_DAY);
 
-    	return horario;
+		Random aleatorio;
+		aleatorio = new Random();
+
+		diaAux = aleatorio.nextInt(5) + diaAux;
+		horaAux = aleatorio.nextInt(2) + horaAux;
+
+		String dia = Integer.toString(diaAux);
+		String mes = Integer.toString(mesAux);
+		String hora = Integer.toString(horaAux);
+
+		String horario = dia + "-" + mes + "/" + hora + ":" + "00";
+
+		return horario;
 	}
-
 }
