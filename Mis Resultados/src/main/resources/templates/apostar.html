@@ -7,18 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="/../fonts/icomoon/style.css">
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <link rel="stylesheet" href="css/jquery-ui.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+    <link rel="stylesheet" href="/../css/magnific-popup.css">
+    <link rel="stylesheet" href="/../css/jquery-ui.css">
+    <link rel="stylesheet" href="/../css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/../css/owl.theme.default.min.css">
 
 
-    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="/../css/aos.css">
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/../css/style.css">
 
 </head>
 
@@ -66,167 +66,55 @@
                 <div class="row align-items-center mb-5">
                     <div class="col-md-12">
 
-
+						{{#match}}
                         <div class="row bg-white align-items-center ml-0 mr-0 py-4 match-entry">
                             <div class="col-md-10 col-lg-5 mb-4 mb-lg-0">
-
                                 <div class="text-center text-lg-left">
                                     <div class="d-block d-lg-flex align-items-center">
                                         <div class="image image-small text-center mb-3 mb-lg-0 mr-lg-3">
-                                            <img src="images/realmadrid_escudo.png" alt="Image" class="img-fluid">
+                                            <img src="/../images/{{localTeam.nameImgShield}}.jpg" alt="Image" class="img-fluid">
                                         </div>
                                         <div class="text">
-                                            <h3 class="h5 mb-0 text-black">Real Madrid</h3>
+                                            <h3 class="h5 mb-0 text-black">{{localTeam.name}}</h3>
                                             <span class="text-uppercase small country">España</span>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>1.54</button>
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>2.53</button>
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>6.43</button>
-                            </div>
+                            
+						   <form method="get" action="/apostar/{{localTeam.name}}/{{visitantTeam.name}}/{{betLocal}}/betLocal">	                      
+						   		 <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">	                               
+						    		 <button>{{betLocal}}</button>
+	                            </div>
+	                       </form>
+	                       <form method="get" action="/apostar/{{localTeam.name}}/{{visitantTeam.name}}/{{betTied}}/betTied">	 
+	                         <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
+	                               <button>{{betTied}}</button>
+	                            </div>
+	                       </form>
+	                       <form  method="get" action="/apostar/{{localTeam.name}}/{{visitantTeam.name}}/{{betVisit}}/betVisit">
+	                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
+	                                <button>{{betVisit}}</button>
+	                        </div>
+	                        </form>
                             <div class="col-md-5 col-lg-0 text-center text-lg-right">
                                 <div class="">
                                     <div class="d-block d-lg-flex align-items-center">
                                         <div class="image image-small ml-lg-3 mb-3 mb-lg-0 order-2">
-                                            <img src="images/escudo_eibar.jpg" alt="Image" class="img-fluid">
+                                            <img src="/../images/{{visitantTeam.nameImgShield}}.jpg" alt="Image" class="img-fluid">
                                         </div>
                                         <div class="text order-1 w-100">
-                                            <h3 class="h5 mb-0 text-black">Eibar</h3>
+                                            <h3 class="h5 mb-0 text-black">{{visitantTeam.name}}</h3>
                                             <span class="text-uppercase small country">España</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row bg-white align-items-center ml-0 mr-0 py-4 match-entry">
-                            <div class="col-md-10 col-lg-5 mb-4 mb-lg-0">
-
-                                <div class="text-center text-lg-left">
-                                    <div class="d-block d-lg-flex align-items-center">
-                                        <div class="image image-small text-center mb-3 mb-lg-0 mr-lg-3">
-                                            <img src="images/realmadrid_escudo.png" alt="Image" class="img-fluid">
-                                        </div>
-                                        <div class="text">
-                                            <h3 class="h5 mb-0 text-black">Real Madrid</h3>
-                                            <span class="text-uppercase small country">España</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>1.54</button>
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>2.53</button>
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>6.43</button>
-                            </div>
-                            <div class="col-md-5 col-lg-0 text-center text-lg-right">
-                                <div class="">
-                                    <div class="d-block d-lg-flex align-items-center">
-                                        <div class="image image-small ml-lg-3 mb-3 mb-lg-0 order-2">
-                                            <img src="images/escudo_eibar.jpg" alt="Image" class="img-fluid">
-                                        </div>
-                                        <div class="text order-1 w-100">
-                                            <h3 class="h5 mb-0 text-black">Eibar</h3>
-                                            <span class="text-uppercase small country">España</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row bg-white align-items-center ml-0 mr-0 py-4 match-entry">
-                            <div class="col-md-10 col-lg-5 mb-4 mb-lg-0">
-
-                                <div class="text-center text-lg-left">
-                                    <div class="d-block d-lg-flex align-items-center">
-                                        <div class="image image-small text-center mb-3 mb-lg-0 mr-lg-3">
-                                            <img src="images/realmadrid_escudo.png" alt="Image" class="img-fluid">
-                                        </div>
-                                        <div class="text">
-                                            <h3 class="h5 mb-0 text-black">Real Madrid</h3>
-                                            <span class="text-uppercase small country">España</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>1.54</button>
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>2.53</button>
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>6.43</button>
-                            </div>
-                            <div class="col-md-5 col-lg-0 text-center text-lg-right">
-                                <div class="">
-                                    <div class="d-block d-lg-flex align-items-center">
-                                        <div class="image image-small ml-lg-3 mb-3 mb-lg-0 order-2">
-                                            <img src="images/escudo_eibar.jpg" alt="Image" class="img-fluid">
-                                        </div>
-                                        <div class="text order-1 w-100">
-                                            <h3 class="h5 mb-0 text-black">Eibar</h3>
-                                            <span class="text-uppercase small country">España</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row bg-white align-items-center ml-0 mr-0 py-4 match-entry">
-                            <div class="col-md-10 col-lg-5 mb-4 mb-lg-0">
-
-                                <div class="text-center text-lg-left">
-                                    <div class="d-block d-lg-flex align-items-center">
-                                        <div class="image image-small text-center mb-3 mb-lg-0 mr-lg-3">
-                                            <img src="images/realmadrid_escudo.png" alt="Image" class="img-fluid">
-                                        </div>
-                                        <div class="text">
-                                            <h3 class="h5 mb-0 text-black">Real Madrid</h3>
-                                            <span class="text-uppercase small country">España</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>1.54</button>
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>2.53</button>
-                            </div>
-                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
-                                <button>6.43</button>
-                            </div>
-                            <div class="col-md-5 col-lg-0 text-center text-lg-right">
-                                <div class="">
-                                    <div class="d-block d-lg-flex align-items-center">
-                                        <div class="image image-small ml-lg-3 mb-3 mb-lg-0 order-2">
-                                            <img src="images/escudo_eibar.jpg" alt="Image" class="img-fluid">
-                                        </div>
-                                        <div class="text order-1 w-100">
-                                            <h3 class="h5 mb-0 text-black">Eibar</h3>
-                                            <span class="text-uppercase small country">España</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- END row -->
-
                     </div>
+                    {{/match}}
+                    {{#codigoHtmlInicio}}
                     <div class="col-md-12">
                         <div class="border mb-3 rounded d-block d-lg-flex align-items-center p-3 next-match">
                             <div class="mr-auto order-md-1 w-60 text-center text-lg-left mb-3 mb-lg-0">
@@ -235,14 +123,20 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div>Partido: Real Madrid - Eibar</div>
-                        <form>
+                    	{{#listMatch}}
+                        <div>{{localTeam.name}} vs {{visitantTeam.name}} {{betSelected}}</div>
+						{{/listMatch}}                        
+                        <form method="POST" action="basicForm">
                             Introduzca el valor apostar:<br>
                             <input type="text" name="precio"><br>
+                            <input type="submit" value="Calcular">
                         </form>
-                        <div>Total: 32€</div>
-                        <input type="submit" value="Submit">
+                        <div>Total: {{totalBet}}€</div>
+						<form method="get" action="/apostar/deleteBet">
+							<input type="submit" value="Borrar apuesta">
+						</form>
                     </div>
+
                     <div class="col-md-12">
                         <div class="border mb-3 rounded d-block d-lg-flex align-items-center p-3 next-match">
                             <div class="mr-auto order-md-1 w-60 text-center text-lg-left mb-3 mb-lg-0">
@@ -260,25 +154,25 @@
                         <div>Valor: 43€</div>
                         <div>Resultado: Ganada</div>
                     </div>
+                    {{/codigoHtmlInicio}}
                 </div>
             </div>
 		</div>
-
     {{>footer}}
    </div>
 
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/jquery-migrate-3.0.1.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/jquery.stellar.min.js"></script>
-        <script src="js/jquery.countdown.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/aos.js"></script>
+        <script src="/../js/jquery-3.3.1.min.js"></script>
+        <script src="/../js/jquery-migrate-3.0.1.min.js"></script>
+        <script src="/../js/jquery-ui.js"></script>
+        <script src="/../js/popper.min.js"></script>
+        <script src="/../js/bootstrap.min.js"></script>
+        <script src="/../js/owl.carousel.min.js"></script>
+        <script src="/../js/jquery.stellar.min.js"></script>
+        <script src="/../js/jquery.countdown.min.js"></script>
+        <script src="/../js/jquery.magnific-popup.min.js"></script>
+        <script src="/../js/aos.js"></script>
 
-        <script src="js/main.js"></script>
+        <script src="/../js/main.js"></script>
 
 </body>
 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import es.urjc.code.daw.bets.*;
 import es.urjc.code.daw.Match;
 import es.urjc.code.daw.team.*;
 import es.urjc.code.daw.user.*;
@@ -29,6 +30,10 @@ public class SessionController {
     private  UserRepository userRepository;
     @Autowired 
     private TeamRepository teamRepository;
+    @Autowired
+	private BetRepository betRepository;
+    
+    private ArrayList<Match> betMatches = new ArrayList<Match>();
 
     //Services
 
@@ -135,31 +140,15 @@ public class SessionController {
 	}
 	
 	@GetMapping("/partidos")
-	public String nextmatches(Model model, HttpServletRequest request) {
+	public String nextmatches(Model model) {
+		List<Match> matches;
 		
-        List<Team> allTeams = teamRepository.findAll();
-        List<Match> matches = new ArrayList<Match>();
-        for(Team t : allTeams) {
-        	String visit = t.getMatches().get(0);
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
 
-        	String local = t.getName();
-        	
-        	String horario = generateRandomDate();
-        	
-        	//Generar fecha actual + numero aleatorio
-        	Match m = new Match(local,visit,horario);
-        	
-        	System.out.println(m.toString());
-        	
-        	matches.add(m);
-        }
-        model.addAttribute("match",matches);
-        
-        init(model, request);
-        
-        
-        return "partidos";
-		
+		return "partidos";
+
 	}
 	
 	@RequestMapping(value = "/addMatch")
@@ -208,9 +197,288 @@ public class SessionController {
 	
 	@GetMapping("/apostar")
 	public String apostar(Model model) {
-		return "apostar";
+		List<Match> matches;
+		
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
+		if(betMatches.isEmpty()) {
+			model.addAttribute("codigoHtmlInicio",false);
+		}else {
+			model.addAttribute("listMatch",betMatches);
+
+			model.addAttribute("codigoHtmlInicio",true);
+
+		}
+		return "apostar"; 
+	}
+	@GetMapping("/apostar/{id}/{id2}/{id3}/{id4}")
+	public String apostar(Model model,@PathVariable String id, @PathVariable String id2, @PathVariable String id3,
+			@PathVariable String id4) {
+		List<Match> matches;
+		
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
+		model.addAttribute("codigoHtmlInicio",true);
+		
+		Optional<Team> teamAux = teamRepository.findByName(id);
+
+		Team local;
+
+		if (teamAux.isPresent()) {
+			local = teamAux.get();
+		} else {
+			local = new Team();
+		}
+		teamAux = teamRepository.findByName(id2);
+
+		Team visit;
+
+		if (teamAux.isPresent()) {
+			visit = teamAux.get();
+		} else {
+			visit = new Team();
+		}
+		Match m1 = new Match(local,visit);
+		
+		switch(id4) {
+			case "betLocal":
+				m1.setBetLocal(id3);
+				m1.setBetSelected(id3);
+				break;
+			case "betTied":
+				m1.setBetTied(id3);
+				m1.setBetSelected(id3);
+				break;
+			default:
+				m1.setBetVisit(id3);
+				m1.setBetSelected(id3);
+
+		}
+		boolean repeat=false;
+		boolean changeBet=false;
+		for(Match b: betMatches) {
+			if(b.localTeam.getName().equals(id)) {
+				if(b.betSelected.equals(m1.betSelected)) {
+					repeat = true;
+				}else {
+					repeat = false;
+					changeBet = true;
+					b.setBetSelected(m1.getBetSelected());
+				}
+			}
+		}
+		if(!repeat&&!changeBet) {
+			betMatches.add(m1);
+		}
+		
+		String totalBet = calculateBetCombinated(betMatches);
+		
+		model.addAttribute("totalBet",totalBet);
+		model.addAttribute("listMatch",betMatches);
+		
+
+		return "apostar"; 
+	}
+
+	private String calculateBetCombinated(ArrayList<Match> betMatches2) {
+		float total = 0;
+		float totalAux = 0;
+		for(Match b: betMatches2) {
+			totalAux = Float.parseFloat(b.getBetSelected());
+			if(total==0) {
+				total = totalAux;
+			}else {
+				total = total * totalAux;
+			}
+		}
+		return total+"";
+	}
+	@GetMapping("apostar/apostado")
+	public String doBet(Model model) {
+		
+		return "apuestas";
+	}
+	@RequestMapping(value="basicForm",method={RequestMethod.GET, RequestMethod.POST})
+	public String calculateBet(Model model,String precio) {
+		List<Match> matches;
+		
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
+		if(betMatches.isEmpty()) {
+			model.addAttribute("codigoHtmlInicio",false);
+		}else {
+			model.addAttribute("listMatch",betMatches);
+
+			model.addAttribute("codigoHtmlInicio",true);
+
+		}
+		return "apostar"; 
+	}
+	@GetMapping("apostar/deleteBet")
+	public String deleteBets(Model model) {
+		
+		betMatches.clear();
+		
+		List<Match> matches;
+		
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
+		if(betMatches.isEmpty()) {
+			model.addAttribute("codigoHtmlInicio",false);
+		}else {
+			model.addAttribute("listMatch",betMatches);
+
+			model.addAttribute("codigoHtmlInicio",true);
+
+		}
+		return "apostar"; 
+
 	}
 	
+	public List<Match> controlNextMatches() {
+		List<Team> allTeams = teamRepository.findAll();
+		List<Match> matches = new ArrayList<Match>();
+
+		for (Team t : allTeams) {
+			String visitName = t.getMatches().get(0);
+
+			Optional<Team> teamAux = teamRepository.findByName(visitName);
+
+			Team visit;
+
+			if (teamAux.isPresent()) {
+				visit = teamAux.get();
+			} else {
+				visit = new Team();
+			}
+
+			Team local = t;
+
+			String horario = generateRandomDate();
+
+			// Generar fecha actual + numero aleatorio
+			Match m = new Match(local, visit, horario);
+			
+			ArrayList<String> betAvanced = calculateBetAvanced(m);
+			
+
+			
+			boolean search = false;
+			for (Match mAux : matches) {
+				if (mAux.getLocalTeam().getName().equals(visit.getName())) {
+					search = true;
+
+					break;
+				}
+			}
+			if (!search) {
+				m.setBetLocal(betAvanced.get(0).substring(0,4));
+				m.setBetVisit(betAvanced.get(1).substring(0,4));
+				m.setBetTied(betAvanced.get(2).substring(0,4));
+				matches.add(m);
+			}
+		}
+		return matches;
+	}
+	public ArrayList<String> calculateBetAvanced(Match m1){
+		int pointsLocal=1;
+		int pointsVisit=1;
+		
+		float betLocal;
+		float betVisit;
+		float betTied;
+		
+		Optional<Team> teamAux = teamRepository.findByName(m1.getLocalTeam().getName());
+		Optional<Team> teamAux2 = teamRepository.findByName(m1.getVisitantTeam().getName());
+		
+		Team local;
+		Team visit;
+		
+		if (teamAux.isPresent()) {
+			local = teamAux.get();
+		} else {
+			local = new Team();
+		}
+		if (teamAux2.isPresent()) {
+			visit = teamAux2.get();
+		} else {
+			visit = new Team();
+		}
+		/*
+		 * En caso de empate siempre gana el local
+		 * Victoria = 10 puntos
+		 * Menos perdidas = 7 puntos
+		 * Más empatadas = 3 puntos 
+		 * Puntos = 7 puntos
+		 * Goles a favor = 6 puntos
+		 * Goles en contra el que menos = 5 puntos
+		 * Posicion = 9 puntos
+		 * Local = 3 puntos
+		 * Total 50 puntos*/
+		if (local.getWinners()>=visit.getWinners()) pointsLocal=pointsLocal+10;
+		else pointsVisit=pointsVisit+10;
+		if (local.getLossers()<visit.getLossers()) pointsLocal=pointsLocal+6;
+		else pointsVisit=pointsVisit+7;
+		if (local.getTied()>=visit.getTied()) pointsLocal=pointsLocal+3;
+		else pointsVisit=pointsVisit+3;
+		if (local.getPoints()>=visit.getPoints()) pointsLocal=pointsLocal+7;
+		else pointsVisit=pointsVisit+7;
+		if (local.getGoalsInFavor()>=visit.getGoalsInFavor()) pointsLocal=pointsLocal+6;
+		else pointsVisit=pointsVisit+6;
+		if (local.getGoalsAgainst()<visit.getGoalsAgainst()) pointsLocal=pointsLocal+5;
+		else pointsVisit=pointsVisit+5;
+		if (local.getPosition()<visit.getPosition()) pointsLocal=pointsLocal+9;
+		else pointsVisit=pointsVisit+10;
+		
+		/*Condicion de local*/
+		pointsLocal=pointsLocal+3;
+
+		betLocal = 3 - (float)((float) pointsLocal/50)*3;
+		betVisit = 3 - (float)((float) pointsVisit/50)*3;
+		betTied  = (betLocal+betVisit)/2;
+
+		if(pointsLocal-pointsVisit>=10) {
+			if(pointsLocal>=pointsVisit*2) {
+				betVisit = betVisit + 3;
+			}else {
+				betVisit = betVisit + 1;
+			}
+		}
+		if(pointsVisit-pointsLocal>=10) {
+			if(pointsLocal>=pointsVisit*2) {
+				betLocal = betLocal + 3;
+			}else {
+				betLocal = betLocal + 1;
+			}
+		}
+		
+		if(Math.abs(pointsLocal-pointsVisit)<10) {
+			betLocal = betLocal + 1;
+			betVisit = betVisit + 1;
+		}
+		
+		if(pointsLocal>30) {
+			betLocal = betLocal +1;
+			betTied = (betLocal+betVisit)/2;
+		}
+		if(pointsVisit>30) {
+			betVisit = betVisit + 1;
+			betTied = (betLocal+betVisit)/2;
+		}
+
+		
+		ArrayList<String> bets = new ArrayList<String>();
+		
+		bets.add(betLocal+"");
+		bets.add(betVisit+"");
+		bets.add(betTied+"");
+		
+		return bets;
+	}
     //Método que inicializa la bbdd de toda la página
     //Ir añadiendo campos
     public  void init(Model model, HttpServletRequest request){
