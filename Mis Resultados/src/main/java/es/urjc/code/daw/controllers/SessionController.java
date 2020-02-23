@@ -208,7 +208,10 @@ public class SessionController {
 			model.addAttribute("listMatch",betMatches);
 
 			model.addAttribute("codigoHtmlInicio",true);
-
+			
+			String totalBet = calculateBetCombinated(betMatches);
+			
+			model.addAttribute("totalBet",totalBet);
 		}
 		return "apostar"; 
 	}
@@ -364,9 +367,7 @@ public class SessionController {
 			Match m = new Match(local, visit, horario);
 			
 			ArrayList<String> betAvanced = calculateBetAvanced(m);
-			
-
-			
+					
 			boolean search = false;
 			for (Match mAux : matches) {
 				if (mAux.getLocalTeam().getName().equals(visit.getName())) {
