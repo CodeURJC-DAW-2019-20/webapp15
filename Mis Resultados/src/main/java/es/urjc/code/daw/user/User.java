@@ -39,8 +39,8 @@ public class User{
 	public  User() {
 	}
 	
-	
 	public User(String name, String surname, String email, String password, String... roles) {
+		super();
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
@@ -51,6 +51,10 @@ public class User{
 
 	public Long getId() {
 		return this.id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	public String getName() {

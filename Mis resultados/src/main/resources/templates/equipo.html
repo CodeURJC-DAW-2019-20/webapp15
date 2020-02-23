@@ -19,6 +19,80 @@
 <link rel="stylesheet" href="/../aos.css">
 
 <link rel="stylesheet" href="/../css/style.css">
+<style>
+i {
+  cursor:pointer;
+  padding:10px 12px 8px;
+  background:#fff;
+  border-radius:50%;
+  display:inline-block;
+  margin:0 0 15px;
+  color:#aaa;
+  transition:.2s;
+}
+
+i:hover {
+  color:#666;
+}
+
+/*i:before {
+  font-family:fontawesome;
+  content:'\f004';
+  font-style:normal;
+}*/
+
+span {
+  position: absolute;
+  bottom:70px;
+  left:0;
+  right:0;
+  visibility: hidden;
+  transition:.6s;
+  z-index:-2;
+  font-size:2px;
+  color:transparent;
+  font-weight:400;
+}
+
+i.press {
+  animation: size .4s;
+  color:#e23b3b;
+}
+
+span.press {
+  bottom:120px;
+  font-size:14px;
+  visibility:visible;
+  animation: fade 1s;
+}
+
+@keyframes fade {
+  0% {color:#transparent;}
+  50% {color:#e23b3b;}
+  100% {color:#transparent;}
+}
+
+@keyframes size {
+  0% {padding:10px 12px 8px;}
+  50% {padding:14px 16px 12px;  
+    margin-top:-4px;}
+  100% {padding:10px 12px 8px;}
+}
+
+button:active {
+  outline: none;
+  border: none;
+}
+button {
+  padding: 0;
+  border: none;
+  background: none;
+}
+button:focus {
+  outline: 0;
+}
+
+</style>
 
 </head>
 
@@ -56,10 +130,25 @@
 		<div class="site-section">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-12 text-center mb-5">
+					<div class="d-flex p-3 col-md-12 text-center mb-5" id="team" style="justify-content: center;">
 						<h2 class="text-black">Estadísticas {{teamName}}</h2>
+						
+						{{#user}}
+						<form id="form" method="post" action="/setFav">
+						<div>
+							<input type="hidden" type="text" name="fav_team" value="{{teamName}}" readonly>
+  							<button type="submit" form="form" value="Fav_team">
+  								<i class="fas fa-heart"></i>
+  								<span>¡Equipo añadido como favorito!</span>
+  							</button>
+  							<input type="hidden" name="_csrf" value="{{token}}" />
+						</div>
+						</form>
+						{{/user}}
+						
 					</div>
 				</div>
+				
 				<div class="row">
 
 					<div class="container">
@@ -113,8 +202,27 @@
 								</tbody>
 
 							</table>
+							
 						</div>
+						
 					</div>
+					<div class="container">
+				<div class="row">
+					<div class="d-flex p-3 col-md-12 text-center mb-5" id="title_estadio" style="justify-content: center;">
+						<h2 class="text-black">Ubicación estadio {{teamName}}</h2>
+					</div>
+				</div>
+				<div class="row">
+					  <div class="d-flex p-3 col-md-12 text-center mb-5" id="estadio" style="justify-content: center;">
+						<!--<div id="map" style="height: 400px; width: 400px;"></div>-->
+						<iframe
+  							width="600"
+  							height="450"
+  							frameborder="0" style="border:0"
+  							src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAiVwiMOSZbo9Tmkf1MCr-VQn3xLGEieXI&q={{teamDirection}}" allowfullscreen>
+						</iframe>
+					</div>
+				</div>
 
 					{{>footer}}
 					
@@ -132,6 +240,36 @@
 				<script src="/../js/aos.js"></script>
 
 				<script src="/../js/main.js"></script>
+				<!--  <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script> -->
+				<script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" data-auto-replace-svg="nest"></script>
+				<!--  <script>
+				// Favorite Button - Heart
+				$(function() {
+    				$( "i" ).click(function() {
+      					$( "i,span" ).toggleClass( "press", 1000 );
+    				});
+  				});
+				</script>
+    			<script>
+
+      function initMap() {
+        var myLatLng = {lat: -25.363, lng: 131.044};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Hello World!'
+        });
+      }
+    </script>-->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiVwiMOSZbo9Tmkf1MCr-VQn3xLGEieXI&callback=initMap">
+    </script>
 </body>
 
 </html>

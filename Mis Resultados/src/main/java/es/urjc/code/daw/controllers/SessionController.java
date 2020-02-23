@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -74,22 +75,24 @@ public class SessionController {
     	
     	init(model, request);
         User NewUser = new User(name, surname, email, password, "ROLE_USER");
+        NewUser.setAcc_balance(0);
         userService.save(NewUser);
 
         return "home";
     }
     
     @GetMapping("/equipos")
-	public String equipos(Model model) {
+	public String equipos(Model model, HttpServletRequest request) {
         List<Team> allTeams = teamRepository.findAll();
         
         model.addAttribute("allTeams",allTeams);
+        init(model, request);
 		
         return "equipos";
 	}
 	
 	@GetMapping("/equipo/{name}")
-	public String equipo(Model model,@PathVariable String name) {
+	public String equipo(Model model, HttpServletRequest request,@PathVariable String name) {
 		
 		Optional<Team> teamAux= teamRepository.findByName(name);
 		Team team ;
@@ -98,25 +101,41 @@ public class SessionController {
 		}else {
 			return "error";
 		}
+		String direction = team.getDirection();
 		model.addAttribute("teamName",name);
 		
 		model.addAttribute("teamStats",team);
+		model.addAttribute("teamDirection",direction);
+		init(model, request);
 		
 		return "equipo";
 	}
 	
+	@RequestMapping(value = "/setFav", method={RequestMethod.GET, RequestMethod.POST})
+    public String setFav(Model model, HttpServletRequest request, @RequestParam String fav_team) {
+		init(model, request);
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = new User();
+        user.setId(userRepository.findByEmail(email).getId());
+        user.setFav_team(fav_team);
+        userService.save(user);
+
+        return "equipo";
+    }
+	
 	@GetMapping("/clasificacion")
-	public String table(Model model) {
+	public String table(Model model, HttpServletRequest request) {
 		
 		List<Team> clasificacion = teamRepository.findByLeagueOrderByPosition("La liga");
 		
 		model.addAttribute("equipoPosicion",clasificacion);
+		init(model, request);
 		
 		return "clasificacion";
 	}
 	
 	@GetMapping("/partidos")
-	public String nextmatches(Model model) {
+	public String nextmatches(Model model, HttpServletRequest request) {
 		
         List<Team> allTeams = teamRepository.findAll();
         List<Match> matches = new ArrayList<Match>();
@@ -135,6 +154,7 @@ public class SessionController {
         	matches.add(m);
         }
         model.addAttribute("match",matches);
+        init(model, request);
         
         
         return "partidos";
