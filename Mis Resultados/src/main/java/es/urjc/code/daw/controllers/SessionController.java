@@ -154,12 +154,31 @@ public class SessionController {
         	matches.add(m);
         }
         model.addAttribute("match",matches);
+        
         init(model, request);
         
         
         return "partidos";
 		
 	}
+	
+	@RequestMapping(value = "/addMatch")
+    public String addMatch(Model model, HttpServletRequest request, @RequestParam String local, @RequestParam String visit) {
+        
+    	
+    	init(model, request);
+    	Optional<Team> teamAux= teamRepository.findByName(local);
+		Team team ;
+		if(teamAux.isPresent()) {
+			team = teamAux.get();
+		}else {
+			return "error";
+		}
+        team.addMatchByAdmin(visit);
+        teamRepository.save(team);
+
+        return "partidos";
+    }
 	public String generateRandomDate() {
 		
 		Calendar c = new GregorianCalendar();
@@ -178,8 +197,10 @@ public class SessionController {
         String dia = Integer.toString(diaAux);
     	String mes = Integer.toString(mesAux);
     	String hora =Integer.toString(horaAux);
+    	String año =Integer.toString(c.get(Calendar.YEAR));
     	
-    	String horario = dia +"-"+ mes + "/" + hora + ":" + "00";
+    	
+    	String horario = dia +"/"+ mes + "/" + año + " "+ hora + ":" + "00";
 
     	return horario;
 	}

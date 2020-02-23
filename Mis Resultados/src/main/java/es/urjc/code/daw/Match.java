@@ -5,6 +5,8 @@ public class Match {
 	
 	public String localTeam;
 	public String visitantTeam;
+	public String localTeamLogo;
+	public String visitantTeamLogo;
 	public String dateMatch;
 	public String result;
 	
@@ -17,6 +19,14 @@ public class Match {
 		this.localTeam = localTeam;
 		this.visitantTeam = visitantTeam;
 		this.dateMatch = dateMatch;
+	}
+	
+	public Match(String localTeam, String visitantTeam, String dateMatch, String localTeamLogo, String visitantTeamLogo) {
+		this.localTeam = localTeam;
+		this.visitantTeam = visitantTeam;
+		this.dateMatch = dateMatch;
+		this.localTeamLogo = localTeamLogo;
+		this.visitantTeamLogo = visitantTeamLogo;
 	}
 	
 	public Match(String localTeam, String visitantTeam, String dateMatch, String result) {
@@ -38,6 +48,18 @@ public class Match {
 	public void setVisitantTeam(String visitantTeam) {
 		this.visitantTeam = visitantTeam;
 	}
+	public String getLocalTeamLogo() {
+		return localTeamLogo;
+	}
+	public void setLocalTeamLogo(String localTeamLogo) {
+		this.localTeam = localTeamLogo;
+	}
+	public String getVisitantTeamLogo() {
+		return visitantTeamLogo;
+	}
+	public void setVisitantTeamLogo(String visitantTeamLogo) {
+		this.visitantTeamLogo = visitantTeamLogo;
+	}
 	public String getDateMatch() {
 		return dateMatch;
 	}
@@ -52,8 +74,8 @@ public class Match {
 	}
 	@Override
 	public String toString() {
-		return "Matches [localTeam=" + localTeam + ", visitantTeam=" + visitantTeam + ", dateMatch=" + dateMatch
-				+ ", result=" + result + "]";
+		return "Matches [localTeam=" + localTeam + ", localTeamLogo=" + localTeamLogo + ", visitantTeam=" + visitantTeam + ", visitantTeamLogo=" + visitantTeamLogo + ", dateMatch=" + dateMatch
+				+ ", result=" + result  + "]";
 	}
 	
 	

@@ -23,6 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/home").permitAll();
         http.authorizeRequests().antMatchers("/registro").permitAll();
         http.authorizeRequests().antMatchers("/equipos").permitAll();
+        http.authorizeRequests().antMatchers("/partidos").permitAll();
         
         // Login form
         http.formLogin().loginPage("/login");

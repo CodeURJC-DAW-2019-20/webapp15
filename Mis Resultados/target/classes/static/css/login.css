@@ -1,85 +1,4 @@
 
-
-
-
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
-
-@font-face {
-  font-family: Raleway-Regular;
-  src: url('../fonts/raleway/Raleway-Regular.ttf'); 
-}
-
-@font-face {
-  font-family: Raleway-Medium;
-  src: url('../fonts/raleway/Raleway-Medium.ttf'); 
-}
-
-@font-face {
-  font-family: Raleway-SemiBold;
-  src: url('../fonts/raleway/Raleway-SemiBold.ttf'); 
-}
-
-@font-face {
-  font-family: Raleway-Bold;
-  src: url('../fonts/raleway/Raleway-Bold.ttf'); 
-}
-
-/*//////////////////////////////////////////////////////////////////
-[ RESTYLE TAG ]*/
-
-* {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
-}
-
-body, html {
-	height: 100%;
-	font-family: Raleway-Regular, sans-serif;
-}
-
-/*---------------------------------------------*/
-a {
-	font-family: Raleway-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-}
-
-a:focus {
-	outline: none !important;
-}
-
-a:hover {
-	text-decoration: none;
-  color: #57b846;
-}
-
-/*---------------------------------------------*/
-h1,h2,h3,h4,h5,h6 {
-	margin: 0px;
-}
-
-p {
-	font-family: Raleway-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
-}
-
-ul, li {
-	margin: 0px;
-	list-style-type: none;
-}
-
-
 /*---------------------------------------------*/
 input {
 	outline: none;
@@ -137,31 +56,6 @@ iframe {
 
 
 /*//////////////////////////////////////////////////////////////////
-[ Utility ]*/
-.txt1 {
-  font-family: Raleway-SemiBold;
-  font-size: 13px;
-  color: #555555;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.txt2 {
-  font-family: Raleway-Regular;
-  font-size: 13px;
-  color: #999999;
-  line-height: 1.4;
-}
-
-.txt3 {
-  font-family: Raleway-Regular;
-  font-size: 13px;
-  color: #555555;
-  line-height: 1.4;
-}
-
-
-/*//////////////////////////////////////////////////////////////////
 [ login ]*/
 
 .limiter {
@@ -202,7 +96,6 @@ iframe {
 }
 
 .login100-form-title {
-  font-family: Raleway-Medium;
   font-size: 30px;
   color: #555555;
   line-height: 1.2;
@@ -229,7 +122,6 @@ iframe {
 
 /*---------------------------------------------*/
 .input100 {
-  font-family: Raleway-Medium;
   color: #555555;
   line-height: 1.2;
   font-size: 18px;
@@ -330,7 +222,6 @@ iframe {
 }
 
 .label-checkbox100 {
-  font-family: Raleway-Regular;
   font-size: 13px;
   color: #999999;
   line-height: 1.4;
@@ -387,7 +278,6 @@ iframe {
 }
 
 .login100-form-btn {
-  font-family: Raleway-Bold;
   font-size: 16px;
   color: #fff;
   line-height: 1.2;
@@ -444,7 +334,6 @@ iframe {
   right: 12px;
   pointer-events: none;
 
-  font-family: Raleway-Medium;
   color: #c80000;
   font-size: 14px;
   line-height: 1.4;
@@ -461,7 +350,6 @@ iframe {
 
 .alert-validate::after {
   content: "\f12a";
-  font-family: FontAwesome;
   display: block;
   position: absolute;
   color: #c80000;

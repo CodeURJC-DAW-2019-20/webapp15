@@ -7,12 +7,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 
 @Entity
+@DynamicUpdate
 public class Team {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	
     private Long id;
 	
 	//Aqui todos los elementos de la tabla del modelo
