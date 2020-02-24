@@ -611,9 +611,16 @@ public class SessionController {
 
     }
 	@GetMapping("/user")
-	public String historico(Model model) {
-		
-		User u2 = userRepository.findByName("Alvaro");
+	public String historico(Model model, HttpServletRequest request) {
+		init(model,request);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName(); //get logged in username
+        String name = "LOGIN";
+
+        if (userRepository.findByEmail(email) != null) {
+            name = userRepository.findByEmail(email).getName();
+        }
+		User u2 = userRepository.findByName(name);
 				
 		Optional<ArrayList<Bets>> betsAux = betRepository.findByUser(u2);
 		
