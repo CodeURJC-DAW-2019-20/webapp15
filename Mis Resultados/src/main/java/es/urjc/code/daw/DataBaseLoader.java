@@ -21,8 +21,8 @@ public class DataBaseLoader {
 	@PostConstruct
 	public void init() {
 		// USER
-		User user1 = new User("administrador", "", "administrador@gmail.com", "1234", "ROLE_ADMIN");
-		User user2 = new User("Alvaro", "Orbaneja", "alvaro@gmail.com", "1234", "ROLE_USER");
+		User user1 = new User("administrador", "", "administrador@gmail.com", "", "1234", "ROLE_ADMIN");
+		User user2 = new User("Alvaro", "Orbaneja", "alvaro@gmail.com", "", "1234", "ROLE_USER");
 		user1.setAcc_balance(1000);
 		user2.setAcc_balance(1000);
 		userRepository.save(user1);
@@ -54,13 +54,13 @@ public class DataBaseLoader {
 		nextMatches7.add("Atletico de Madrid");
 		nextMatches8.add("Real Sociedad");
 
-		Team t1 = new Team("Real Madrid", 14, 2, 8, 53, 46, 17, 1, "La liga", "Concha Espina", nextMatches,
+		Team t1 = new Team("Real Madrid", 14, 2, 8, 53, 46, 17, 1, "La liga", "Santiago Bernabeu", nextMatches,
 				"Plantilla_RealMadrid", "escudo_RealMadrid");
-		Team t2 = new Team("Barcelona", 16, 4, 4, 52, 62, 29, 2, "La liga", "Canaletas", nextMatches2,
+		Team t2 = new Team("Barcelona", 16, 4, 4, 52, 62, 29, 2, "La liga", "Camp Nou", nextMatches2,
 				"Plantilla_Barcelona", "escudo_Barcelona");
-		Team t3 = new Team("Atletico de Madrid", 10, 4, 10, 40, 25, 17, 4, "La liga", "Metropolitano", nextMatches3,
+		Team t3 = new Team("Atletico de Madrid", 10, 4, 10, 40, 25, 17, 4, "La liga", "Wanda Metropolitano", nextMatches3,
 				"Plantilla_AtleticodeMadrid", "escudo_AtleticodeMadrid");
-		Team t4 = new Team("Real Sociedad", 12, 8, 4, 40, 42, 31, 3, "La liga", "Alava", nextMatches4,
+		Team t4 = new Team("Real Sociedad", 12, 8, 4, 40, 42, 31, 3, "La liga", "Reale Arena", nextMatches4,
 				"Plantilla_RealSociedad", "escudo_RealSociedad");
 		Team t5 = new Team("Osasuna", 9, 5, 10, 37, 28, 18, 5, "La liga", "Concha Espina", nextMatches5,
 				"Plantilla_RealMadrid", "escudo_RealMadrid");

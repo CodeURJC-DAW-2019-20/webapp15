@@ -57,7 +57,7 @@
                     <div class="col-md-12">
                         <div class="border mb-3 rounded d-block d-lg-flex align-items-center p-3 next-match">
                             <div class="mr-auto order-md-1 w-60 text-center text-lg-left mb-3 mb-lg-0">
-                                Realize sus apuestas
+                                <h2>Realize sus apuestas</h2>
                                 <div></div>
                             </div>
                         </div>
@@ -112,35 +112,60 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                     {{/match}}
+                    </div>
                     {{#codigoHtmlInicio}}
                     <div class="col-md-12">
                         <div class="border mb-3 rounded d-block d-lg-flex align-items-center p-3 next-match">
                             <div class="mr-auto order-md-1 w-60 text-center text-lg-left mb-3 mb-lg-0">
-                                Apuesta
+                                <h2>Apuesta</h2>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12">
                     	{{#listMatch}}
-                        <div>{{localTeam.name}} vs {{visitantTeam.name}} {{betSelected}}</div>
+                        <div>
+                        <h4>{{localTeam.name}} vs {{visitantTeam.name}} <span style="color: red;">Cuota seleccionada: {{betSelected}} Posibilidad de ganar: {{totalBet}}€</span></h4>
+                        </div>
 						{{/listMatch}}                        
-                        <form method="post" action="/apostar/calcular">
-                            Introduzca el valor apostar:<br>
-                            <input type="text" name="precio"><br>
-                            <input type="submit" value="Calcular">
-                        </form>
-                        <div>Total: {{totalBet}}€</div>
-						<form method="get" action="/apostar/deleteBet">
-							<input type="submit" value="Borrar apuesta">
-						</form>
-						<form method="post" action="/apostar/apostado/{{totalBet}}">
-							<input type="submit" value="Apostar">
-						</form>
+                        <div class="d-flex flex-row bd-highlight mb-3">
+                        	<div class="p-2 bd-highlight">
+                        			<form id="calcular" method="post" action="/apostar/calcular">
+                            		<label for="precio">Cantidad apostada<br></label>
+                            		
+                            		{{^precio}}
+                            		<input type="text" id="precio" name="precio" value="1">
+                            		{{/precio}}
+                            		
+                            		{{#precio}}
+                            		<input type="text" id="precio" name="precio" value="{{precio}}">
+                            		{{/precio}}
+                            		
+                            		<button class="btn btn-primary rounded-0" form="calcular" type="submit" value="Calcular">
+                            			Calcular
+                            		</button>
+                            		<input type="hidden" name="_csrf" value="{{token}}" />
+                        		</form>
+                	        </div>
+                    	    <div class="p-2 bd-highlight">
+                    	    	<form id="borrar" method="get" action="/apostar/deleteBet">
+									<button class="btn btn-primary rounded-0" form="borrar" type="submit" value="Borrar apuesta">
+           	   		              		Borrar apuesta
+           		                 	</button>
+									<input type="hidden" name="_csrf" value="{{token}}" />
+								</form>
+                        	</div>
+							<div class="p-2 bd-highlight">
+								<form id="apostar"method="post" action="/apostar/apostado/{{totalBet}}">
+									<button class="btn btn-primary rounded-0" form="apostar" type="submit" value="Apostar">
+                       		     		Apostar
+                           		 	</button>
+									<input type="hidden" name="_csrf" value="{{token}}" />
+								</form>
+							</div>
+						</div>
                     </div>
-
-                    <div class="col-md-12">
+                    <!-- div class="col-md-12">
                         <div class="border mb-3 rounded d-block d-lg-flex align-items-center p-3 next-match">
                             <div class="mr-auto order-md-1 w-60 text-center text-lg-left mb-3 mb-lg-0">
                                 Histórico de apuestas
@@ -156,13 +181,17 @@
                         <div>2. Fecha: 13/02/2019</div>
                         <div>Valor: 43€</div>
                         <div>Resultado: Ganada</div>
-                    </div>
+                    </div>-->
                     {{/codigoHtmlInicio}}
                     {{#ganado}}
-                    	<div>Usted ha ganado la apuesta!</div>
+                    	<div class="d-flex flex-row bd-highlight mb-3 justify-content-center" style="width: 100%;padding-top: 30px;">
+                    		<div><h1>¡Usted ha ganado la apuesta!</h1></div>
+                    	</div>
                     {{/ganado}}
                     {{#perdido}}
-                    	<div>Usted ha perdido la apuesta!</div>
+                    	<div class="d-flex flex-row bd-highlight mb-3 justify-content-center" style="width: 100%;padding-top: 30px;">
+                    		<div><h1>¡Usted ha perdido la apuesta!</h1></div>
+                    	</div>
                     {{/perdido}}
                 </div>
             </div>

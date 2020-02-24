@@ -134,10 +134,10 @@ button:focus {
 						<h2 class="text-black">Estadísticas {{teamName}}</h2>
 						
 						{{#user}}
-						<form id="form" method="post" action="/setFav">
+						<form id="form" method="post" action="/equipo/{{teamName}}/setFav">
+						<input type="hidden" type="text" name="fav_team" value="{{teamName}}" />
 						<div>
-							<input type="hidden" type="text" name="fav_team" value="{{teamName}}" readonly>
-  							<button type="submit" form="form" value="Fav_team">
+  							<button type="submit" form="form">
   								<i class="fas fa-heart"></i>
   								<span>¡Equipo añadido como favorito!</span>
   							</button>

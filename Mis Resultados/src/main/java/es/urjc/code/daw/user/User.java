@@ -39,11 +39,12 @@ public class User{
 	public  User() {
 	}
 	
-	public User(String name, String surname, String email, String password, String... roles) {
+	public User(String name, String surname, String email, String fav_team, String password, String... roles) {
 		super();
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
+		this.fav_team = fav_team;
 		this.passwordHash = new BCryptPasswordEncoder().encode(password);
 		/*this.profilePicture = profilePicture;*/
 		this.roles = new ArrayList<>(Arrays.asList(roles));

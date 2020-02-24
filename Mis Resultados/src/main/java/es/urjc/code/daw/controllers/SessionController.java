@@ -79,7 +79,7 @@ public class SessionController {
         
     	
     	init(model, request);
-        User NewUser = new User(name, surname, email, password, "ROLE_USER");
+        User NewUser = new User(name, surname, email, "", password, "ROLE_USER");
         NewUser.setAcc_balance(0);
         userService.save(NewUser);
 
@@ -116,14 +116,12 @@ public class SessionController {
 		return "equipo";
 	}
 	
-	@RequestMapping(value = "/setFav", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/equipo/{name}/setFav", method={RequestMethod.GET, RequestMethod.POST})
     public String setFav(Model model, HttpServletRequest request, @RequestParam String fav_team) {
 		init(model, request);
-		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = new User();
-        user.setId(userRepository.findByEmail(email).getId());
-        user.setFav_team(fav_team);
-        userService.save(user);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName(); //get logged in username
+        userRepository.updateFavTeam(fav_team, email);
 
         return "equipo";
     }
@@ -140,18 +138,19 @@ public class SessionController {
 	}
 	
 	@GetMapping("/partidos")
-	public String nextmatches(Model model) {
+	public String nextmatches(Model model, HttpServletRequest request) {
 		List<Match> matches;
 		
 		matches =  controlNextMatches();
 		
 		model.addAttribute("match", matches);
+		init(model, request);
 
 		return "partidos";
 
 	}
 	
-	@RequestMapping(value = "/addMatch")
+	@RequestMapping(value = "/partidos/addMatch")
     public String addMatch(Model model, HttpServletRequest request, @RequestParam String local, @RequestParam String visit) {
         
     	
@@ -196,7 +195,7 @@ public class SessionController {
 	
 	
 	@GetMapping("/apostar")
-	public String apostar(Model model) {
+	public String apostar(Model model, HttpServletRequest request) {
 		List<Match> matches;
 		
 		matches =  controlNextMatches();
@@ -213,11 +212,15 @@ public class SessionController {
 			
 			model.addAttribute("totalBet",totalBet);
 		}
+		
+		init(model,request);
 		return "apostar"; 
 	}
 	@GetMapping("/apostar/{id}/{id2}/{id3}/{id4}")
-	public String apostar(Model model,@PathVariable String id, @PathVariable String id2, @PathVariable String id3,
+	public String apostar(Model model, HttpServletRequest request,@PathVariable String id, @PathVariable String id2, @PathVariable String id3,
 			@PathVariable String id4) {
+		init(model,request);
+		
 		List<Match> matches;
 		
 		matches =  controlNextMatches();
@@ -301,7 +304,9 @@ public class SessionController {
 	
 	
 	@PostMapping(value="/apostar/calcular")
-	public String calculateBet(Model model,@RequestParam(name="precio") String precio) {
+	public String calculateBet(Model model, HttpServletRequest request,@RequestParam(name="precio") String precio) {
+		
+		init(model,request);
 		List<Match> matches;
 				
 		matches =  controlNextMatches();
@@ -321,12 +326,13 @@ public class SessionController {
 			totalBetAux = totalBetAux * Float.parseFloat(precio);
 			
 			model.addAttribute("totalBet",totalBetAux);
+			model.addAttribute("precio",precio);
 		}
 		return "apostar"; 
 	}
 	@GetMapping("apostar/deleteBet")
-	public String deleteBets(Model model) {
-		
+	public String deleteBets(Model model, HttpServletRequest request) {
+		init(model,request);
 		betMatches.clear();
 		
 		List<Match> matches;
@@ -347,7 +353,8 @@ public class SessionController {
 	}
 	
 	@PostMapping(value="/apostar/apostado/{totalBet}")
-	public String doBet(Model model, @PathVariable String totalBet) {  
+	public String doBet(Model model, HttpServletRequest request, @PathVariable String totalBet) {  
+		init(model,request);
 		List<Match> matches;
 		
 		matches =  controlNextMatches();
@@ -359,8 +366,16 @@ public class SessionController {
 				
 		model.addAttribute("codigoHtmlInicio",false);
 		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName(); //get logged in username
+        String name = "LOGIN";
+
+        if (userRepository.findByEmail(email) != null) {
+            name = userRepository.findByEmail(email).getName();
+        }
+		
 		//Simulacion  de los partidos
-		User u = userRepository.findByName("Alvaro");
+		User u = userRepository.findByName(name);
 
 		Bets b = new Bets(u);
 		
@@ -375,11 +390,11 @@ public class SessionController {
 		
 		betRepository.save(b); 
 		
-		//ArrayList<Bets> betList = new ArrayList<Bets>();
+		ArrayList<Bets> betList = new ArrayList<Bets>();
 		 
-		//betList = betRepository.findByUser(u);
+		betList = betRepository.findByUser(u);
 		
-		//System.out.println(betList);
+		System.out.println(betList);
 		
 		boolean result = generateRandomResult();
 		
@@ -392,15 +407,15 @@ public class SessionController {
 			model.addAttribute("ganado",true);
 			model.addAttribute("perdido",false);
 			auxMoney = auxMoney+totalBetAux;
-			userRepository.updateMoneyUser(auxMoney,"Alvaro");
+			userRepository.updateMoneyUser(auxMoney,name);
 		}else {
 			model.addAttribute("ganado",false);
 			model.addAttribute("perdido",true);
 			auxMoney = auxMoney-totalBetAux;
-			userRepository.updateMoneyUser(auxMoney,"Alvaro");
+			userRepository.updateMoneyUser(auxMoney,name);
 		}
 		
-		User u2 = userRepository.findByName("Alvaro");
+		User u2 = userRepository.findByName(name);
 		
 		System.out.println(u2.getAcc_balance());
 		
