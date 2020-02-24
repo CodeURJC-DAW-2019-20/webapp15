@@ -346,8 +346,8 @@ public class SessionController {
 
 	}
 	
-	@PostMapping(value="/apostar/apostado")
-	public String doBet(Model model) {  
+	@PostMapping(value="/apostar/apostado/{totalBet}")
+	public String doBet(Model model, @PathVariable String totalBet) {  
 		List<Match> matches;
 		
 		matches =  controlNextMatches();
@@ -383,15 +383,27 @@ public class SessionController {
 		
 		boolean result = generateRandomResult();
 		
+		Integer auxMoney = u.getAcc_balance();
+		Integer totalBetAux =Math.round(Float.parseFloat(totalBet));
+		
+		
+		
 		if(result) {
 			model.addAttribute("ganado",true);
 			model.addAttribute("perdido",false);
-			//userRepository.updateMoneyUser("Alvaro");
+			auxMoney = auxMoney+totalBetAux;
+			userRepository.updateMoneyUser(auxMoney,"Alvaro");
 		}else {
 			model.addAttribute("ganado",false);
 			model.addAttribute("perdido",true);
-			//userRepository.updateMoneyUser("Alvaro");
+			auxMoney = auxMoney-totalBetAux;
+			userRepository.updateMoneyUser(auxMoney,"Alvaro");
 		}
+		
+		User u2 = userRepository.findByName("Alvaro");
+		
+		System.out.println(u2.getAcc_balance());
+		
 		return "apostar"; 
 	}
 	private boolean generateRandomResult() {
