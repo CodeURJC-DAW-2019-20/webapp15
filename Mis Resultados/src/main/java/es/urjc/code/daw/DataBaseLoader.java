@@ -22,7 +22,7 @@ public class DataBaseLoader {
 	public void init() {
 		// USER
 		User user1 = new User("administrador", "", "administrador@gmail.com", "1234", "ROLE_ADMIN");
-		User user2 = new User("Álvaro", "Orbaneja", "alvaro@gmail.com", "1234", "ROLE_USER");
+		User user2 = new User("Alvaro", "Orbaneja", "alvaro@gmail.com", "1234", "ROLE_USER");
 		user1.setAcc_balance(1000);
 		user2.setAcc_balance(1000);
 		userRepository.save(user1);

@@ -126,7 +126,7 @@
                     	{{#listMatch}}
                         <div>{{localTeam.name}} vs {{visitantTeam.name}} {{betSelected}}</div>
 						{{/listMatch}}                        
-                        <form method="POST" action="basicForm">
+                        <form method="post" action="/apostar/calcular">
                             Introduzca el valor apostar:<br>
                             <input type="text" name="precio"><br>
                             <input type="submit" value="Calcular">
@@ -134,6 +134,9 @@
                         <div>Total: {{totalBet}}€</div>
 						<form method="get" action="/apostar/deleteBet">
 							<input type="submit" value="Borrar apuesta">
+						</form>
+						<form method="post" action="/apostar/apostado">
+							<input type="submit" value="Apostar">
 						</form>
                     </div>
 
@@ -155,6 +158,12 @@
                         <div>Resultado: Ganada</div>
                     </div>
                     {{/codigoHtmlInicio}}
+                    {{#ganado}}
+                    	<div>Usted ha ganado la apuesta!</div>
+                    {{/ganado}}
+                    {{#perdido}}
+                    	<div>Usted ha perdido la apuesta!</div>
+                    {{/perdido}}
                 </div>
             </div>
 		</div>

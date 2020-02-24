@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import es.urjc.code.daw.Match;
+import es.urjc.code.daw.user.User;
 
 @Entity
 public class Bets {
@@ -16,11 +18,12 @@ public class Bets {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	private String user;
+	@OneToOne
+	private User user;
 	
-	private ArrayList<Match> matches = new ArrayList<Match>();
+	private ArrayList<String> matches = new ArrayList<String>();
 
-	public Bets(String user) {
+	public Bets(User user) {
 		super();
 		this.user = user;
 	}
@@ -33,19 +36,19 @@ public class Bets {
 		this.id = id;
 	}
 
-	public String getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(String user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
-	public ArrayList<Match> getMatches() {
+	public ArrayList<String> getMatches() {
 		return matches;
 	}
 
-	public void setMatches(ArrayList<Match> matches) {
+	public void setMatches(ArrayList<String> matches) {
 		this.matches = matches;
 	}
 

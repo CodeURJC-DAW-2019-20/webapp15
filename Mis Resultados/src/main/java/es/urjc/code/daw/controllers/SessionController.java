@@ -298,15 +298,12 @@ public class SessionController {
 		}
 		return total+"";
 	}
-	@GetMapping("apostar/apostado")
-	public String doBet(Model model) {
-		
-		return "apuestas";
-	}
-	@RequestMapping(value="basicForm",method={RequestMethod.GET, RequestMethod.POST})
-	public String calculateBet(Model model,String precio) {
+	
+	
+	@PostMapping(value="/apostar/calcular")
+	public String calculateBet(Model model,@RequestParam(name="precio") String precio) {
 		List<Match> matches;
-		
+				
 		matches =  controlNextMatches();
 		
 		model.addAttribute("match", matches);
@@ -316,7 +313,14 @@ public class SessionController {
 			model.addAttribute("listMatch",betMatches);
 
 			model.addAttribute("codigoHtmlInicio",true);
+			
+			String totalBet = calculateBetCombinated(betMatches);
+			
+			float totalBetAux = Float.parseFloat(totalBet);
 
+			totalBetAux = totalBetAux * Float.parseFloat(precio);
+			
+			model.addAttribute("totalBet",totalBetAux);
 		}
 		return "apostar"; 
 	}
@@ -340,6 +344,85 @@ public class SessionController {
 		}
 		return "apostar"; 
 
+	}
+	
+	@PostMapping(value="/apostar/apostado")
+	public String doBet(Model model) {  
+		List<Match> matches;
+		
+		matches =  controlNextMatches();
+		/*
+		 * ControlNextMatches -> Borrar del repositorio los partidos apostados(betMatches)
+		 * Borrar betMatches
+		 * */
+		model.addAttribute("match", matches);
+				
+		model.addAttribute("codigoHtmlInicio",false);
+		
+		//Simulacion  de los partidos
+		User u = userRepository.findByName("Alvaro");
+
+		Bets b = new Bets(u);
+		
+		ArrayList<String> auxMatches = new ArrayList<String>();
+		
+		for(Match m: betMatches) {
+			auxMatches.add(m.localTeam.getName()+"vs"+m.visitantTeam.getName());
+			System.out.println(m.toString());
+		}
+		
+		b.setMatches(auxMatches);
+		
+		betRepository.save(b); 
+		
+		//ArrayList<Bets> betList = new ArrayList<Bets>();
+		 
+		//betList = betRepository.findByUser(u);
+		
+		//System.out.println(betList);
+		
+		boolean result = generateRandomResult();
+		
+		if(result) {
+			model.addAttribute("ganado",true);
+			model.addAttribute("perdido",false);
+			//userRepository.updateMoneyUser("Alvaro");
+		}else {
+			model.addAttribute("ganado",false);
+			model.addAttribute("perdido",true);
+			//userRepository.updateMoneyUser("Alvaro");
+		}
+		return "apostar"; 
+	}
+	private boolean generateRandomResult() {
+		boolean aux = true;
+		
+		Random aleatorio = new Random();
+		
+		int auxInt;
+
+		for(Match m: betMatches) {
+			auxInt = aleatorio.nextInt(3);
+			if(auxInt==0) {
+				if (m.betLocal==null) {
+					aux = false;
+					break;
+				}
+			}else if(auxInt==1) {
+				if (m.betTied==null) {
+					aux = false;
+					break;
+				}
+				
+			}else {
+				if (m.betVisit==null) {
+					aux = false;
+					break;
+				}
+			}
+		}
+		
+		return aux;
 	}
 	
 	public List<Match> controlNextMatches() {
