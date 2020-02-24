@@ -23,6 +23,10 @@ public class Bets {
 	
 	private ArrayList<String> matches = new ArrayList<String>();
 
+	public Bets() {
+		
+	}
+	
 	public Bets(User user) {
 		super();
 		this.user = user;

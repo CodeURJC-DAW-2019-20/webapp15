@@ -390,7 +390,7 @@ public class SessionController {
 		
 		betRepository.save(b); 
 		
-		ArrayList<Bets> betList = new ArrayList<Bets>();
+		Optional<ArrayList<Bets>> betList;
 		 
 		betList = betRepository.findByUser(u);
 		
@@ -610,5 +610,28 @@ public class SessionController {
         model.addAttribute("username", name);
 
     }
-
+	@GetMapping("/user")
+	public String historico(Model model) {
+		
+		User u2 = userRepository.findByName("Alvaro");
+				
+		Optional<ArrayList<Bets>> betsAux = betRepository.findByUser(u2);
+		
+		ArrayList<Bets> bets;
+		
+		System.out.println(u2.toString());
+		  
+		if (betsAux.isPresent()) {
+			bets = betsAux.get();
+		} else {
+			return "error";
+		}
+		
+		model.addAttribute("user",u2);
+		model.addAttribute("betsAux",bets);
+		
+		return "user";
+	}
+	
 }
+    

@@ -1,5 +1,7 @@
 package es.urjc.code.daw;
 
+import es.urjc.code.daw.bets.BetRepository;
+import es.urjc.code.daw.bets.Bets;
 import es.urjc.code.daw.team.*;
 import es.urjc.code.daw.user.*;
 
@@ -17,7 +19,10 @@ public class DataBaseLoader {
 	private UserRepository userRepository;
 	@Autowired
 	private TeamRepository teamRepository;
-
+	@Autowired
+	private BetRepository betRepository;
+	
+	
 	@PostConstruct
 	public void init() {
 		// USER
@@ -25,9 +30,18 @@ public class DataBaseLoader {
 		User user2 = new User("Alvaro", "Orbaneja", "alvaro@gmail.com", "", "1234", "ROLE_USER");
 		user1.setAcc_balance(1000);
 		user2.setAcc_balance(1000);
+		user1.setFav_team("Real Madrid");
+		user2.setFav_team("Real Madrid");
 		userRepository.save(user1);
 		userRepository.save(user2);
-
+		
+		Bets bet1 = new Bets(user2);
+		ArrayList<String> betMatches = new ArrayList<String>();
+		betMatches.add("Real Madrid vs Osasuna");
+		bet1.setMatches(betMatches);
+		betRepository.save(bet1);
+		
+		
 		ArrayList<String> nextMatches = new ArrayList<String>();
 		ArrayList<String> nextMatches2 = new ArrayList<String>();
 		ArrayList<String> nextMatches3 = new ArrayList<String>();
