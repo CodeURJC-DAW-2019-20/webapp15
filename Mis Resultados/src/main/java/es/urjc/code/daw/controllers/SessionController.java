@@ -150,10 +150,10 @@ public class SessionController {
 
 	}
 	
-	@RequestMapping(value = "/partidos/addMatch")
+	@RequestMapping(value = "/partidos/addMatch", method = RequestMethod.POST)
+	@ResponseBody
     public String addMatch(Model model, HttpServletRequest request, @RequestParam String local, @RequestParam String visit) {
-        
-    	
+		/*
     	init(model, request);
     	Optional<Team> teamAux= teamRepository.findByName(local);
 		Team team ;
@@ -164,7 +164,7 @@ public class SessionController {
 		}
         team.addMatchByAdmin(visit);
         teamRepository.save(team);
-
+*/
         return "partidos";
     }
 	public String generateRandomDate() {
@@ -201,6 +201,12 @@ public class SessionController {
 		matches =  controlNextMatches();
 		
 		model.addAttribute("match", matches);
+		
+		
+		System.out.println(betMatches);
+		
+		System.out.println(betMatches.size());
+		
 		if(betMatches.isEmpty()) {
 			model.addAttribute("codigoHtmlInicio",false);
 		}else {
@@ -333,9 +339,10 @@ public class SessionController {
 	@GetMapping("apostar/deleteBet")
 	public String deleteBets(Model model, HttpServletRequest request) {
 		init(model,request);
-		betMatches.clear();
 		
-		List<Match> matches;
+		betMatches.clear();		
+		
+		List<Match> matches; 
 		
 		matches =  controlNextMatches();
 		
@@ -417,7 +424,13 @@ public class SessionController {
 		
 		User u2 = userRepository.findByName(name);
 		
-		System.out.println(u2.getAcc_balance());
+		for(Match bAux: betMatches) {
+			bAux.getLocalTeam().getMatches().clear();
+			bAux.getVisitantTeam().getMatches().clear();
+			System.out.println("Match "+bAux.toString());
+		}
+		
+		betMatches.clear();
 		
 		return "apostar"; 
 	}
