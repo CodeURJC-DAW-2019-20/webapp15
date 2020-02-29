@@ -3,4 +3,5 @@ Implementation-Title: web_ejem1
 Implementation-Version: 0.1.0-SNAPSHOT
 Build-Jdk-Spec: 1.8
 Created-By: Maven Integration for Eclipse
+Main-Class: es.urjc.code.daw.Application
 
