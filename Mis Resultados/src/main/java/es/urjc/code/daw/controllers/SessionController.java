@@ -53,6 +53,12 @@ public class SessionController {
     	
     	init(model, request);
 
+        List<Team> allTeams = teamRepository.findAll();
+
+        for(Team t: allTeams) {
+        	System.out.println(t.toString());
+        }
+    	
         return "home";
     }
    
@@ -116,13 +122,27 @@ public class SessionController {
 		return "equipo";
 	}
 	
-	@RequestMapping(value = "/equipo/{name}/setFav", method={RequestMethod.GET, RequestMethod.POST})
-    public String setFav(Model model, HttpServletRequest request, @RequestParam String fav_team) {
+	@PostMapping(value="/equipo/{name}/setFav")
+    public String setFav(Model model, HttpServletRequest request,@PathVariable String name, @RequestParam(name="fav_team") String fav_team) {
+		Optional<Team> teamAux= teamRepository.findByName(name);
+		Team team ;
+		if(teamAux.isPresent()) {
+			team = teamAux.get();
+		}else {
+			return "error";
+		}
+		String direction = team.getDirection();
+		model.addAttribute("teamName",name);
+		
+		model.addAttribute("teamStats",team);
+		model.addAttribute("teamDirection",direction);
 		init(model, request);
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); //get logged in username
         userRepository.updateFavTeam(fav_team, email);
-
+		
+        
         return "equipo";
     }
 	
@@ -150,11 +170,10 @@ public class SessionController {
 
 	}
 	
-	@RequestMapping(value = "/partidos/addMatch", method = RequestMethod.POST)
-	@ResponseBody
-    public String addMatch(Model model, HttpServletRequest request, @RequestParam String local, @RequestParam String visit) {
-		
+	@PostMapping(value="/partidos/addMatch")
+    public String addMatch(Model model, HttpServletRequest request, @RequestParam(name="local") String local,@RequestParam(name="visit") String visit) {
     	init(model, request);
+    	
     	Optional<Team> teamAux= teamRepository.findByName(local);
 		Team team ;
 		if(teamAux.isPresent()) {
@@ -164,6 +183,23 @@ public class SessionController {
 		}
         team.addMatchByAdmin(visit);
         teamRepository.save(team);
+
+        Optional<Team> teamAux2 = teamRepository.findByName(visit);
+        
+		Team team2;
+		if(teamAux2.isPresent()) {
+			team2 = teamAux2.get();
+		}else {
+			return "error";
+		}
+        team2.addMatchByAdmin(local);
+        teamRepository.save(team2);
+        
+		List<Match> matches;
+		
+		matches =  controlNextMatches();
+		
+		model.addAttribute("match", matches);
 
         return "partidos";
     }

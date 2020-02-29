@@ -19,6 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(value = "UPDATE USER SET acc_balance=?1 WHERE USER.NAME=?2",nativeQuery = true)
 	public void updateMoneyUser(Integer apostado, String name);
 	
+	@Transactional
 	@Modifying(clearAutomatically = true)
 	@Query(value = "UPDATE USER SET fav_team=?1 WHERE USER.EMAIL=?2",nativeQuery = true)
 	public void updateFavTeam(String fav_team, String email);
