@@ -83,7 +83,7 @@ public class SessionController {
         NewUser.setAcc_balance(0);
         userService.save(NewUser);
 
-        return "home";
+        return "home"; 
     }
     
     @GetMapping("/equipos")
@@ -153,7 +153,7 @@ public class SessionController {
 	@RequestMapping(value = "/partidos/addMatch", method = RequestMethod.POST)
 	@ResponseBody
     public String addMatch(Model model, HttpServletRequest request, @RequestParam String local, @RequestParam String visit) {
-		/*
+		
     	init(model, request);
     	Optional<Team> teamAux= teamRepository.findByName(local);
 		Team team ;
@@ -164,7 +164,7 @@ public class SessionController {
 		}
         team.addMatchByAdmin(visit);
         teamRepository.save(team);
-*/
+
         return "partidos";
     }
 	public String generateRandomDate() {
@@ -634,7 +634,8 @@ public class SessionController {
             name = userRepository.findByEmail(email).getName();
         }
 		User u2 = userRepository.findByName(name);
-				
+		
+		
 		Optional<ArrayList<Bets>> betsAux = betRepository.findByUser(u2);
 		
 		ArrayList<Bets> bets;
@@ -647,7 +648,7 @@ public class SessionController {
 			return "error";
 		}
 		
-		model.addAttribute("user",u2);
+		model.addAttribute("userAux",u2);
 		model.addAttribute("betsAux",bets);
 		
 		return "user";
