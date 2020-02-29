@@ -149,7 +149,7 @@ public class SessionController {
 	@GetMapping("/clasificacion")
 	public String table(Model model, HttpServletRequest request) {
 		
-		List<Team> clasificacion = teamRepository.findByLeagueOrderByPosition("La liga");
+		List<Team> clasificacion = teamRepository.findByLeagueOrderByPointsDesc("La liga");
 		
 		model.addAttribute("equipoPosicion",clasificacion);
 		init(model, request);
@@ -485,8 +485,6 @@ public class SessionController {
 		betMatches.clear();
 		
 		
-		
-		
 		return "apostar"; 
 	}
 	private boolean generateRandomResult() {
@@ -501,18 +499,59 @@ public class SessionController {
 			if(auxInt==0) {
 				if (m.betLocal==null) {
 					aux = false;
-					break;
+				}else {
+					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
+			        
+					Team team;
+					if(teamAux.isPresent()) {
+						team = teamAux.get();
+					}else {
+						team = new Team();
+					}
+					
+					teamRepository.updatePoint(team.getPoints()+3, team.getName());
 				}
 			}else if(auxInt==1) {
 				if (m.betTied==null) {
 					aux = false;
-					break;
+				}else {
+					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
+			        
+					Team team;
+					if(teamAux.isPresent()) {
+						team = teamAux.get();
+					}else {
+						team = new Team();
+					}
+					
+					teamRepository.updatePoint(team.getPoints()+1, team.getName());
+					
+					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
+			        
+					Team team2;
+					if(teamAux2.isPresent()) {
+						team2 = teamAux2.get();
+					}else {
+						team2 = new Team();
+					}
+					
+					teamRepository.updatePoint(team2.getPoints()+1, team2.getName());
 				}
 				
 			}else {
 				if (m.betVisit==null) {
 					aux = false;
-					break;
+				}else {
+					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
+			        
+					Team team2;
+					if(teamAux2.isPresent()) {
+						team2 = teamAux2.get();
+					}else {
+						team2 = new Team();
+					}
+					
+					teamRepository.updatePoint(team2.getPoints()+3, team2.getName());
 				}
 			}
 		}
