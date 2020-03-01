@@ -51,7 +51,7 @@ public class DataBaseLoader {
 		ArrayList<String> nextMatches7 = new ArrayList<String>();
 		ArrayList<String> nextMatches8 = new ArrayList<String>();
 
-		/*nextMatches.add("Osasuna");
+		nextMatches.add("Osasuna");
 		nextMatches.add("Barcelona");
 		nextMatches.add("Atletico de Madrid");
 		nextMatches2.add("Espanyol");
@@ -74,8 +74,8 @@ public class DataBaseLoader {
 		nextMatches7.add("Real Sociedad");
 		nextMatches8.add("Real Sociedad");
 		nextMatches8.add("Valladolid");
-		nextMatches8.add("Barcelona");*/
-		
+		nextMatches8.add("Barcelona");
+		/*
 		nextMatches.add("Osasuna");
 		nextMatches2.add("Espanyol");
 		nextMatches3.add("Valladolid");
@@ -83,7 +83,7 @@ public class DataBaseLoader {
 		nextMatches5.add("Real Madrid");
 		nextMatches6.add("Barcelona");
 		nextMatches7.add("Atletico de Madrid");
-		nextMatches8.add("Real Sociedad");
+		nextMatches8.add("Real Sociedad");*/
 
 		Team t1 = new Team("Real Madrid", 14, 2, 8, 53, 46, 17, 1, "La liga", "Santiago Bernabeu", nextMatches,
 				"Plantilla_RealMadrid", "escudo_RealMadrid");
@@ -94,21 +94,21 @@ public class DataBaseLoader {
 		Team t4 = new Team("Real Sociedad", 12, 8, 4, 40, 42, 31, 3, "La liga", "Reale Arena", nextMatches4,
 				"Plantilla_RealSociedad", "escudo_RealSociedad");
 		Team t5 = new Team("Osasuna", 9, 5, 10, 37, 28, 18, 5, "La liga", "Estadio El Sadar", nextMatches5,
-				"Plantilla_RealMadrid", "escudo_RealMadrid");
+				"Plantilla_Osasuna", "escudo_Osasuna");
 		Team t6 = new Team("Espanyol", 8, 6, 10, 34, 30, 10, 6, "La liga", "RCDE Stadium", nextMatches6,
-				"Plantilla_Barcelona", "escudo_Barcelona");
+				"plantilla_Espanyol", "escudo_Espanyol");
 		Team t7 = new Team("Valladolid", 11, 13, 0, 33, 45, 30, 7, "La liga", "Estadio José Zorrilla", nextMatches7,
-				"Plantilla_AtleticodeMadrid", "escudo_AtleticodeMadrid");
-		Team t8 = new Team("Betis", 7, 7, 10, 31, 30, 20, 8, "La liga", "Estadio Benito Villamarín", nextMatches8, "Plantilla_RealSociedad",
-				"escudo_RealSociedad");
+				"Plantilla_Valladolid", "escudo_Valladolid");
+		Team t8 = new Team("Betis", 7, 7, 10, 31, 30, 20, 8, "La liga", "Alava", nextMatches8, "plantilla_Betis",
+				"escudo_Betis");
 		Team t9 = new Team("Getafe", 7, 7, 10, 31, 30, 20, 8, "La liga", "Coliseum Alfonso Perez", nextMatches8, "Plantilla_RealSociedad",
-				"escudo_RealSociedad");
+				"escudo_getafe");
 		Team t10 = new Team("Villareal", 7, 7, 10, 31, 30, 20, 8, "La liga", "Coliseum Alfonso Perez", nextMatches8, "Plantilla_RealSociedad",
-				"escudo_RealSociedad");
+				"escudo_villareal");
 		Team t11 = new Team("Mallorca", 7, 7, 10, 31, 30, 20, 8, "La liga", "Coliseum Alfonso Perez", nextMatches8, "Plantilla_RealSociedad",
-				"escudo_RealSociedad");
+				"escudo_mallorca");
 		Team t12 = new Team("Sevilla", 7, 7, 10, 31, 30, 20, 8, "La liga", "Coliseum Alfonso Perez", nextMatches8, "Plantilla_RealSociedad",
-				"escudo_RealSociedad");
+				"escudo_sevilla");
 		// Team t5 = new Team("Manchester City",3,2,3,20,22,8,3,"Premier
 		// league","Manchester",new ArrayList<>());
 

@@ -6,20 +6,24 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 //import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team,Long> {
 	public Optional<Team> findById(Long id);
 	public Optional<Team> findByName(String name);	
-	//Consulta a la bbdd que te devuelve por liga y por orden la clasificacion en la liga
-	public List<Team> findByLeagueOrderByPosition(String league);
-	//public Page<Team> findAll(Pageable pageable);
 
+	public List<Team> findByLeagueOrderByPointsDesc(String league);
 
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE TEAM SET points=?1 WHERE TEAM.NAME=?2",nativeQuery = true)
+	public void updatePoint(Integer points,String teamName);
 
 }
