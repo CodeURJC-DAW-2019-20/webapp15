@@ -10,6 +10,9 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -34,11 +37,16 @@ public class SessionController {
 	private BetRepository betRepository;
     
     private ArrayList<Match> betMatches = new ArrayList<Match>();
+    
+    //private final int ROW_PER_PAGE = 10;
 
     //Services
 
     @Autowired
     private UserService userService;
+    
+    /*@Autowired
+    private TeamService teamService;*/
 
     @RequestMapping(value = "/home")
     public String root(Model model, HttpServletRequest request) {
@@ -53,7 +61,7 @@ public class SessionController {
     	
     	init(model, request);
 
-        List<Team> allTeams = teamRepository.findAll();
+        List<Team> allTeams = (List<Team>) teamRepository.findAll();
 
         for(Team t: allTeams) {
         	System.out.println(t.toString());
@@ -92,15 +100,48 @@ public class SessionController {
         return "home"; 
     }
     
-    @GetMapping("/equipos")
+    /*@GetMapping("/equipos")
 	public String equipos(Model model, HttpServletRequest request) {
-        List<Team> allTeams = teamRepository.findAll();
+        List<Team> allTeams = (List<Team>) teamRepository.findAll();
         
         model.addAttribute("allTeams",allTeams);
         init(model, request);
 		
         return "equipos";
+	}*/
+    
+    /*@GetMapping("/equipos")
+	public String equipos(Model model, HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
+    	
+    	init(model, request);
+	    List<Team> allTeams = teamService.findAll(pageNumber, ROW_PER_PAGE);
+        
+	    long count = teamService.count();
+	    boolean hasPrev = pageNumber > 1;
+	    boolean hasNext = (pageNumber * ROW_PER_PAGE) < count;
+	    model.addAttribute("allTeams", allTeams);
+	    model.addAttribute("hasPrev", hasPrev);
+	    model.addAttribute("prev", pageNumber - 1);
+	    model.addAttribute("hasNext", hasNext);
+	    model.addAttribute("next", pageNumber + 1);
+	    
+        return "equipos";
+	}*/
+    
+    @GetMapping("/equipos")
+	public String equipos(Model model, HttpServletRequest request, @RequestParam(name = "teampage", required = false, defaultValue = "0") Integer teampage) {
+    	
+    	init(model, request);
+    	Page<Team> allTeams = teamRepository.findAll(PageRequest.of(0, 10 * (teampage + 1)));
+
+        model.addAttribute("allTeams", allTeams);
+        model.addAttribute("nextTeamsPage", teampage + 1);
+        Boolean showmoreteams=teampage<allTeams.getTotalPages();
+        model.addAttribute("showmoreteams", showmoreteams);
+	    
+        return "equipos";
 	}
+    
 	
 	@GetMapping("/equipo/{name}")
 	public String equipo(Model model, HttpServletRequest request,@PathVariable String name) {
@@ -113,6 +154,16 @@ public class SessionController {
 			return "error";
 		}
 		String direction = team.getDirection();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User u = userRepository.findByEmail(email);
+        
+		String fav_team = u.getFav_team();
+		
+		if(fav_team.equals(name)) {
+			model.addAttribute("press", "press");
+		}
+		
 		model.addAttribute("teamName",name);
 		
 		model.addAttribute("teamStats",team);
@@ -136,6 +187,7 @@ public class SessionController {
 		
 		model.addAttribute("teamStats",team);
 		model.addAttribute("teamDirection",direction);
+		model.addAttribute("press",true);
 		init(model, request);
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -149,7 +201,7 @@ public class SessionController {
 	@GetMapping("/clasificacion")
 	public String table(Model model, HttpServletRequest request) {
 		
-		List<Team> clasificacion = teamRepository.findByLeagueOrderByPointsDesc("La liga");
+		List<Team> clasificacion = teamRepository.findByLeagueOrderByPosition("La liga");
 		
 		model.addAttribute("equipoPosicion",clasificacion);
 		init(model, request);
@@ -157,12 +209,11 @@ public class SessionController {
 		return "clasificacion";
 	}
 	
-	@GetMapping("/partidos")
+	@RequestMapping("/partidos")
 	public String nextmatches(Model model, HttpServletRequest request) {
 		List<Match> matches;
 		
 		matches =  controlNextMatches();
-		
 		model.addAttribute("match", matches);
 		init(model, request);
 
@@ -418,19 +469,13 @@ public class SessionController {
         }
 		
 		//Simulacion  de los partidos
-		User u = userRepository.findByName(name);
-
-		Bets b = new Bets(u);
+        User u = userRepository.findByName(name);
 		
-		ArrayList<String> auxMatches = new ArrayList<String>();
+		Optional<ArrayList<Bets>> betList;
+		 
+		betList = betRepository.findByUser(u);
 		
-		for(Match m: betMatches) {
-			auxMatches.add(m.localTeam.getName()+"vs"+m.visitantTeam.getName());
-		}
-		
-		b.setMatches(auxMatches);
-		
-		betRepository.save(b); 
+		System.out.println(betList);
 		
 		boolean result = generateRandomResult();
 		
@@ -450,40 +495,36 @@ public class SessionController {
 			auxMoney = auxMoney-totalBetAux;
 			userRepository.updateMoneyUser(auxMoney,name);
 		}
-				
-		for(Match bAux: betMatches) {    
-			Optional<Team> teamAux = teamRepository.findByName(bAux.getLocalTeam().getName());
-	        
-			Team team;
-			if(teamAux.isPresent()) {
-				team = teamAux.get();
+		
+		
+
+		Bets b = new Bets(u);
+		
+		ArrayList<String> auxMatches = new ArrayList<String>();
+		
+		for(Match m: betMatches) {
+			if(result) {
+				auxMatches.add(m.localTeam.getName()+" vs "+m.visitantTeam.getName()+" Ganado: "+totalBetAux+"€");
+				System.out.println(m.toString());
 			}else {
-				return "error";
+				auxMatches.add(m.localTeam.getName()+" vs "+m.visitantTeam.getName()+" Perdido: "+totalBetAux+"€");
+				System.out.println(m.toString());
 			}
-	        team.removeMatch(bAux.getVisitantTeam().getName());
-	        teamRepository.save(team);
-	        
-			Optional<Team> teamAux2 = teamRepository.findByName(bAux.getVisitantTeam().getName());
-	        
-			Team team2;
-			if(teamAux2.isPresent()) {
-				team2 = teamAux2.get();
-			}else {
-				return "error";
-			}
-	        team2.removeMatch(bAux.getLocalTeam().getName());
-	        teamRepository.save(team2);
-	        
 		}
-        
-        for(Match bAux: betMatches) {
+		
+		b.setMatches(auxMatches);
+		
+		betRepository.save(b);
+		
+		User u2 = userRepository.findByName(name);
+		
+		for(Match bAux: betMatches) {
 			bAux.getLocalTeam().getMatches().clear();
 			bAux.getVisitantTeam().getMatches().clear();
 			System.out.println("Match "+bAux.toString());
 		}
 		
 		betMatches.clear();
-		
 		
 		return "apostar"; 
 	}
@@ -499,59 +540,18 @@ public class SessionController {
 			if(auxInt==0) {
 				if (m.betLocal==null) {
 					aux = false;
-				}else {
-					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
-			        
-					Team team;
-					if(teamAux.isPresent()) {
-						team = teamAux.get();
-					}else {
-						team = new Team();
-					}
-					
-					teamRepository.updatePoint(team.getPoints()+3, team.getName());
+					break;
 				}
 			}else if(auxInt==1) {
 				if (m.betTied==null) {
 					aux = false;
-				}else {
-					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
-			        
-					Team team;
-					if(teamAux.isPresent()) {
-						team = teamAux.get();
-					}else {
-						team = new Team();
-					}
-					
-					teamRepository.updatePoint(team.getPoints()+1, team.getName());
-					
-					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
-			        
-					Team team2;
-					if(teamAux2.isPresent()) {
-						team2 = teamAux2.get();
-					}else {
-						team2 = new Team();
-					}
-					
-					teamRepository.updatePoint(team2.getPoints()+1, team2.getName());
+					break;
 				}
 				
 			}else {
 				if (m.betVisit==null) {
 					aux = false;
-				}else {
-					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
-			        
-					Team team2;
-					if(teamAux2.isPresent()) {
-						team2 = teamAux2.get();
-					}else {
-						team2 = new Team();
-					}
-					
-					teamRepository.updatePoint(team2.getPoints()+3, team2.getName());
+					break;
 				}
 			}
 		}
@@ -560,63 +560,51 @@ public class SessionController {
 	}
 	
 	public List<Match> controlNextMatches() {
-		List<Team> allTeams = teamRepository.findAll();
+		List<Team> allTeams = (List<Team>) teamRepository.findAll();
 		List<Match> matches = new ArrayList<Match>();
 
 		for (Team t : allTeams) {
-			String visitName = t.getMatches().get(0);
-			System.out.println(visitName);
-			Optional<Team> teamAux = teamRepository.findByName(visitName);
+			for (int i= 0; i < t.getMatches().size(); i++  ) {
+				String visitName = t.getMatches().get(i);
 
-			Team visit;
+				Optional<Team> teamAux = teamRepository.findByName(visitName);
 
-			if (teamAux.isPresent()) {
-				visit = teamAux.get();
-			} else {
-				visit = new Team();
-			}
+				Team visit;
 
-			Team local = t;
-
-			String horario = generateRandomDate();
-
-			// Generar fecha actual + numero aleatorio
-			Match m = new Match(local, visit, horario);
-			
-			ArrayList<String> betAvanced = calculateBetAvanced(m);
-					
-			boolean search = false;
-			for (Match mAux : matches) {
-				if (mAux.getLocalTeam().getName().equals(visit.getName())) {
-					search = true;
-
-					break;
+				if (teamAux.isPresent()) {
+					visit = teamAux.get();
+				} else {
+					visit = new Team();
 				}
-			}
-			if (!search) {
-				if(betAvanced.get(0).length()>5){
-					betAvanced.set(0,betAvanced.get(0).substring(0,4));
-				}else {
-					betAvanced.set(0,betAvanced.get(0));
+
+				Team local = t;
+
+				String horario = generateRandomDate();
+
+				// Generar fecha actual + numero aleatorio
+				Match m = new Match(local, visit, horario);
+				
+				ArrayList<String> betAvanced = calculateBetAvanced(m);
+				
+				boolean search = false;
+				for (Match mAux : matches) {
+					if (mAux.getLocalTeam().getName().equals(visit.getName())) {
+						search = true;
+
+						break;
+					}
 				}
-				if(betAvanced.get(1).length()>5){
-					betAvanced.set(1,betAvanced.get(1).substring(0,4));
-				}else {
-					betAvanced.set(1,betAvanced.get(1));
+				if (!search) {
+					m.setBetLocal(betAvanced.get(0).substring(0,4));
+					m.setBetVisit(betAvanced.get(1).substring(0,4));
+					m.setBetTied(betAvanced.get(2).substring(0,4));
+					matches.add(m);
 				}
-				if(betAvanced.get(2).length()>5){
-					betAvanced.set(2,betAvanced.get(2).substring(0,4));
-				}else {
-					betAvanced.set(2,betAvanced.get(2));
-				}
-				m.setBetLocal(betAvanced.get(0));
-				m.setBetVisit(betAvanced.get(1));
-				m.setBetTied(betAvanced.get(2));
-				matches.add(m);
 			}
 		}
 		return matches;
 	}
+	
 	public ArrayList<String> calculateBetAvanced(Match m1){
 		int pointsLocal=1;
 		int pointsVisit=1;

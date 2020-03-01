@@ -37,7 +37,7 @@ public class DataBaseLoader {
 		
 		Bets bet1 = new Bets(user2);
 		ArrayList<String> betMatches = new ArrayList<String>();
-		betMatches.add("Real Madrid vs Osasuna");
+		betMatches.add("Real Madrid vs Osasuna Ganado: 500€");
 		bet1.setMatches(betMatches);
 		betRepository.save(bet1);
 		
@@ -51,38 +51,39 @@ public class DataBaseLoader {
 		ArrayList<String> nextMatches7 = new ArrayList<String>();
 		ArrayList<String> nextMatches8 = new ArrayList<String>();
 
-		nextMatches.add("Osasuna");
-		nextMatches.add("Espanyol");
-		nextMatches.add("Valladolid");
-		
+		/*nextMatches.add("Osasuna");
+		nextMatches.add("Barcelona");
+		nextMatches.add("Atletico de Madrid");
 		nextMatches2.add("Espanyol");
-		nextMatches2.add("Osasuna");
+		nextMatches2.add("Real Madrid");
 		nextMatches2.add("Betis");
-		
 		nextMatches3.add("Valladolid");
-		nextMatches3.add("Betis");
-		nextMatches3.add("Osasuna");
-		
+		nextMatches3.add("Espanyol");
+		nextMatches3.add("Real Madrid");
 		nextMatches4.add("Betis");
+		nextMatches4.add("Osasuna");
 		nextMatches4.add("Valladolid");
-		nextMatches4.add("Espanyol");
-		//Osasuna
 		nextMatches5.add("Real Madrid");
-		nextMatches5.add("Barcelona");
-		nextMatches5.add("Atletico de Madrid");
-		//Espanyol
+		nextMatches5.add("Real Sociedad");
+		nextMatches5.add("Espanyol");
 		nextMatches6.add("Barcelona");
-		nextMatches6.add("Real Madrid");
-		nextMatches6.add("Real Sociedad");
-		//Valladolid
+		nextMatches6.add("Atletico de Madrid");
+		nextMatches6.add("Osasuna");
 		nextMatches7.add("Atletico de Madrid");
+		nextMatches7.add("Betis");
 		nextMatches7.add("Real Sociedad");
-		nextMatches7.add("Real Madrid");
-		//Betis
 		nextMatches8.add("Real Sociedad");
-		nextMatches8.add("Atletico de Madrid");
-		nextMatches8.add("Barcelona");
-
+		nextMatches8.add("Valladolid");
+		nextMatches8.add("Barcelona");*/
+		
+		nextMatches.add("Osasuna");
+		nextMatches2.add("Espanyol");
+		nextMatches3.add("Valladolid");
+		nextMatches4.add("Betis");
+		nextMatches5.add("Real Madrid");
+		nextMatches6.add("Barcelona");
+		nextMatches7.add("Atletico de Madrid");
+		nextMatches8.add("Real Sociedad");
 
 		Team t1 = new Team("Real Madrid", 14, 2, 8, 53, 46, 17, 1, "La liga", "Santiago Bernabeu", nextMatches,
 				"Plantilla_RealMadrid", "escudo_RealMadrid");
@@ -92,14 +93,24 @@ public class DataBaseLoader {
 				"Plantilla_AtleticodeMadrid", "escudo_AtleticodeMadrid");
 		Team t4 = new Team("Real Sociedad", 12, 8, 4, 40, 42, 31, 3, "La liga", "Reale Arena", nextMatches4,
 				"Plantilla_RealSociedad", "escudo_RealSociedad");
-		Team t5 = new Team("Osasuna", 9, 5, 10, 37, 28, 18, 5, "La liga", "Concha Espina", nextMatches5,
-				"Plantilla_Osasuna", "escudo_Osasuna");
-		Team t6 = new Team("Espanyol", 8, 6, 10, 34, 30, 10, 6, "La liga", "Canaletas", nextMatches6,
-				"plantilla_Espanyol", "escudo_Espanyol");
-		Team t7 = new Team("Valladolid", 11, 13, 0, 33, 45, 30, 7, "La liga", "Metropolitano", nextMatches7,
-				"Plantilla_Valladolid", "escudo_Valladolid");
-		Team t8 = new Team("Betis", 7, 7, 10, 31, 30, 20, 8, "La liga", "Alava", nextMatches8, "plantilla_Betis",
-				"escudo_Betis");
+		Team t5 = new Team("Osasuna", 9, 5, 10, 37, 28, 18, 5, "La liga", "Estadio El Sadar", nextMatches5,
+				"Plantilla_RealMadrid", "escudo_RealMadrid");
+		Team t6 = new Team("Espanyol", 8, 6, 10, 34, 30, 10, 6, "La liga", "RCDE Stadium", nextMatches6,
+				"Plantilla_Barcelona", "escudo_Barcelona");
+		Team t7 = new Team("Valladolid", 11, 13, 0, 33, 45, 30, 7, "La liga", "Estadio José Zorrilla", nextMatches7,
+				"Plantilla_AtleticodeMadrid", "escudo_AtleticodeMadrid");
+		Team t8 = new Team("Betis", 7, 7, 10, 31, 30, 20, 8, "La liga", "Estadio Benito Villamarín", nextMatches8, "Plantilla_RealSociedad",
+				"escudo_RealSociedad");
+		Team t9 = new Team("Getafe", 7, 7, 10, 31, 30, 20, 8, "La liga", "Coliseum Alfonso Perez", nextMatches8, "Plantilla_RealSociedad",
+				"escudo_RealSociedad");
+		Team t10 = new Team("Villareal", 7, 7, 10, 31, 30, 20, 8, "La liga", "Coliseum Alfonso Perez", nextMatches8, "Plantilla_RealSociedad",
+				"escudo_RealSociedad");
+		Team t11 = new Team("Mallorca", 7, 7, 10, 31, 30, 20, 8, "La liga", "Coliseum Alfonso Perez", nextMatches8, "Plantilla_RealSociedad",
+				"escudo_RealSociedad");
+		Team t12 = new Team("Sevilla", 7, 7, 10, 31, 30, 20, 8, "La liga", "Coliseum Alfonso Perez", nextMatches8, "Plantilla_RealSociedad",
+				"escudo_RealSociedad");
+		// Team t5 = new Team("Manchester City",3,2,3,20,22,8,3,"Premier
+		// league","Manchester",new ArrayList<>());
 
 		teamRepository.save(t1);
 		teamRepository.save(t2);
@@ -109,6 +120,10 @@ public class DataBaseLoader {
 		teamRepository.save(t6);
 		teamRepository.save(t7);
 		teamRepository.save(t8);
+		teamRepository.save(t9);
+		teamRepository.save(t10);
+		teamRepository.save(t11);
+		teamRepository.save(t12);
 		// teamRepository.save(t5);
 
 	}

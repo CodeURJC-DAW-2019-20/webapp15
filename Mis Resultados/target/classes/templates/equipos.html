@@ -50,14 +50,14 @@
     
     <div class="site-section">
       <div class="container">
-        <div class="row">
+        <div class="row align-items-center">
           <div class="col-md-12 text-center mb-5">
             <h2 class="text-black">Equipos</h2>
           </div>
         </div>
-        <div class="row">
+        <div class="row align-items-center justify-content-center">
           {{#allTeams}}      	
-          <div class="mb-4 mb-lg-0 col-6 col-md-4 col-lg-2 text-center">
+          <div class="mb-5 mb-lg-0 col-5 col-md-5 col-lg-5 text-center">
             <div class="player mb-5">
               <img src="images/{{nameImgShield}}.jpg" alt="Image" class="img-fluid image rounded-circle">
               <h2><a href="/equipo/{{name}}">{{name}}</a></h2>
@@ -65,11 +65,18 @@
             </div>
           </div>
 		  {{/allTeams}}
-		  
-		  
-    {{>footer}}
-  </div>
-
+	</div>
+	{{#showmoreteams}}
+          <div class="d-flex flex-row justify-content-center">
+          	<div>
+          	<button onclick="location.href='/equipos?teampage={{nextTeamsPage}}';" class="btn btn-primary btn-link mostrarmas">
+          	Mostrar más
+          	</button>
+          	</div>
+          </div>
+          {{/showmoreteams}}
+          
+	{{>footer}}
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
