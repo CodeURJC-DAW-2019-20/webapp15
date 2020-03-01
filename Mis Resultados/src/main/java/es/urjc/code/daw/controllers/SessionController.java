@@ -149,7 +149,7 @@ public class SessionController {
 	@GetMapping("/clasificacion")
 	public String table(Model model, HttpServletRequest request) {
 		
-		List<Team> clasificacion = teamRepository.findByLeagueOrderByPosition("La liga");
+		List<Team> clasificacion = teamRepository.findByLeagueOrderByPointsDesc("La liga");
 		
 		model.addAttribute("equipoPosicion",clasificacion);
 		init(model, request);
@@ -426,18 +426,11 @@ public class SessionController {
 		
 		for(Match m: betMatches) {
 			auxMatches.add(m.localTeam.getName()+"vs"+m.visitantTeam.getName());
-			System.out.println(m.toString());
 		}
 		
 		b.setMatches(auxMatches);
 		
 		betRepository.save(b); 
-		
-		Optional<ArrayList<Bets>> betList;
-		 
-		betList = betRepository.findByUser(u);
-		
-		System.out.println(betList);
 		
 		boolean result = generateRandomResult();
 		
@@ -457,16 +450,40 @@ public class SessionController {
 			auxMoney = auxMoney-totalBetAux;
 			userRepository.updateMoneyUser(auxMoney,name);
 		}
-		
-		User u2 = userRepository.findByName(name);
-		
-		for(Match bAux: betMatches) {
+				
+		for(Match bAux: betMatches) {    
+			Optional<Team> teamAux = teamRepository.findByName(bAux.getLocalTeam().getName());
+	        
+			Team team;
+			if(teamAux.isPresent()) {
+				team = teamAux.get();
+			}else {
+				return "error";
+			}
+	        team.removeMatch(bAux.getVisitantTeam().getName());
+	        teamRepository.save(team);
+	        
+			Optional<Team> teamAux2 = teamRepository.findByName(bAux.getVisitantTeam().getName());
+	        
+			Team team2;
+			if(teamAux2.isPresent()) {
+				team2 = teamAux2.get();
+			}else {
+				return "error";
+			}
+	        team2.removeMatch(bAux.getLocalTeam().getName());
+	        teamRepository.save(team2);
+	        
+		}
+        
+        for(Match bAux: betMatches) {
 			bAux.getLocalTeam().getMatches().clear();
 			bAux.getVisitantTeam().getMatches().clear();
 			System.out.println("Match "+bAux.toString());
 		}
 		
 		betMatches.clear();
+		
 		
 		return "apostar"; 
 	}
@@ -482,18 +499,59 @@ public class SessionController {
 			if(auxInt==0) {
 				if (m.betLocal==null) {
 					aux = false;
-					break;
+				}else {
+					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
+			        
+					Team team;
+					if(teamAux.isPresent()) {
+						team = teamAux.get();
+					}else {
+						team = new Team();
+					}
+					
+					teamRepository.updatePoint(team.getPoints()+3, team.getName());
 				}
 			}else if(auxInt==1) {
 				if (m.betTied==null) {
 					aux = false;
-					break;
+				}else {
+					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
+			        
+					Team team;
+					if(teamAux.isPresent()) {
+						team = teamAux.get();
+					}else {
+						team = new Team();
+					}
+					
+					teamRepository.updatePoint(team.getPoints()+1, team.getName());
+					
+					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
+			        
+					Team team2;
+					if(teamAux2.isPresent()) {
+						team2 = teamAux2.get();
+					}else {
+						team2 = new Team();
+					}
+					
+					teamRepository.updatePoint(team2.getPoints()+1, team2.getName());
 				}
 				
 			}else {
 				if (m.betVisit==null) {
 					aux = false;
-					break;
+				}else {
+					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
+			        
+					Team team2;
+					if(teamAux2.isPresent()) {
+						team2 = teamAux2.get();
+					}else {
+						team2 = new Team();
+					}
+					
+					teamRepository.updatePoint(team2.getPoints()+3, team2.getName());
 				}
 			}
 		}
@@ -507,7 +565,7 @@ public class SessionController {
 
 		for (Team t : allTeams) {
 			String visitName = t.getMatches().get(0);
-
+			System.out.println(visitName);
 			Optional<Team> teamAux = teamRepository.findByName(visitName);
 
 			Team visit;
@@ -536,9 +594,24 @@ public class SessionController {
 				}
 			}
 			if (!search) {
-				m.setBetLocal(betAvanced.get(0).substring(0,4));
-				m.setBetVisit(betAvanced.get(1).substring(0,4));
-				m.setBetTied(betAvanced.get(2).substring(0,4));
+				if(betAvanced.get(0).length()>5){
+					betAvanced.set(0,betAvanced.get(0).substring(0,4));
+				}else {
+					betAvanced.set(0,betAvanced.get(0));
+				}
+				if(betAvanced.get(1).length()>5){
+					betAvanced.set(1,betAvanced.get(1).substring(0,4));
+				}else {
+					betAvanced.set(1,betAvanced.get(1));
+				}
+				if(betAvanced.get(2).length()>5){
+					betAvanced.set(2,betAvanced.get(2).substring(0,4));
+				}else {
+					betAvanced.set(2,betAvanced.get(2));
+				}
+				m.setBetLocal(betAvanced.get(0));
+				m.setBetVisit(betAvanced.get(1));
+				m.setBetTied(betAvanced.get(2));
 				matches.add(m);
 			}
 		}
