@@ -94,39 +94,13 @@
 			</div>
 		</div>
 	</div>
-		<!-- {{#betsAux}}      	
-          <div class="row align-items-center">
-            <div class="player mb-4">
-				<ul>
-					{{matches}}
-				</ul>
+		{{#betsAux}}      	
+          <div class="mb-4 mb-lg-0 col-6 col-md-4 col-lg-2 text-center">
+            <div class="player mb-5">
+				{{matches}}
             </div>
           </div>
-		{{/betsAux}} -->
-		
-		    	
-          <div class="container">
-          	<div class="row align-items-center justify-content-center">
-            <table class="table">
-            	<thead class="thead-dark">
-            		<th><h3>Histórico de apuestas</h3></th>
-            	</thead>
-            	<tbody>
-            	{{#betsAux}}  
-            		<tr>
-            			<td>{{matches}}</td>
-            		</tr>
-            	{{/betsAux}}
-            	{{^betsAux}}  
-            		<tr>
-            			<td>No ha realizado ninguna apuesta todavía.</td>
-            		</tr>
-            	{{/betsAux}}
-            	</tbody>
-            </table>
-          </div>
-          </div>
-		
+		{{/betsAux}}
 
 		{{>footer}}
 					
