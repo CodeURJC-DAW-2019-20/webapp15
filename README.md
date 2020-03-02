@@ -31,19 +31,19 @@ Admin user: Entity team have a field of near matches (near matches 1,2 and 3). A
 ## Registro
 ![Registro](Fase&#32;1/screenshots/registro.PNG)
 ## Apuestas
-![Apuestas](screenshots/apuestas.PNG)
+![Apuestas](screenshots/apostar.PNG)
 ## Clasificación
 ![Clasificación](Fase&#32;1/screenshots/clasificacion.PNG)
 ## Próximos partidos
 ![Próximos partidos 1](screenshots/partidos.PNG)
 ## Equipos
-![Equipos 1](screenshots/equipos_1.PNG)
+![Equipos 1](screenshots/equipos.PNG)
 ![Equipos 2](screenshots/equipos_2.PNG)
 ## Equipo
 ![Equipo 1](Fase&#32;1/screenshots/equipo1.PNG)
 ![Equipo 2](Fase&#32;1/screenshots/equipo2.PNG)
 ## Perfil de usuario
-![Perfil de usuario] (screenshots/user.PNG)
+![Usuario](screenshots/user.PNG)
 
 
 # Graphics: 
@@ -66,10 +66,10 @@ In order to run succesfully the app, you will have to follow the next steps:
 4. Run the app **Mis resultados**
 
 # ERD Diagram
-![ERD Diagram](UML/BBDD_ERD.JPG)
+![ERD Diagram](UML/BBDD_ERD.jpg)
 
  # Classes and templates
- ![Classes and templates](UML/clases_templates.JPG)
+ ![Classes and templates](UML/clases_templates.jpg)
  
  # Participation
  
