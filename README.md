@@ -12,7 +12,7 @@
 Users and Teams.
 
 
-The user entity have a field with the favorite team
+The user entity have a field with the favourite team
 # Permissions of the users:
 Anonymous user: watch statics of the teams, tables and near matches.
 
@@ -68,6 +68,28 @@ In order to run succesfully the app, you will have to follow the next steps:
 # ERD Diagram
 ![ERD Diagram](UML/BBDD_ERD.JPG)
 
+ # Classes and templates
+ ![Classes and templates](UML/clases_templates.JPG)
  
+ # Participation
+ 
+ ## Álvaro
+ 
+ - Implementation: WebSecurity, BBDD (deploy, config and model), User (Controllers, Services, Entity), styles for htmls, embed Google Maps and implementation of its functionality, implementation of admin functionality (add matches),
+ implementation of CRUD operation for user role (set favourite team), pagination with AJAX.
+ 
+ - Top 5 commits: 
+	- User+Security
+	- Controllers+HTTPS+Databaseloader
+	- Added Google Maps+Fav Teams (with errors)+fix bug Registro
+	- Changed H2 to MYSQL
+	- Teams Pageable with AJAX
+	
+- Top 5 files
+	- Session Controller.java
+	- UserRepository.java
+	- User.java
+	- WebSecurityConfig.java
+	- UserRepositoryAuthenticationProvider.java
 
 
