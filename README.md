@@ -65,6 +65,9 @@ In order to run succesfully the app, you will have to follow the next steps:
 	4. *OPTIONAL* SHOW DATABASES; (To check if the database was created)
 4. Run the app **Mis resultados**
 
+# ERD Diagram
+![ERD Diagram](UML/BBDD_ERD.JPG)
+
  
 
 
