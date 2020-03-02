@@ -92,4 +92,20 @@ In order to run succesfully the app, you will have to follow the next steps:
 	- WebSecurityConfig.java
 	- UserRepositoryAuthenticationProvider.java
 
+##Juan 	
+ -Implementation: Team(Controllers,Entity,Repository), Match, Bet(Repository,Entity). Templates : Apostar.html,clasificacion.html,equipo.html,equipos.html, user.html and partidos.html. Logic of application, simulating matches and bets, generateRandomDate and generateRandomResult. Advanced algorithm. DoBet, CalculateBetCombined, Deletebet.. Add jar generation. 
+ 
 
+ -Top 5 commits: 
+ 	-Templating images
+	-Fix error in funcionality admin and user
+	-Team Model and init repository 
+	-More funcionality bets
+	-Adding more funcionality bets and querys in Repository
+ 	
+ -Top 5 files: 
+ 	-Sesion Controller.java
+	- Apostar.html
+	- Equipo.html
+	- Match.java
+	- user.html
