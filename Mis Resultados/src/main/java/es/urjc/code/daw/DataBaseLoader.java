@@ -51,39 +51,15 @@ public class DataBaseLoader {
 		ArrayList<String> nextMatches7 = new ArrayList<String>();
 		ArrayList<String> nextMatches8 = new ArrayList<String>();
 
+		
 		nextMatches.add("Osasuna");
-		nextMatches.add("Barcelona");
-		nextMatches.add("Atletico de Madrid");
 		nextMatches2.add("Espanyol");
-		nextMatches2.add("Real Madrid");
-		nextMatches2.add("Betis");
 		nextMatches3.add("Valladolid");
-		nextMatches3.add("Espanyol");
-		nextMatches3.add("Real Madrid");
 		nextMatches4.add("Betis");
-		nextMatches4.add("Osasuna");
-		nextMatches4.add("Valladolid");
 		nextMatches5.add("Real Madrid");
-		nextMatches5.add("Real Sociedad");
-		nextMatches5.add("Espanyol");
 		nextMatches6.add("Barcelona");
-		nextMatches6.add("Atletico de Madrid");
-		nextMatches6.add("Osasuna");
 		nextMatches7.add("Atletico de Madrid");
-		nextMatches7.add("Betis");
-		nextMatches7.add("Real Sociedad");
 		nextMatches8.add("Real Sociedad");
-		nextMatches8.add("Valladolid");
-		nextMatches8.add("Barcelona");
-		/*
-		nextMatches.add("Osasuna");
-		nextMatches2.add("Espanyol");
-		nextMatches3.add("Valladolid");
-		nextMatches4.add("Betis");
-		nextMatches5.add("Real Madrid");
-		nextMatches6.add("Barcelona");
-		nextMatches7.add("Atletico de Madrid");
-		nextMatches8.add("Real Sociedad");*/
 
 		Team t1 = new Team("Real Madrid", 14, 2, 8, 53, 46, 17, 1, "La liga", "Santiago Bernabeu", nextMatches,
 				"Plantilla_RealMadrid", "escudo_RealMadrid");
