@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "f5839e09-8f42-4ad8-802f-d0dea48beff7",
+		"name": "Mis Resultados",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getTeams",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTeamById",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getFirstPositionTeam",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/first",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"first"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTeamMoreGoalInFavor",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/goalsF",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"goalsF"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTeamLessGoalAgainst",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/goalsA",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"goalsA"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTeamByPosition",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/position/12",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"position",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateTeam",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"id\": 1,\r\n        \"name\": \"Real Madrid\",\r\n        \"winners\": 14,\r\n        \"lossers\": 2,\r\n        \"tied\": 8,\r\n        \"points\": 34,\r\n        \"goalsInFavor\": 46,\r\n        \"goalsAgainst\": 17,\r\n        \"position\": 1,\r\n        \"league\": \"La liga\",\r\n        \"direction\": \"Santiago Bernabeu\",\r\n        \"matches\": [\r\n            \"Osasuna\",\r\n            \"Barcelona\",\r\n            \"Atletico de Madrid\"\r\n        ],\r\n        \"nameImgTemplate\": \"Plantilla_RealMadrid\",\r\n        \"nameImgShield\": \"escudo_RealMadrid\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/update/1/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"update",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateTeamEfecttive",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"\",\r\n    \"winners\": 13,\r\n    \"lossers\": 2,\r\n    \"tied\": 8,\r\n    \"points\": 53,\r\n    \"goalsInFavor\": 46,\r\n    \"goalsAgainst\": 17,\r\n    \"position\": 1,\r\n    \"league\": \"La liga\",\r\n    \"direction\": \"Santiago Bernabeu\",\r\n    \"matches\": [\r\n        \"Osasuna\",\r\n        \"Barcelona\",\r\n        \"Atletico de Madrid\"\r\n    ],\r\n    \"nameImgTemplate\": \"Plantilla_RealMadrid\",\r\n    \"nameImgShield\": \"escudo_RealMadrid\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/updateTeam/1/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"updateTeam",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateTeamPosition",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/update/13/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"update",
+						"13",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "14293697-7d1b-4baa-960d-f52d76497886",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "bfbc5770-c8dc-4a4e-aad4-211fcd5a5c90",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

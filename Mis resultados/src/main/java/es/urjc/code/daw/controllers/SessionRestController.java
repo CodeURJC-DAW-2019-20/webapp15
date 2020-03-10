@@ -127,4 +127,37 @@ public class SessionRestController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
+	@PutMapping("/equipos/updateTeamWin/{id}/")
+	public ResponseEntity<Team> updateMatchWin(@PathVariable Long id) {
+		Optional<Team> teamAux = teamRepository.findById(id);
+		
+		if(teamAux.isPresent()) {
+			Team team = teamAux.get();
+			
+			team.setWinners(team.getWinners()+1);
+			team.setPoints(team.getPoints()+3);
+			teamRepository.save(team);
+
+			
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+	}
+	@PutMapping("/equipos/updateTeamTied/{id}/")
+	public ResponseEntity<Team> updateMatchTied(@PathVariable Long id) {
+		Optional<Team> teamAux = teamRepository.findById(id);
+		
+		if(teamAux.isPresent()) {
+			Team team = teamAux.get();
+			team.setTied(team.getTied()+1);
+			team.setPoints(team.getPoints()+1);
+			teamRepository.save(team);
+			
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+	}
+	
 }
