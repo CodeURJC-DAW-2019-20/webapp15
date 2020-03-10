@@ -25,6 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/equipos").permitAll();
         http.authorizeRequests().antMatchers("/partidos").permitAll();
         http.authorizeRequests().antMatchers("/partidos/addMatch").hasAnyRole("ADMIN");
+
         
         // Login form
         http.formLogin().loginPage("/login");
@@ -40,9 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    	
-    	/*auth.inMemoryAuthentication().withUser("estudiante@gmail.com").password("{noop}1234").roles("STUDENT");
-        auth.inMemoryAuthentication().withUser("admin@gmail.com").password("{noop}1234").roles("ADMIN");*/
+
         auth.authenticationProvider(authenticationProvider);
     }
 }

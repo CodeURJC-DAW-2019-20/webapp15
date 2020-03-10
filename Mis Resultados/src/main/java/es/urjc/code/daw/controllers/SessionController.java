@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -37,16 +36,8 @@ public class SessionController {
 
 	private ArrayList<Match> betMatches = new ArrayList<Match>();
 
-	// private final int ROW_PER_PAGE = 10;
-
-	// Services
-
 	@Autowired
 	private UserService userService;
-
-	/*
-	 * @Autowired private TeamService teamService;
-	 */
 
 	@RequestMapping(value = "/home")
 	public String root(Model model, HttpServletRequest request) {
@@ -97,30 +88,7 @@ public class SessionController {
 		return "home";
 	}
 
-	/*
-	 * @GetMapping("/equipos") public String equipos(Model model, HttpServletRequest
-	 * request) { List<Team> allTeams = (List<Team>) teamRepository.findAll();
-	 * 
-	 * model.addAttribute("allTeams",allTeams); init(model, request);
-	 * 
-	 * return "equipos"; }
-	 */
 
-	/*
-	 * @GetMapping("/equipos") public String equipos(Model model, HttpServletRequest
-	 * request, @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
-	 * 
-	 * init(model, request); List<Team> allTeams = teamService.findAll(pageNumber,
-	 * ROW_PER_PAGE);
-	 * 
-	 * long count = teamService.count(); boolean hasPrev = pageNumber > 1; boolean
-	 * hasNext = (pageNumber * ROW_PER_PAGE) < count; model.addAttribute("allTeams",
-	 * allTeams); model.addAttribute("hasPrev", hasPrev); model.addAttribute("prev",
-	 * pageNumber - 1); model.addAttribute("hasNext", hasNext);
-	 * model.addAttribute("next", pageNumber + 1);
-	 * 
-	 * return "equipos"; }
-	 */
 
 	@GetMapping("/equipos")
 	public String equipos(Model model, HttpServletRequest request,
