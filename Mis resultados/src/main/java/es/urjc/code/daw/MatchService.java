@@ -18,6 +18,75 @@ public class MatchService {
 	@Autowired
 	private TeamRepository teamRepository;
 	
+	private ArrayList<Match> betMatches = new ArrayList<Match>();
+
+	
+	public ArrayList<Match> getBetMatches() {
+		return betMatches;
+	}
+
+	public void setBetMatches(ArrayList<Match> betMatches) {
+		this.betMatches = betMatches;
+	}
+
+	public String apostar(String id, String id2, String id3, String id4) {
+		Optional<Team> teamAux = teamRepository.findByName(id);
+
+		Team local;
+
+		if (teamAux.isPresent()) {
+			local = teamAux.get();
+		} else {
+			local = new Team();
+		}
+		teamAux = teamRepository.findByName(id2);
+
+		Team visit;
+
+		if (teamAux.isPresent()) {
+			visit = teamAux.get();
+		} else {
+			visit = new Team();
+		}
+		Match m1 = new Match(local, visit);
+
+		switch (id4) {
+		case "betLocal":
+			m1.setBetLocal(id3);
+			m1.setBetSelected(id3);
+			break;
+		case "betTied":
+			m1.setBetTied(id3);
+			m1.setBetSelected(id3);
+			break;
+		default:
+			m1.setBetVisit(id3);
+			m1.setBetSelected(id3);
+
+		}
+		boolean repeat = false;
+		boolean changeBet = false;
+		for (Match b : betMatches) {
+			if (b.localTeam.getName().equals(id)) {
+				if (b.betSelected.equals(m1.betSelected)) {
+					repeat = true;
+				} else {
+					repeat = false;
+					changeBet = true;
+					b.setBetSelected(m1.getBetSelected());
+				}
+			}
+		}
+		if (!repeat && !changeBet) {
+			betMatches.add(m1);
+		}
+
+		String totalBet = calculateBetCombinated(betMatches);
+		
+		return totalBet;
+
+	}
+	
 	public List<Match> controlNextMatches() {
 		List<Team> allTeams = (List<Team>) teamRepository.findAll();
 		List<Match> matches = new ArrayList<Match>();
@@ -203,6 +272,21 @@ public class MatchService {
 		bets.add(betTied + "");
 
 		return bets;
+	}
+
+	
+	private String calculateBetCombinated(ArrayList<Match> betMatches2) {
+		float total = 0;
+		float totalAux = 0;
+		for (Match b : betMatches2) {
+			totalAux = Float.parseFloat(b.getBetSelected());
+			if (total == 0) {
+				total = totalAux;
+			} else {
+				total = total * totalAux;
+			}
+		}
+		return total + "";
 	}
 
 

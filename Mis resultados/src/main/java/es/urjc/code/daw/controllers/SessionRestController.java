@@ -268,4 +268,53 @@ public class SessionRestController {
 		}		
 	}
 	
+	@PostMapping("/equipos/addMatch/{local}/{visit}")
+	public ResponseEntity<Match> addMatch(@PathVariable String local,@PathVariable String visit){
+		Optional<Team> teamAux = teamRepository.findByName(local);
+		Optional<Team> teamAux2 = teamRepository.findByName(visit);
+		
+		Team team;
+		if (teamAux.isPresent()) {
+			team = teamAux.get();
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		team.addMatchByAdmin(visit);
+		teamRepository.save(team);
+
+		Team team2;
+		if (teamAux2.isPresent()) {
+			team2 = teamAux2.get();
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		Match match = new Match(team,team2);
+		
+		return new ResponseEntity<>(match,HttpStatus.OK);
+		
+	}
+	@PostMapping("/apostar/{id1}/{id2}/{id3}/{id4}")
+	public ResponseEntity<List<Match>>apostar(@PathVariable String id1,@PathVariable String id2,
+			@PathVariable String id3,@PathVariable String id4){
+		List<Match> matches = matchService.controlNextMatches();
+		boolean search = false;
+		for(Match m: matches) {
+			if(m.getLocalTeam().getName().equals(id1)) {
+				if(m.getVisitantTeam().getName().equals(id2)) {
+					search = true;
+					break;
+				}
+			}
+		}
+		
+		if(search) {
+			matchService.apostar(id1, id2, id3, id4);
+			return new ResponseEntity<>(matchService.getBetMatches(),HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+		
+	
+	
 }

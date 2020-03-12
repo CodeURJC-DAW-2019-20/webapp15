@@ -37,9 +37,6 @@ public class SessionController {
 	@Autowired
 	private MatchService matchService;
 	
-	
-	private ArrayList<Match> betMatches = new ArrayList<Match>();
-
 	@Autowired
 	private UserService userService;
 
@@ -230,18 +227,14 @@ public class SessionController {
 
 		model.addAttribute("match", matches);
 
-		System.out.println(betMatches);
-
-		System.out.println(betMatches.size());
-
-		if (betMatches.isEmpty()) {
+		if (matchService.getBetMatches().isEmpty()) {
 			model.addAttribute("codigoHtmlInicio", false);
 		} else {
-			model.addAttribute("listMatch", betMatches);
+			model.addAttribute("listMatch", matchService.getBetMatches());
 
 			model.addAttribute("codigoHtmlInicio", true);
 
-			String totalBet = calculateBetCombinated(betMatches);
+			String totalBet = calculateBetCombinated(matchService.getBetMatches());
 
 			model.addAttribute("totalBet", totalBet);
 		}
@@ -262,61 +255,11 @@ public class SessionController {
 		model.addAttribute("match", matches);
 		model.addAttribute("codigoHtmlInicio", true);
 
-		Optional<Team> teamAux = teamRepository.findByName(id);
-
-		Team local;
-
-		if (teamAux.isPresent()) {
-			local = teamAux.get();
-		} else {
-			local = new Team();
-		}
-		teamAux = teamRepository.findByName(id2);
-
-		Team visit;
-
-		if (teamAux.isPresent()) {
-			visit = teamAux.get();
-		} else {
-			visit = new Team();
-		}
-		Match m1 = new Match(local, visit);
-
-		switch (id4) {
-		case "betLocal":
-			m1.setBetLocal(id3);
-			m1.setBetSelected(id3);
-			break;
-		case "betTied":
-			m1.setBetTied(id3);
-			m1.setBetSelected(id3);
-			break;
-		default:
-			m1.setBetVisit(id3);
-			m1.setBetSelected(id3);
-
-		}
-		boolean repeat = false;
-		boolean changeBet = false;
-		for (Match b : betMatches) {
-			if (b.localTeam.getName().equals(id)) {
-				if (b.betSelected.equals(m1.betSelected)) {
-					repeat = true;
-				} else {
-					repeat = false;
-					changeBet = true;
-					b.setBetSelected(m1.getBetSelected());
-				}
-			}
-		}
-		if (!repeat && !changeBet) {
-			betMatches.add(m1);
-		}
-
-		String totalBet = calculateBetCombinated(betMatches);
+		
+		String totalBet = matchService.apostar(id, id2, id3, id4);
 
 		model.addAttribute("totalBet", totalBet);
-		model.addAttribute("listMatch", betMatches);
+		model.addAttribute("listMatch", matchService.getBetMatches());
 
 		return "apostar";
 	}
@@ -344,14 +287,14 @@ public class SessionController {
 		matches = matchService.controlNextMatches();
 
 		model.addAttribute("match", matches);
-		if (betMatches.isEmpty()) {
+		if (matchService.getBetMatches().isEmpty()) {
 			model.addAttribute("codigoHtmlInicio", false);
 		} else {
-			model.addAttribute("listMatch", betMatches);
+			model.addAttribute("listMatch", matchService.getBetMatches());
 
 			model.addAttribute("codigoHtmlInicio", true);
 
-			String totalBet = calculateBetCombinated(betMatches);
+			String totalBet = calculateBetCombinated(matchService.getBetMatches());
 
 			float totalBetAux = Float.parseFloat(totalBet);
 
@@ -367,17 +310,17 @@ public class SessionController {
 	public String deleteBets(Model model, HttpServletRequest request) {
 		init(model, request);
 
-		betMatches.clear();
+		matchService.getBetMatches().clear();
 
 		List<Match> matches;
 
 		matches = matchService.controlNextMatches();
 
 		model.addAttribute("match", matches);
-		if (betMatches.isEmpty()) {
+		if (matchService.getBetMatches().isEmpty()) {
 			model.addAttribute("codigoHtmlInicio", false);
 		} else {
-			model.addAttribute("listMatch", betMatches);
+			model.addAttribute("listMatch", matchService.getBetMatches());
 
 			model.addAttribute("codigoHtmlInicio", true);
 
@@ -435,7 +378,7 @@ public class SessionController {
 
 		ArrayList<String> auxMatches = new ArrayList<String>();
 
-		for (Match m : betMatches) {
+		for (Match m : matchService.getBetMatches()) {
 			if (result) {
 				auxMatches.add(
 						m.localTeam.getName() + " vs " + m.visitantTeam.getName() + " Ganado: " + totalBetAux + "€");
@@ -451,7 +394,7 @@ public class SessionController {
 
 		betRepository.save(b);
 
-		for (Match bAux : betMatches) {
+		for (Match bAux : matchService.getBetMatches()) {
 			Optional<Team> teamAux = teamRepository.findByName(bAux.getLocalTeam().getName());
 
 			Team team;
@@ -476,13 +419,13 @@ public class SessionController {
 
 		}
 
-		for (Match bAux : betMatches) {
+		for (Match bAux : matchService.getBetMatches()) {
 			bAux.getLocalTeam().getMatches().clear();
 			bAux.getVisitantTeam().getMatches().clear();
 			System.out.println("Match " + bAux.toString());
 		}
 
-		betMatches.clear();
+		matchService.getBetMatches().clear();
 
 		return "apostar";
 	}
@@ -494,7 +437,7 @@ public class SessionController {
 
 		int auxInt;
 
-		for (Match m : betMatches) {
+		for (Match m : matchService.getBetMatches()) {
 			auxInt = aleatorio.nextInt(3);
 			if (auxInt == 0) {
 				if (m.betLocal == null) {
