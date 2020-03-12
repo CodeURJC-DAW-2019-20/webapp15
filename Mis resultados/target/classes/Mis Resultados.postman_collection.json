@@ -238,6 +238,229 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "updateMatchWin",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/updateTeamWin/1/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"updateTeamWin",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateMatchTied",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/updateTeamTied/1/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"updateTeamTied",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "saveTeam",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"Real Madridf\",\r\n        \"winners\": 14,\r\n        \"lossers\": 2,\r\n        \"tied\": 8,\r\n        \"points\": 34,\r\n        \"goalsInFavor\": 45,\r\n        \"goalsAgainst\": 17,\r\n        \"position\": 1,\r\n        \"league\": \"La liga\",\r\n        \"direction\": \"Santiago Bernabeu\",\r\n        \"matches\": [\r\n        ],\r\n        \"nameImgTemplate\": \"Plantilla_RealMadrid\",\r\n        \"nameImgShield\": \"escudo_RealMadrid\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/saveTeam/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"saveTeam",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTeam",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/deleteTeam/Barcelona/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"deleteTeam",
+						"Barcelona",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateFav",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/user/updateFav/Alvaro/Mallorca",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"user",
+						"updateFav",
+						"Alvaro",
+						"Mallorca"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateFavLoggerUser",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/user/updateFav/Mallorca",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"user",
+						"updateFav",
+						"Mallorca"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/user/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "alvaro@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/logIn/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"logIn",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User logOut",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/logOut/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"logOut",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

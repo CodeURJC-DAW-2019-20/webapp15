@@ -1,18 +1,13 @@
 package es.urjc.code.daw.controllers;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.urjc.code.daw.Match;
+import es.urjc.code.daw.MatchService;
 import es.urjc.code.daw.bets.BetRepository;
 import es.urjc.code.daw.team.Team;
 import es.urjc.code.daw.team.TeamRepository;
@@ -44,6 +40,8 @@ public class SessionRestController {
 	private UserService userService;
 	@Autowired
 	private UserComponent userComponent;
+	@Autowired
+	private MatchService matchService;
 	
 	@GetMapping("/equipos")
 	public Collection<Team> getTeams() {
@@ -236,5 +234,38 @@ public class SessionRestController {
 		}
 	}
 	
+	@PostMapping("/user/addUser")
+	public ResponseEntity<User> addUser(@RequestBody User user){
+		User userAux = userRepository.findByName(user.getName());		
+		if(userAux==null) {
+			userRepository.save(user);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}		
+	}
+	
+	
+	@GetMapping("/table/{league}")
+	public ResponseEntity<List<Team>> showTable(@PathVariable String league){
+		List<Team> table = teamRepository.findByLeagueOrderByPointsDesc(league);
+
+		if(!table.isEmpty()) {
+
+			return new ResponseEntity<>(table,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+	}
+	
+	@GetMapping("/equipos/nextmatches")
+	public ResponseEntity<List<Match>> nextMatches(){
+		List<Match> matches = matchService.controlNextMatches();
+		if(!matches.isEmpty()) {
+			return new ResponseEntity<>(matches,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+	}
 	
 }
