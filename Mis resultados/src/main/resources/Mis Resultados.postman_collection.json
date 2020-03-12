@@ -150,6 +150,171 @@
 			"response": []
 		},
 		{
+			"name": "getUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/user/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "alvaro@gmail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/logIn/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"logIn",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User logOut",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/logOut/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"logOut",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "showTable",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/table/La liga/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"table",
+						"La liga",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "nextMatches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/nextmatches/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"nextmatches",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "calculateTotal",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/apostar/calcularTotal/5/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"apostar",
+						"calcularTotal",
+						"5",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getHistorico",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/historico",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"historico"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "updateTeam",
 			"request": {
 				"method": "PUT",
@@ -286,60 +451,6 @@
 			"response": []
 		},
 		{
-			"name": "saveTeam",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "    {\r\n        \"name\": \"Real Madridf\",\r\n        \"winners\": 14,\r\n        \"lossers\": 2,\r\n        \"tied\": 8,\r\n        \"points\": 34,\r\n        \"goalsInFavor\": 45,\r\n        \"goalsAgainst\": 17,\r\n        \"position\": 1,\r\n        \"league\": \"La liga\",\r\n        \"direction\": \"Santiago Bernabeu\",\r\n        \"matches\": [\r\n        ],\r\n        \"nameImgTemplate\": \"Plantilla_RealMadrid\",\r\n        \"nameImgShield\": \"escudo_RealMadrid\"\r\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://localhost:8443/api/equipos/saveTeam/",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "8443",
-					"path": [
-						"api",
-						"equipos",
-						"saveTeam",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "deleteTeam",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://localhost:8443/api/equipos/deleteTeam/Barcelona/",
-					"protocol": "https",
-					"host": [
-						"localhost"
-					],
-					"port": "8443",
-					"path": [
-						"api",
-						"equipos",
-						"deleteTeam",
-						"Barcelona",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "updateFav",
 			"request": {
 				"method": "PUT",
@@ -385,12 +496,78 @@
 			"response": []
 		},
 		{
-			"name": "getUser",
+			"name": "doBet",
 			"request": {
-				"method": "GET",
+				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:8443/api/user/",
+					"raw": "https://localhost:8443/api/apostar/doBet/5/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"apostar",
+						"doBet",
+						"5",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "saveTeam",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"Recreativo Madridf\",\r\n        \"winners\": 14,\r\n        \"lossers\": 2,\r\n        \"tied\": 8,\r\n        \"points\": 34,\r\n        \"goalsInFavor\": 45,\r\n        \"goalsAgainst\": 17,\r\n        \"position\": 1,\r\n        \"league\": \"La liga\",\r\n        \"direction\": \"Santiago Bernabeu\",\r\n        \"matches\": [\r\n        ],\r\n        \"nameImgTemplate\": \"Plantilla_RealMadrid\",\r\n        \"nameImgShield\": \"escudo_RealMadrid\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/saveTeam/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"saveTeam",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addUser",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Juan\",\r\n    \"surname\": \"Anton\",\r\n    \"email\": \"juan@gmail.com\",\r\n    \"fav_team\": \"Barcelona\",\r\n    \"passwordHash\":\"1234\",\r\n    \"acc_balance\": 1000,\r\n    \"roles\": [\r\n        \"ROLE_USER\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8443/api/user/addUser",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -399,34 +576,22 @@
 					"path": [
 						"api",
 						"user",
-						""
+						"addUser"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "User login",
+			"name": "addMatch",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "1234",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "alvaro@gmail.com",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:8443/api/logIn/",
+					"raw": "https://localhost:8443/api/equipos/addMatch/Real Madrid/Barcelona",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -434,20 +599,22 @@
 					"port": "8443",
 					"path": [
 						"api",
-						"logIn",
-						""
+						"equipos",
+						"addMatch",
+						"Real Madrid",
+						"Barcelona"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "User logOut",
+			"name": "apostar",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "https://localhost:8443/api/logOut/",
+					"raw": "https://localhost:8443/api/apostar/Barcelona/Espanyol/1.48/betLocal",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -455,7 +622,54 @@
 					"port": "8443",
 					"path": [
 						"api",
-						"logOut",
+						"apostar",
+						"Barcelona",
+						"Espanyol",
+						"1.48",
+						"betLocal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteBet",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/apostar/deleteBet",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"apostar",
+						"deleteBet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTeam",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8443/api/equipos/deleteTeam/Recreativo Madridf/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"api",
+						"equipos",
+						"deleteTeam",
+						"Recreativo Madridf",
 						""
 					]
 				}

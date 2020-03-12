@@ -10,13 +10,24 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import es.urjc.code.daw.bets.BetRepository;
+import es.urjc.code.daw.bets.Bets;
 import es.urjc.code.daw.team.Team;
 import es.urjc.code.daw.team.TeamRepository;
+import es.urjc.code.daw.user.User;
+import es.urjc.code.daw.user.UserRepository;
 
 @Service
 public class MatchService {
 	@Autowired
 	private TeamRepository teamRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private BetRepository betRepository;
 	
 	private ArrayList<Match> betMatches = new ArrayList<Match>();
 
@@ -27,6 +38,10 @@ public class MatchService {
 
 	public void setBetMatches(ArrayList<Match> betMatches) {
 		this.betMatches = betMatches;
+	}
+	public boolean clearBetMatches() {
+		betMatches.clear();
+		return betMatches.isEmpty();
 	}
 
 	public String apostar(String id, String id2, String id3, String id4) {
@@ -275,7 +290,7 @@ public class MatchService {
 	}
 
 	
-	private String calculateBetCombinated(ArrayList<Match> betMatches2) {
+	public String calculateBetCombinated(ArrayList<Match> betMatches2) {
 		float total = 0;
 		float totalAux = 0;
 		for (Match b : betMatches2) {
@@ -287,6 +302,155 @@ public class MatchService {
 			}
 		}
 		return total + "";
+	}
+
+	public boolean doBet(String totalBet,String name) {
+		List<Match> matches;
+
+		matches = controlNextMatches();
+
+		User u = userRepository.findByName(name);
+
+		Optional<ArrayList<Bets>> betList;
+
+		betList = betRepository.findByUser(u);
+
+		boolean result = generateRandomResult();
+
+		Integer auxMoney = u.getAcc_balance();
+		Integer totalBetAux = Math.round(Float.parseFloat(totalBet));
+
+		if (result) {
+			auxMoney = auxMoney + totalBetAux;
+			userRepository.updateMoneyUser(auxMoney, name);
+		} else {
+			auxMoney = auxMoney - totalBetAux;
+			userRepository.updateMoneyUser(auxMoney, name);
+		}
+
+		Bets b = new Bets(u);
+
+		ArrayList<String> auxMatches = new ArrayList<String>();
+
+		for (Match m : betMatches) {
+			if (result) {
+				auxMatches.add(
+						m.localTeam.getName() + " vs " + m.visitantTeam.getName() + " Ganado: " + totalBetAux + "€");
+			} else {
+				auxMatches.add(
+						m.localTeam.getName() + " vs " + m.visitantTeam.getName() + " Perdido: " + totalBetAux + "€");
+			}
+		}
+
+		b.setMatches(auxMatches);
+
+		betRepository.save(b);
+
+		for (Match bAux : betMatches) {
+			Optional<Team> teamAux = teamRepository.findByName(bAux.getLocalTeam().getName());
+
+			Team team;
+			if (teamAux.isPresent()) {
+				team = teamAux.get();
+			} else {
+				team = new Team();
+			}
+			team.removeMatch(bAux.getVisitantTeam().getName());
+			teamRepository.save(team);
+
+			Optional<Team> teamAux2 = teamRepository.findByName(bAux.getVisitantTeam().getName());
+
+			Team team2;
+			if (teamAux2.isPresent()) {
+				team2 = teamAux2.get();
+			} else {
+				team2 = new Team();
+			}
+			team2.removeMatch(bAux.getLocalTeam().getName());
+			teamRepository.save(team2);
+
+		}
+
+		for (Match bAux : betMatches) {
+			bAux.getLocalTeam().getMatches().clear();
+			bAux.getVisitantTeam().getMatches().clear();
+		}
+
+		betMatches.clear();
+		
+		return result;
+	}
+	
+	private boolean generateRandomResult() {
+		boolean aux = true;
+
+		Random aleatorio = new Random();
+
+		int auxInt;
+
+		for (Match m : getBetMatches()) {
+			auxInt = aleatorio.nextInt(3);
+			if (auxInt == 0) {
+				if (m.betLocal == null) {
+					aux = false;
+				} else {
+					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
+
+					Team team;
+					if (teamAux.isPresent()) {
+						team = teamAux.get();
+					} else {
+						team = new Team();
+					}
+
+					teamRepository.updatePoint(team.getPoints() + 3, team.getName());
+				}
+			} else if (auxInt == 1) {
+				if (m.betTied == null) {
+					aux = false;
+				} else {
+					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
+
+					Team team;
+					if (teamAux.isPresent()) {
+						team = teamAux.get();
+					} else {
+						team = new Team();
+					}
+
+					teamRepository.updatePoint(team.getPoints() + 1, team.getName());
+
+					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
+
+					Team team2;
+					if (teamAux2.isPresent()) {
+						team2 = teamAux2.get();
+					} else {
+						team2 = new Team();
+					}
+
+					teamRepository.updatePoint(team2.getPoints() + 1, team2.getName());
+				}
+
+			} else {
+				if (m.betVisit == null) {
+					aux = false;
+				} else {
+					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
+
+					Team team2;
+					if (teamAux2.isPresent()) {
+						team2 = teamAux2.get();
+					} else {
+						team2 = new Team();
+					}
+
+					teamRepository.updatePoint(team2.getPoints() + 3, team2.getName());
+				}
+			}
+		}
+
+		return aux;
 	}
 
 

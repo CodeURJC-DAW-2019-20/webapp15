@@ -234,7 +234,7 @@ public class SessionController {
 
 			model.addAttribute("codigoHtmlInicio", true);
 
-			String totalBet = calculateBetCombinated(matchService.getBetMatches());
+			String totalBet = matchService.calculateBetCombinated(matchService.getBetMatches());
 
 			model.addAttribute("totalBet", totalBet);
 		}
@@ -264,19 +264,7 @@ public class SessionController {
 		return "apostar";
 	}
 
-	private String calculateBetCombinated(ArrayList<Match> betMatches2) {
-		float total = 0;
-		float totalAux = 0;
-		for (Match b : betMatches2) {
-			totalAux = Float.parseFloat(b.getBetSelected());
-			if (total == 0) {
-				total = totalAux;
-			} else {
-				total = total * totalAux;
-			}
-		}
-		return total + "";
-	}
+
 
 	@PostMapping(value = "/apostar/calcular")
 	public String calculateBet(Model model, HttpServletRequest request, @RequestParam(name = "precio") String precio) {
@@ -294,7 +282,7 @@ public class SessionController {
 
 			model.addAttribute("codigoHtmlInicio", true);
 
-			String totalBet = calculateBetCombinated(matchService.getBetMatches());
+			String totalBet = matchService.calculateBetCombinated(matchService.getBetMatches());
 
 			float totalBetAux = Float.parseFloat(totalBet);
 
@@ -339,168 +327,29 @@ public class SessionController {
 		model.addAttribute("match", matches);
 
 		model.addAttribute("codigoHtmlInicio", false);
-
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName(); // get logged in username
 		String name = "LOGIN";
 
 		if (userRepository.findByEmail(email) != null) {
 			name = userRepository.findByEmail(email).getName();
-		}
-
-		// Simulacion de los partidos
-		User u = userRepository.findByName(name);
-
-		Optional<ArrayList<Bets>> betList;
-
-		betList = betRepository.findByUser(u);
-
-		System.out.println(betList);
-
-		boolean result = generateRandomResult();
-
-		Integer auxMoney = u.getAcc_balance();
-		Integer totalBetAux = Math.round(Float.parseFloat(totalBet));
+		} 
+		
+		boolean result = matchService.doBet(totalBet,name);
 
 		if (result) {
 			model.addAttribute("ganado", true);
-			model.addAttribute("perdido", false);
-			auxMoney = auxMoney + totalBetAux;
-			userRepository.updateMoneyUser(auxMoney, name);
+			model.addAttribute("perdido", false);	
 		} else {
 			model.addAttribute("ganado", false);
 			model.addAttribute("perdido", true);
-			auxMoney = auxMoney - totalBetAux;
-			userRepository.updateMoneyUser(auxMoney, name);
 		}
-
-		Bets b = new Bets(u);
-
-		ArrayList<String> auxMatches = new ArrayList<String>();
-
-		for (Match m : matchService.getBetMatches()) {
-			if (result) {
-				auxMatches.add(
-						m.localTeam.getName() + " vs " + m.visitantTeam.getName() + " Ganado: " + totalBetAux + "€");
-				System.out.println(m.toString());
-			} else {
-				auxMatches.add(
-						m.localTeam.getName() + " vs " + m.visitantTeam.getName() + " Perdido: " + totalBetAux + "€");
-				System.out.println(m.toString());
-			}
-		}
-
-		b.setMatches(auxMatches);
-
-		betRepository.save(b);
-
-		for (Match bAux : matchService.getBetMatches()) {
-			Optional<Team> teamAux = teamRepository.findByName(bAux.getLocalTeam().getName());
-
-			Team team;
-			if (teamAux.isPresent()) {
-				team = teamAux.get();
-			} else {
-				return "error";
-			}
-			team.removeMatch(bAux.getVisitantTeam().getName());
-			teamRepository.save(team);
-
-			Optional<Team> teamAux2 = teamRepository.findByName(bAux.getVisitantTeam().getName());
-
-			Team team2;
-			if (teamAux2.isPresent()) {
-				team2 = teamAux2.get();
-			} else {
-				return "error";
-			}
-			team2.removeMatch(bAux.getLocalTeam().getName());
-			teamRepository.save(team2);
-
-		}
-
-		for (Match bAux : matchService.getBetMatches()) {
-			bAux.getLocalTeam().getMatches().clear();
-			bAux.getVisitantTeam().getMatches().clear();
-			System.out.println("Match " + bAux.toString());
-		}
-
-		matchService.getBetMatches().clear();
 
 		return "apostar";
+
 	}
 
-	private boolean generateRandomResult() {
-		boolean aux = true;
-
-		Random aleatorio = new Random();
-
-		int auxInt;
-
-		for (Match m : matchService.getBetMatches()) {
-			auxInt = aleatorio.nextInt(3);
-			if (auxInt == 0) {
-				if (m.betLocal == null) {
-					aux = false;
-				} else {
-					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
-
-					Team team;
-					if (teamAux.isPresent()) {
-						team = teamAux.get();
-					} else {
-						team = new Team();
-					}
-
-					teamRepository.updatePoint(team.getPoints() + 3, team.getName());
-				}
-			} else if (auxInt == 1) {
-				if (m.betTied == null) {
-					aux = false;
-				} else {
-					Optional<Team> teamAux = teamRepository.findByName(m.getLocalTeam().getName());
-
-					Team team;
-					if (teamAux.isPresent()) {
-						team = teamAux.get();
-					} else {
-						team = new Team();
-					}
-
-					teamRepository.updatePoint(team.getPoints() + 1, team.getName());
-
-					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
-
-					Team team2;
-					if (teamAux2.isPresent()) {
-						team2 = teamAux2.get();
-					} else {
-						team2 = new Team();
-					}
-
-					teamRepository.updatePoint(team2.getPoints() + 1, team2.getName());
-				}
-
-			} else {
-				if (m.betVisit == null) {
-					aux = false;
-				} else {
-					Optional<Team> teamAux2 = teamRepository.findByName(m.getVisitantTeam().getName());
-
-					Team team2;
-					if (teamAux2.isPresent()) {
-						team2 = teamAux2.get();
-					} else {
-						team2 = new Team();
-					}
-
-					teamRepository.updatePoint(team2.getPoints() + 3, team2.getName());
-				}
-			}
-		}
-
-		return aux;
-	}
 
 	// Método que inicializa la bbdd de toda la página
 	// Ir añadiendo campos
