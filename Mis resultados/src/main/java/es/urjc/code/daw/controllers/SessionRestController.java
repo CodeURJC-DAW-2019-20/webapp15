@@ -10,7 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +27,7 @@ import es.urjc.code.daw.bets.BetRepository;
 import es.urjc.code.daw.team.Team;
 import es.urjc.code.daw.team.TeamRepository;
 import es.urjc.code.daw.user.User;
+import es.urjc.code.daw.user.UserComponent;
 import es.urjc.code.daw.user.UserRepository;
 import es.urjc.code.daw.user.UserService;
 
@@ -38,7 +42,8 @@ public class SessionRestController {
 	private BetRepository betRepository;
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	private UserComponent userComponent;
 	
 	@GetMapping("/equipos")
 	public Collection<Team> getTeams() {
@@ -159,5 +164,77 @@ public class SessionRestController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
+	@PostMapping("/equipos/saveTeam/")
+	public ResponseEntity<Team> saveTeam(@RequestBody Team t) {
+		Optional<Team> teamAux = teamRepository.findByName(t.getName());
+		
+		if(!teamAux.isPresent()) {
+			teamRepository.save(t);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+	}
+	
+	@DeleteMapping("/equipos/deleteTeam/{name}")
+	public ResponseEntity<Team> deleteTeam(@PathVariable String name) {
+		Optional<Team> teamAux = teamRepository.findByName(name);
+		System.out.println(teamAux.get().toString());
+		if(teamAux.isPresent()) {
+			Team team = teamAux.get();
+			teamRepository.delete(team);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+	}
+
+	@GetMapping("/user/")
+	public ResponseEntity<User> getUser(){
+		
+		User user=userComponent.getLoggedUser();
+
+		if(user==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<>(user,HttpStatus.OK);
+		}
+	
+	}
+	
+	@PutMapping("/user/updateFav/{userName}/{team}")
+	public ResponseEntity<User> updateFav(@PathVariable String userName, @PathVariable String team){
+		Optional<Team> teamAux = teamRepository.findByName(team);
+		User user = userRepository.findByName(userName);
+				
+		if(teamAux.isPresent()&&user!=null) {
+			
+			user.setFav_team(team);
+			userRepository.save(user);
+			return new ResponseEntity<>(HttpStatus.OK);
+
+		}else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PutMapping("/user/updateFav/{team}")
+	public ResponseEntity<User> updateFavLoggerUser(@PathVariable String team){
+		Optional<Team> teamAux = teamRepository.findByName(team);
+		
+		User user = userComponent.getLoggedUser();
+
+		if(teamAux.isPresent()&&userComponent.isLoggedUser()) {
+			
+			user.setFav_team(team);
+			userRepository.save(user);
+			return new ResponseEntity<>(HttpStatus.OK);
+
+		}else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+	}
+	
 	
 }
