@@ -45,8 +45,12 @@ public class SessionRestController {
 	private MatchService matchService;
 
 	@GetMapping("/equipos")
-	public Collection<Team> getTeams() {
-		return teamRepository.findAll();
+	public ResponseEntity<Collection<Team>> getTeams() {
+		Collection<Team> c = teamRepository.findAll();
+		if(c.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(c,HttpStatus.OK);
 	}
 
 	@GetMapping("/equipos/{id}")
@@ -64,21 +68,33 @@ public class SessionRestController {
 	}
 
 	@GetMapping("/equipos/first")
-	public Team getFirstPositionTeam() {
+	public ResponseEntity<Team> getFirstPositionTeam() {
 		Team teamAux = teamRepository.findByLeagueOrderByPointsDesc("La liga").get(0);
-		return teamAux;
+		if(teamAux==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(teamAux,HttpStatus.OK);
+		}
 	}
 
 	@GetMapping("/equipos/goalsF")
-	public Team getTeamMoreGoalInFavor() {
+	public  ResponseEntity<Team>  getTeamMoreGoalInFavor() {
 		Team teamAux = teamRepository.findByLeagueOrderByGoalsInFavorDesc("La liga").get(0);
-		return teamAux;
+		if(teamAux==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(teamAux,HttpStatus.OK);
+		}
 	}
 
 	@GetMapping("/equipos/goalsA")
-	public Team getTeamLessGoalAgainst() {
+	public ResponseEntity<Team> getTeamLessGoalAgainst() {
 		Team teamAux = teamRepository.findByLeagueOrderByGoalsAgainstAsc("La liga").get(0);
-		return teamAux;
+		if(teamAux==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(teamAux,HttpStatus.OK);
+		}
 	}
 
 	@GetMapping("/equipos/position/{p}")
@@ -114,7 +130,7 @@ public class SessionRestController {
 		if (teamAux.isPresent()) {
 			t.setId(id);
 			teamRepository.save(t);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(t,HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
@@ -135,7 +151,7 @@ public class SessionRestController {
 
 			teamRepository.save(team);
 
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(team,HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
@@ -152,9 +168,9 @@ public class SessionRestController {
 			team.setPoints(team.getPoints() + 3);
 			teamRepository.save(team);
 
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(team,HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -168,9 +184,9 @@ public class SessionRestController {
 			team.setPoints(team.getPoints() + 1);
 			teamRepository.save(team);
 
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(team,HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -180,7 +196,7 @@ public class SessionRestController {
 
 		if (!teamAux.isPresent()) {
 			teamRepository.save(t);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(t,HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
@@ -195,7 +211,7 @@ public class SessionRestController {
 			teamRepository.delete(team);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -204,11 +220,10 @@ public class SessionRestController {
 
 		User userAux = userComponent.getLoggedUser();
 		
-		User user = userRepository.findByName(userAux.getName());
-		
-		if (user == null) {
+		if (userAux == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
+			User user = userRepository.findByName(userAux.getName());
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
 
@@ -223,10 +238,10 @@ public class SessionRestController {
 
 			user.setFav_team(team);
 			userRepository.save(user);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(user,HttpStatus.OK);
 
 		} else {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -243,7 +258,7 @@ public class SessionRestController {
 			return new ResponseEntity<>(HttpStatus.OK);
 
 		} else {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -252,7 +267,7 @@ public class SessionRestController {
 		User userAux = userRepository.findByName(user.getName());
 		if (userAux == null) {
 			userRepository.save(user);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(user,HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
@@ -314,7 +329,6 @@ public class SessionRestController {
 		for (Match m : matches) {
 			if (m.getLocalTeam().getName().equals(id1)) {
 				if (m.getVisitantTeam().getName().equals(id2)) {
-					search = true;
 					break;
 				}
 			}
@@ -364,8 +378,20 @@ public class SessionRestController {
 		User user = userComponent.getLoggedUser();
 		
 		boolean result = matchService.doBet(totalBet, user.getName());
-		
-		return new ResponseEntity<>(result,HttpStatus.OK);
+		boolean numeric = true;
+
+		for (int i = 0; i < totalBet.length(); i++) {
+			char c = totalBet.charAt(i);
+			if (!Character.isDigit(c)) {
+				numeric = false;
+				break;
+			}
+		}
+		if (numeric) {
+			return new ResponseEntity<>(result,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
 
 	}
 	
@@ -376,7 +402,7 @@ public class SessionRestController {
 		Optional<ArrayList<Bets>> bets = betRepository.findByUser(user);
 		
 		return bets.map(bet -> new ResponseEntity<>(bet, HttpStatus.OK))
-				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+				.orElseGet(() -> new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
 		
 	}
 }
