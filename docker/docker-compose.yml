@@ -1,0 +1,19 @@
+version: '3'
+services:
+  docker-mysql:
+    image: mysql:8.0.19
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=mis_resultados_db
+  spring-boot-jpa-docker-webapp:
+    image: alvarorbaneja/daw:1.0
+    depends_on:
+      - docker-mysql
+    ports:
+      - 8443:8443
+    environment:
+      - DATABASE_HOST=docker-mysql
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=admin
+      - DATABASE_NAME=mis_resultados_db
+      - DATABASE_PORT=3306
