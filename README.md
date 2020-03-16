@@ -71,6 +71,18 @@ In order to run succesfully the app, you will have to follow the next steps:
  # Classes and templates
  ![Classes and templates](UML/clases_templates.jpg)
  
+ # Dockers
+ ## Development and execution instructions:
+ 1. Download the app from repository https://github.com/CodeURJC-DAW-2019-20/webapp15
+ 2. Change directory to $YOURWORKPLACE/webapp15/dockers
+ 3. Make sure you have maven installed in your system. If not, install it with yum install maven
+ 4. Install docker with yum install dockers
+ 5. Then, install docker-compose with sudo curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+ 6. Run the script $YOURWORKPLACE/webapp15/dockers/create_images.sh
+ 7. In order to execute the app, change directory to $YOURWORKPLACE/webapp15/dockers/. Then, run the following command: docker-compose up
+ 
+ 
+ 
  # Participation
  
  ## Álvaro
