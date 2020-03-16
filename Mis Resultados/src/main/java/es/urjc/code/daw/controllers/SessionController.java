@@ -39,6 +39,9 @@ public class SessionController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TeamService teamService;
 
 	@RequestMapping(value = "/home")
 	public String root(Model model, HttpServletRequest request) {
@@ -93,14 +96,14 @@ public class SessionController {
 
 	@GetMapping("/equipos")
 	public String equipos(Model model, HttpServletRequest request,
-			@RequestParam(name = "teampage", required = false, defaultValue = "0") Integer teampage) {
+			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page) {
 
 		init(model, request);
-		Page<Team> allTeams = teamRepository.findAll(PageRequest.of(0, 10 * (teampage + 1)));
+		Page<Team> allTeams = teamService.listAllPageable(0, 10 * (page + 1));
 
 		model.addAttribute("allTeams", allTeams);
-		model.addAttribute("nextTeamsPage", teampage + 1);
-		Boolean showmoreteams = teampage < allTeams.getTotalPages();
+		model.addAttribute("nextTeamsPage", page + 1);
+		Boolean showmoreteams = page < allTeams.getTotalPages();
 		model.addAttribute("showmoreteams", showmoreteams);
 
 		return "equipos";
