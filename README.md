@@ -121,3 +121,25 @@ In order to run succesfully the app, you will have to follow the next steps:
 	- Equipo.html
 	- Match.java
 	- user.html
+
+##Fase 3. 
+###Update diagram of class
+# ERD Diagram
+![ERD Diagram](UML/BBDD_ERD_Refactor.jpg)
+
+#Participation Fase 3.
+##Juan:
+-Implementation: All SessionRestController except pageable rest. MatchService and model SessionController for consume this service. UserComponent session for api rest login(LoginController). New querys in TeamRepository. 
+-Top 5 commits:
+	-Firts Commit Api Res
+	-Add more Put methods in RestController
+	-New Service and new Rest api
+	-Add funcionality rest bets
+	-User Rest
+-Top 5 files:
+	- SessionRestController
+	- SessionController
+	- MatchService
+	- UserComponent
+	- LoginController
+	
