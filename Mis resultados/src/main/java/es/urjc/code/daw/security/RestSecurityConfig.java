@@ -25,9 +25,25 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/logIn").authenticated();
 		
 		//Urls user
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/").hasRole("USER");
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/user/updateFav/**").hasRole("USER");
+		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/apostar/**").hasRole("USER");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/apostar/**").hasRole("USER");
+		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/apostar/**").hasRole("USER");
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/apostar/**").hasRole("USER");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/historico").hasRole("USER");
+		
 		//Urls admin
-
-		//Private pages
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/update/**").hasRole("ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/updateTeam/**").hasRole("ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/updateTeamWin/**").hasRole("ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/updateTeamTied/**").hasRole("ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/saveTeam/**").hasRole("ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/deleteTeam/**").hasRole("ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/equipos/addMatch/**").hasRole("ADMIN");
+		
+		
+		// Other URLs can be accessed without authentication
 		http.authorizeRequests().anyRequest().permitAll();
 		
         // Disable CSRF
