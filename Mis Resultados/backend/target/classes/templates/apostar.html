@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Sportz &mdash; Apuestas</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="/../fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+    <link rel="stylesheet" href="/../css/magnific-popup.css">
+    <link rel="stylesheet" href="/../css/jquery-ui.css">
+    <link rel="stylesheet" href="/../css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/../css/owl.theme.default.min.css">
+
+
+    <link rel="stylesheet" href="/../css/aos.css">
+
+    <link rel="stylesheet" href="/../css/style.css">
+
+</head>
+
+<body>
+
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-logo">
+                    <a href="#"><img src="images/logo.png" alt="Image"></a>
+                </div>
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+
+        {{>navbar}}
+
+        <div>
+            <div class="container">
+                <div class="row align-items-center justify-content-start">
+                    <div class="col-md-6 text-center text-md-left">
+                        <h1 class="bg-text-line" style="color: #fff">Apuestas</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="site-section site-blocks-vs">
+            <div class="container">
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="border mb-3 rounded d-block d-lg-flex align-items-center p-3 next-match">
+                            <div class="mr-auto order-md-1 w-60 text-center text-lg-left mb-3 mb-lg-0">
+                                <h2>Realize sus apuestas</h2>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center mb-5">
+                    <div class="col-md-12">
+
+						{{#match}}
+                        <div class="row bg-white align-items-center ml-0 mr-0 py-4 match-entry">
+                            <div class="col-md-10 col-lg-5 mb-4 mb-lg-0">
+                                <div class="text-center text-lg-left">
+                                    <div class="d-block d-lg-flex align-items-center">
+                                        <div class="image image-small text-center mb-3 mb-lg-0 mr-lg-3">
+                                            <img src="/../images/{{localTeam.nameImgShield}}.jpg" alt="Image" class="img-fluid">
+                                        </div>
+                                        <div class="text">
+                                            <h3 class="h5 mb-0 text-black">{{localTeam.name}}</h3>
+                                            <span class="text-uppercase small country">España</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+						   <form method="get" action="/apostar/{{localTeam.name}}/{{visitantTeam.name}}/{{betLocal}}/betLocal">	                      
+						   		 <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">	                               
+						    		 <button>{{betLocal}}</button>
+	                            </div>
+	                       </form>
+	                       <form method="get" action="/apostar/{{localTeam.name}}/{{visitantTeam.name}}/{{betTied}}/betTied">	 
+	                         <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
+	                               <button>{{betTied}}</button>
+	                            </div>
+	                       </form>
+	                       <form  method="get" action="/apostar/{{localTeam.name}}/{{visitantTeam.name}}/{{betVisit}}/betVisit">
+	                            <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
+	                                <button>{{betVisit}}</button>
+	                        </div>
+	                        </form>
+                            <div class="col-md-5 col-lg-0 text-center text-lg-right">
+                                <div class="">
+                                    <div class="d-block d-lg-flex align-items-center">
+                                        <div class="image image-small ml-lg-3 mb-3 mb-lg-0 order-2">
+                                            <img src="/../images/{{visitantTeam.nameImgShield}}.jpg" alt="Image" class="img-fluid">
+                                        </div>
+                                        <div class="text order-1 w-100">
+                                            <h3 class="h5 mb-0 text-black">{{visitantTeam.name}}</h3>
+                                            <span class="text-uppercase small country">España</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/match}}
+                    </div>
+                    {{#codigoHtmlInicio}}
+                    <div class="col-md-12">
+                        <div class="border mb-3 rounded d-block d-lg-flex align-items-center p-3 next-match">
+                            <div class="mr-auto order-md-1 w-60 text-center text-lg-left mb-3 mb-lg-0">
+                                <h2>Apuesta</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                    	{{#listMatch}}
+                        <div>
+                        <h4>{{localTeam.name}} vs {{visitantTeam.name}} <span style="color: red;">Cuota seleccionada: {{betSelected}} Posibilidad de ganar: {{totalBet}}€</span></h4>
+                        </div>
+						{{/listMatch}}                        
+                        <div class="d-flex flex-row bd-highlight mb-3">
+                        	<div class="p-2 bd-highlight">
+                        			<form id="calcular" method="post" action="/apostar/calcular">
+                            		<label for="precio">Cantidad apostada<br></label>
+                            		
+                            		{{^precio}}
+                            		<input type="text" id="precio" name="precio" value="1">
+                            		{{/precio}}
+                            		
+                            		{{#precio}}
+                            		<input type="text" id="precio" name="precio" value="{{precio}}">
+                            		{{/precio}}
+                            		
+                            		<button class="btn btn-primary rounded-0" form="calcular" type="submit" value="Calcular">
+                            			Calcular
+                            		</button>
+                            		<input type="hidden" name="_csrf" value="{{token}}" />
+                        		</form>
+                	        </div>
+                    	    <div class="p-2 bd-highlight">
+                    	    	<form id="borrar" method="get" action="/apostar/deleteBet">
+									<button class="btn btn-primary rounded-0" form="borrar" type="submit" value="Borrar apuesta">
+           	   		              		Borrar apuesta
+           		                 	</button>
+									<input type="hidden" name="_csrf" value="{{token}}" />
+								</form>
+                        	</div>
+							<div class="p-2 bd-highlight">
+								<form id="apostar"method="post" action="/apostar/apostado/{{totalBet}}">
+									<button class="btn btn-primary rounded-0" form="apostar" type="submit" value="Apostar">
+                       		     		Apostar
+                           		 	</button>
+									<input type="hidden" name="_csrf" value="{{token}}" />
+								</form>
+							</div>
+						</div>
+                    </div>
+
+                    {{/codigoHtmlInicio}}
+                    {{#ganado}}
+                    	<div class="d-flex flex-row bd-highlight mb-3 justify-content-center" style="width: 100%;padding-top: 30px;">
+                    		<div><h1>¡Usted ha ganado la apuesta!</h1></div>
+                    	</div>
+                    {{/ganado}}
+                    {{#perdido}}
+                    	<div class="d-flex flex-row bd-highlight mb-3 justify-content-center" style="width: 100%;padding-top: 30px;">
+                    		<div><h1>¡Usted ha perdido la apuesta!</h1></div>
+                    	</div>
+                    {{/perdido}}
+                </div>
+            </div>
+		</div>
+    {{>footer}}
+   </div>
+
+        <script src="/../js/jquery-3.3.1.min.js"></script>
+        <script src="/../js/jquery-migrate-3.0.1.min.js"></script>
+        <script src="/../js/jquery-ui.js"></script>
+        <script src="/../js/popper.min.js"></script>
+        <script src="/../js/bootstrap.min.js"></script>
+        <script src="/../js/owl.carousel.min.js"></script>
+        <script src="/../js/jquery.stellar.min.js"></script>
+        <script src="/../js/jquery.countdown.min.js"></script>
+        <script src="/../js/jquery.magnific-popup.min.js"></script>
+        <script src="/../js/aos.js"></script>
+
+        <script src="/../js/main.js"></script>
+
+</body>
+
+</html>
