@@ -8,6 +8,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
+import { ClasificacionComponent } from './clasificacion/clasificacion.component';
+import { PartidosComponent } from './partidos/partidos.component';
+import { EquiposComponent } from './equipos/equipos.component';
+import { EquipoComponent } from './equipo/equipo.component';
+import { LoginComponent } from './login/login.component';
+import { UserComponent } from './user/user.component';
+import { RegistroComponent } from './registro/registro.component';
+import { ApostarComponent } from './apostar/apostar.component';
 
 
 
@@ -16,7 +24,15 @@ import { HomeComponent } from './home/home.component';
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    ClasificacionComponent,
+    PartidosComponent,
+    EquiposComponent,
+    EquipoComponent,
+    LoginComponent,
+    UserComponent,
+    RegistroComponent,
+    ApostarComponent
   ],
   imports: [
     BrowserModule,
