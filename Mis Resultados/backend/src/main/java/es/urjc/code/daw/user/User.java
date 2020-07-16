@@ -28,10 +28,6 @@ public class User{
 	private String fav_team;
 	private Integer acc_balance;
 	
-	/*@Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] profilePicture;*/
-	
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
 	

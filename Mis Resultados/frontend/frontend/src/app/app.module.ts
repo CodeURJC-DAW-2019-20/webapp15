@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
+import { NgxWebstorageModule } from 'ngx-webstorage';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,14 @@ import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
 import { RegistroComponent } from './registro/registro.component';
 import { ApostarComponent } from './apostar/apostar.component';
+import { HTTP_INTERCEPTORS} from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
+import { LoginService } from './login.service';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+
+
+
+
 
 
 
@@ -35,16 +44,20 @@ import { ApostarComponent } from './apostar/apostar.component';
     UserComponent,
     RegistroComponent,
     ApostarComponent
-  ],
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FontAwesomeModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgxWebstorageModule.forRoot(),
   ],
-  providers: [],
+  providers: [LoginService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
