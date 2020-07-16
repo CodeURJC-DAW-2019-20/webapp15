@@ -1,7 +1,7 @@
 <div class="limiter">
     <div class="container-login100 bg-light">
         <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
-            <form class="login100-form validate-form flex-sb flex-w" id="form" method="post" action="/login">
+            <form class="login100-form validate-form flex-sb flex-w" id="form" method="post" action="">
                 <span class="login100-form-title p-b-32">
                     Login
                 </span>
@@ -10,7 +10,7 @@
                     Usuario
                 </span>
                 <div class="wrap-input100 validate-input m-b-36" data-validate="Introduzca un nombre de usuario">
-                    <input class="input100" type="text" name="email" placeholder="Email" required />
+                    <input class="input100" type="text" name="email" placeholder="Email" [(ngModel)]="user" required />
                     <span class="focus-input100"></span>
                 </div>
 
@@ -18,18 +18,15 @@
                     Contraseña
                 </span>
                 <div class="wrap-input100 validate-input m-b-12" data-validate="Introduzca una contraseña">
-                    <input class="input100" type="password" name="password" placeholder="Contraseña" required />
+                    <input class="input100" type="password" name="password" placeholder="Contraseña" [(ngModel)]="pass" required />
                     <span class="focus-input100"></span>
                 </div>
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" type="submit" form="form" value="Login">
+                    <button class="login100-form-btn" type="submit" form="form" value="Login" (click)="login()">
                         Login
                     </button>
                 </div>
-
-                <!--<input type="hidden" name="_csrf" value="{{token}}" />-->
-
             </form>
         </div>
     </div>
