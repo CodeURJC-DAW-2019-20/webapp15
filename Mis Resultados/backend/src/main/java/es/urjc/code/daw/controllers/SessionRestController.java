@@ -199,12 +199,10 @@ public class SessionRestController {
 		}
 	}
 
-	@GetMapping("/user/")
-	public ResponseEntity<User> getUser() {
-
-		User userAux = userComponent.getLoggedUser();
+	@GetMapping("/user/{id}")
+	public ResponseEntity<User> getUser(@PathVariable Long id) {
 		
-		User user = userRepository.findByName(userAux.getName());
+		User user = userService.findOne(id);
 		
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -212,6 +210,10 @@ public class SessionRestController {
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		}
 
+	}
+	@GetMapping("/users/")
+	public Collection<User> getUsers() {	
+		return userService.findAll();
 	}
 
 	@PutMapping("/user/updateFav/{userName}/{team}")
@@ -379,4 +381,5 @@ public class SessionRestController {
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		
 	}
+	
 }

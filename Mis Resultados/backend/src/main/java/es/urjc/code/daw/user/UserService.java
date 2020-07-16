@@ -10,6 +10,11 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 
+	public User findOne(Long id) {
+		User u = repository.findById(id).get();
+		return u;
+	}
+	
 	public User findOne(String name) {
 		return repository.findByEmail(name);
 	}

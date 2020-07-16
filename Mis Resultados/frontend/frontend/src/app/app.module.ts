@@ -16,6 +16,8 @@ import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
 import { RegistroComponent } from './registro/registro.component';
 import { ApostarComponent } from './apostar/apostar.component';
+import { FormsModule } from '@angular/forms';
+
 
 
 
@@ -32,13 +34,14 @@ import { ApostarComponent } from './apostar/apostar.component';
     LoginComponent,
     UserComponent,
     RegistroComponent,
-    ApostarComponent
+    ApostarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

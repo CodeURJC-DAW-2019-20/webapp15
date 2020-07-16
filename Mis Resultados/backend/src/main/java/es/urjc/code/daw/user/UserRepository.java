@@ -2,6 +2,8 @@ package es.urjc.code.daw.user;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
 	public User findByEmail(String email);
 	public User findByName(String string);
-	
+	public Optional<User> findById(Long id);
 	
 	@Transactional
 	@Modifying
