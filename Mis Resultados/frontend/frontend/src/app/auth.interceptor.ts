@@ -13,7 +13,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor() {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("hola");
     let user = JSON.parse(localStorage.getItem('currentUser'))
 
     if (user && user.authData){
