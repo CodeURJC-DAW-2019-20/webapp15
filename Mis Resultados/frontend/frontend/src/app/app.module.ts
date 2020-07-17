@@ -24,12 +24,6 @@ import { AuthInterceptor } from './auth.interceptor';
 import { LoginService } from './login.service';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
