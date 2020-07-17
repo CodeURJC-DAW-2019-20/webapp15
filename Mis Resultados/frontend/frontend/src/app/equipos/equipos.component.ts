@@ -21,7 +21,6 @@ export class EquiposComponent implements OnInit {
           let teamName = teamsAux[i].name;
           this.imgs.set(teamName,"../../assets/"+teamsAux[i].nameImgShield+".jpg");
           this.teams.push(teamsAux[i]);
-          this.prueba = teamName;
         }
       },
       error =>{
@@ -29,7 +28,6 @@ export class EquiposComponent implements OnInit {
       }
     );
     console.log(this.teams);
-    console.log(this.prueba);
    }
 
   ngOnInit(): void {

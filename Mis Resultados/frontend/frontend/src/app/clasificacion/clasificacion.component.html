@@ -1,1 +1,32 @@
-<p>clasificacion works!</p>
+<div>
+      <div class="container" style="padding: 125px;">
+        <div class="row align-items-center justify-content-start">
+          <div class="col-md-6 text-center text-md-left" >
+            <h1 class="bg-text-line" style="color: #fff">Clasificación</h1>
+            <p class="mt-4">Aquí puedes ver la clasificación de la liga actualizada</p>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="container">
+          <div class="row align-items-center justify-content-start">
+            <table class="table">
+                 <thead class="thead-dark">
+                     <tr>
+                         <th scope="col">#</th>
+                         <th scope="col">Equipo</th>
+                         <th scope="col">Puntos</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                    
+                     <tr *ngFor="let team of teams; index as i">
+                         <th scope="row">{{i+1}}</th>
+                         <td>{{team.name}}</td>
+                         <td>{{team.points}}</td>
+                     </tr>
+                     
+                 </tbody>
+            </table>
+          </div>
+      </div>
