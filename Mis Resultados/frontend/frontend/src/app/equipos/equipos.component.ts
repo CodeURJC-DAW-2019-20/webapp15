@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 export class EquiposComponent implements OnInit {
   public teams : any[]=[];
   public imgs = new Map();
+  public prueba : string;
   constructor(private http: HttpClient) {
     let url = environment.apiEndPoint + '/equipos';
     this.http.get(url).subscribe(
@@ -20,6 +21,7 @@ export class EquiposComponent implements OnInit {
           let teamName = teamsAux[i].name;
           this.imgs.set(teamName,"../../assets/"+teamsAux[i].nameImgShield+".jpg");
           this.teams.push(teamsAux[i]);
+          this.prueba = teamName;
         }
       },
       error =>{
@@ -27,6 +29,7 @@ export class EquiposComponent implements OnInit {
       }
     );
     console.log(this.teams);
+    console.log(this.prueba);
    }
 
   ngOnInit(): void {
