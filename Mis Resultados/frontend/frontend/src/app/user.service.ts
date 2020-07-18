@@ -15,13 +15,12 @@ export class UserService {
   constructor(private http: HttpClient) {
 
   }
-  register() {
-
-  }
   login(user: string, pass: string) {
+    console.log("Inicio logIn User.service");
+
     let auth = window.btoa(user + ':' + pass);
     let url = environment.apiEndPoint + '/logIn'
-
+    console.log("Auth"+auth+"url"+url);
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + auth,
       'X-Requested-With': 'XMLHttpRequest',
@@ -29,7 +28,7 @@ export class UserService {
 
     return this.http.get<User>(url, { headers })
       .pipe(map(user => {
-        console.log(user);
+        console.log("User.service"+user);
         return user;
       }));
   }

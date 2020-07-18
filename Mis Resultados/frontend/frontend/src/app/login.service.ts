@@ -24,6 +24,8 @@ export class LoginService {
   }
   
   login(user: string, pass: string){
+    console.log("Inicio Login.Service")
+    console.log("User:"+user+"Pass"+pass);
     let auth = window.btoa(user + ':' + pass);
     let url = environment.apiEndPoint + '/logIn';
 
@@ -39,6 +41,7 @@ export class LoginService {
         this.setCurrentUser(user);
         console.log(user);
       }
+      console.log(user);
       return user;
     }));
   }
