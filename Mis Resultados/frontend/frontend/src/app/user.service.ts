@@ -4,13 +4,15 @@ import { environment } from '../environments/environment';
 import { HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/user';
+import { throwError, Observable } from 'rxjs';
+import { catchError}  from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: HttpClient,) {
+  constructor(private http: HttpClient) {
 
   }
   register() {
@@ -31,10 +33,44 @@ export class UserService {
         return user;
       }));
   }
-  getUsers() {
-    let url = environment.apiEndPoint + '/users/'
+  getUsers(){
+    const url = environment.apiEndPoint + '/users'
+
+    return this.http.get(url)
+      .pipe(
+        map(user =>{
+          return user;
+        }),
+        catchError(error => {
+          return throwError(error);
+        })
+      );
   }
   getUser(id) {
     let url = environment.apiEndPoint + '/user/' + id;
   }
+  saveUser(user){
+    const body = JSON.stringify(user);
+    console.log(body);
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+    });
+
+    const url = environment.apiEndPoint + '/user/addUser'
+
+    return this.http.post(url, user,{headers})
+    .pipe(
+      map(user =>{
+        return user;
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+  private handleError(error: any) {
+    console.error(error);
+    return Observable.throw('Server error (' + error.status + '): ' + error);
+  }
+
 }

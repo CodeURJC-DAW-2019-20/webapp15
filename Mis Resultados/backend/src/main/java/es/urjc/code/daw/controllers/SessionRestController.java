@@ -211,6 +211,18 @@ public class SessionRestController {
 		}
 
 	}
+	@GetMapping("/users/log")
+	public ResponseEntity<User> getUserLog() {	
+		User userAux = userComponent.getLoggedUser();
+		
+		if(userAux==null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			User user = userRepository.findByName(userAux.getName());
+			return new ResponseEntity<>(user,HttpStatus.OK);
+		}
+	
+	}
 	@GetMapping("/users/")
 	public Collection<User> getUsers() {	
 		return userService.findAll();

@@ -13,13 +13,9 @@ export class LoginComponent implements OnInit {
 
   public user:string;
   public pass:string;
-
   @LocalStorage('isUserLogged')
   public isUserLoggedIn;
 
-  cancel(){
-    this.router.navigate(['/']);
-  }
 
   constructor(public userService: UserService, public loginService: LoginService, public router: Router){}
 
@@ -39,5 +35,10 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  cancel(){
+    this.router.navigate(['/']);
+  }
+
 
 }
