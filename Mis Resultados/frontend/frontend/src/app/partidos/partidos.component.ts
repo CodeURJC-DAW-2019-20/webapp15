@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient,HttpHeaders} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Team } from 'src/app/team';
 import { Match } from 'src/app/match';
@@ -29,6 +29,23 @@ export class PartidosComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  addMatch(local:string,visitante:string){
+      let url = environment.apiEndPoint + '/equipos/addMatch/'+local+'/'+visitante;
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+
+      this.http.post<Team>(url,headers).subscribe(
+        response => {
+          console.log(response);
+        },
+        error =>{
+          console.error(error);
+        }
+      )
+  
   }
 
 }

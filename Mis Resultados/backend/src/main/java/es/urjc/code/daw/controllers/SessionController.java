@@ -395,7 +395,7 @@ public class SessionController {
 		if (betsAux.isPresent()) {
 			bets = betsAux.get();
 		} else {
-			return "error";
+			bets = new ArrayList<Bets>();
 		}
 
 		model.addAttribute("userAux", u2);
