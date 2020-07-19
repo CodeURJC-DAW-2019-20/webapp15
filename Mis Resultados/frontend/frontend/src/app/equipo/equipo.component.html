@@ -10,7 +10,15 @@
 </div>
 <div class="site-section">
     <div class="container">
-
+        <form *ngIf="isUserLoggedIn">
+            <fieldset>
+                <legend>¿Quieres marcar este equipo como favorito?</legend>
+                <label>
+                    <input type="radio"> {{team.name}}
+                    <input type="submit" value="Marcar como favorito" (click)="updateFav(team.name);">
+                </label>
+            </fieldset>
+        </form>
         <div class="row">
 
             <div class="container">
@@ -68,4 +76,3 @@
             </div>
         </div>
     </div>
-</div>
