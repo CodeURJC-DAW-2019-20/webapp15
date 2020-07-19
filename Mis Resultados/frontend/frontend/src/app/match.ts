@@ -8,4 +8,5 @@ export interface Match {
     betSelected: string;
     betLocal: string;
     betTied: string;
+    betVisit: string;
 }

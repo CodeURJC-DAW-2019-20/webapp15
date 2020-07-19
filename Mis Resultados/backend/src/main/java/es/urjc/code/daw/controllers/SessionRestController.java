@@ -372,12 +372,10 @@ public class SessionRestController {
 		}
 	}
 	
-	@PutMapping("/apostar/doBet/{totalBet}")
-	public ResponseEntity<Boolean> doBetRest(@PathVariable String totalBet) {
-		
-		User user = userComponent.getLoggedUser();
-		
-		boolean result = matchService.doBet(totalBet, user.getName());
+	@PutMapping("/apostar/doBet/{totalBet}/{userName}")
+	public ResponseEntity<Boolean> doBetRest(@PathVariable String totalBet,@PathVariable String userName) {
+				
+		boolean result = matchService.doBet(totalBet, userName);
 		
 		return new ResponseEntity<>(result,HttpStatus.OK);
 
