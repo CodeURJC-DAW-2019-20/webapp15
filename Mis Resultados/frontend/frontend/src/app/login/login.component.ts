@@ -25,8 +25,6 @@ export class LoginComponent implements OnInit {
     }
   }
   login(){
-    console.log("Inicio logIn login.Component");
-    console.log("Login.component isLoggedIn"+this.isUserLoggedIn);
     this.loginService.login(this.user, this.pass).subscribe(
       (user) => {
         this.router.navigate(['/']);
@@ -38,8 +36,18 @@ export class LoginComponent implements OnInit {
         alert('Invalid user or password');
       }
     );
-    console.log("Login.component isLoggedIn"+this.isUserLoggedIn);
 
+  }
+  logOut(){
+    this.loginService.logOut().subscribe(
+      (user) => {
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.error(error);
+        alert('Not User logged');
+      }
+    );
   }
 
   cancel(){
