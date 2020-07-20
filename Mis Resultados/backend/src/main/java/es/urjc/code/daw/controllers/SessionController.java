@@ -124,11 +124,16 @@ public class SessionController {
 		String email = auth.getName();
 		User u = userRepository.findByEmail(email);
 
-		String fav_team = u.getFav_team();
-
-		if (fav_team.equals(name)) {
-			model.addAttribute("press", "press");
+		
+		if(!email.equals("anonymousUser")) {
+			System.out.println("El email es:"+email);
+			String fav_team = u.getFav_team();
+			if (fav_team.equals(name)) {
+				model.addAttribute("press", "press");
+			}
 		}
+
+		
 
 		model.addAttribute("teamName", name);
 
