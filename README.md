@@ -104,7 +104,7 @@ In order to run succesfully the app, you will have to follow the next steps:
 	- WebSecurityConfig.java
 	- UserRepositoryAuthenticationProvider.java
 
-##Juan 	
+  ##Juan 	
  -Implementation: Team(Controllers,Entity,Repository), Match, Bet(Repository,Entity). Templates : Apostar.html,clasificacion.html,equipo.html,equipos.html, user.html and partidos.html. Logic of application, simulating matches and bets, generateRandomDate and generateRandomResult. Advanced algorithm. DoBet, CalculateBetCombined, Deletebet.. Add jar generation. 
  
 
@@ -127,9 +127,10 @@ In order to run succesfully the app, you will have to follow the next steps:
 # ERD Diagram
 ![ERD Diagram](UML/BBDD_ERD_Refactor.JPG)
 
-#Participation Fase 3.
+ #Participation Fase 3.
 
-##Juan:
+ ##Juan:
+ 
 -Implementation: All SessionRestController except pageable rest. MatchService and model SessionController for consume this service. UserComponent session for api rest login(LoginController). New querys in TeamRepository. 
 
 
