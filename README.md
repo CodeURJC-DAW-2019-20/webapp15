@@ -200,7 +200,7 @@ In order to run succesfully the app, you will have to follow the next steps:
 	
 	
  ##Video.
- 
+ https://www.youtube.com/watch?v=8Oe4XLE0rnc&feature=youtu.be
  
 
 
