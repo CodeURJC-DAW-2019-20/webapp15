@@ -186,6 +186,19 @@ In order to run succesfully the app, you will have to follow the next steps:
 	-Same url front and back
 	
 	
+##Start docker.
+	
+	Run file build.bat in Power Shell Windows.
+	
+	Write docker-compose up in route ./Docker
+
+##Start frontend
+
+	Write command in terminal of Visual Studio Code:
+	
+	ng serve 
+	
+	
  ##Video.
  
  
