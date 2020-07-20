@@ -1,14 +1,20 @@
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\user\UserService.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\bets\BetRepository.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\team\Team.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\Application.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\user\UserRepository.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\user\User.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\security\UserRepositoryAuthenticationProvider.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\bets\Bets.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\controllers\SessionController.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\security\WebSecurityConfig.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\Match.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\DataBaseLoader.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\security\CSRFHandlerConfiguration.java
-C:\Users\jantomar\Documents\GitHub\webapp15\Mis resultados\src\main\java\es\urjc\code\daw\team\TeamRepository.java
+/usr/src/project/src/main/java/es/urjc/code/daw/team/TeamRepository.java
+/usr/src/project/src/main/java/es/urjc/code/daw/controllers/SessionRestController.java
+/usr/src/project/src/main/java/es/urjc/code/daw/MatchService.java
+/usr/src/project/src/main/java/es/urjc/code/daw/DataBaseLoader.java
+/usr/src/project/src/main/java/es/urjc/code/daw/user/User.java
+/usr/src/project/src/main/java/es/urjc/code/daw/Match.java
+/usr/src/project/src/main/java/es/urjc/code/daw/team/Team.java
+/usr/src/project/src/main/java/es/urjc/code/daw/Application.java
+/usr/src/project/src/main/java/es/urjc/code/daw/controllers/LoginController.java
+/usr/src/project/src/main/java/es/urjc/code/daw/user/UserService.java
+/usr/src/project/src/main/java/es/urjc/code/daw/user/UserComponent.java
+/usr/src/project/src/main/java/es/urjc/code/daw/security/CSRFHandlerConfiguration.java
+/usr/src/project/src/main/java/es/urjc/code/daw/security/WebSecurityConfig.java
+/usr/src/project/src/main/java/es/urjc/code/daw/team/TeamService.java
+/usr/src/project/src/main/java/es/urjc/code/daw/user/UserRepository.java
+/usr/src/project/src/main/java/es/urjc/code/daw/security/RestSecurityConfig.java
+/usr/src/project/src/main/java/es/urjc/code/daw/controllers/SessionController.java
+/usr/src/project/src/main/java/es/urjc/code/daw/security/UserRepositoryAuthenticationProvider.java
+/usr/src/project/src/main/java/es/urjc/code/daw/bets/BetRepository.java
+/usr/src/project/src/main/java/es/urjc/code/daw/bets/Bets.java

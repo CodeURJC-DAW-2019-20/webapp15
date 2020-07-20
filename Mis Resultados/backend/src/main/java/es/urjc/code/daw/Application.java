@@ -31,5 +31,6 @@ public class Application implements WebMvcConfigurer{
     public void addViewControllers(ViewControllerRegistry registry) {
 			registry.addViewController("/new").setViewName("redirect:/new/");
 			registry.addViewController("/new/").setViewName("forward:/new/index.html");
+			
     }
 }
