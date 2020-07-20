@@ -20,13 +20,7 @@ public interface TeamRepository extends JpaRepository<Team,Long> {
 	public Optional<Team> findByName(String name);	
 
 	public List<Team> findByLeagueOrderByPointsDesc(String league);
-	
-	public List<Team> findByLeagueOrderByGoalsInFavorDesc(String league);
-	
-	public List<Team> findByLeagueOrderByGoalsAgainstAsc(String league);
-	
-	public Optional<Team> findByPosition(Integer position);
-	
+
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE TEAM SET points=?1 WHERE TEAM.NAME=?2",nativeQuery = true)

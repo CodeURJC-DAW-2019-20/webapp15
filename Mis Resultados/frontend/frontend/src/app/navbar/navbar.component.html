@@ -1,0 +1,43 @@
+<header class="site-navbar absolute transparent" role="banner">
+  <nav class="site-navigation position-relative text-right bg-black text-md-right" role="navigation">
+    <div class="container position-relative">
+      <div class="site-logo">
+        <a><img src="../../assets/logo.png"></a>
+      </div>
+
+      <div class="d-inline-block d-md-none ml-md-0 mr-auto py-3"><a
+          class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+
+      <ul class="site-menu js-clone-nav d-none d-md-block">
+        <li class="has-children active">
+          <a routerLink="/">Inicio</a>
+          <ul class="dropdown arrow-top" *ngIf="isUserLoggedIn">
+            <li>
+              <a routerLink="/apostar">Apuestas</a>
+            </li>
+          </ul>
+        </li>
+        <li><a routerLink="/clasificacion">Clasificacion</a></li>
+        <li><a routerLink="/partidos">Proximos partidos</a></li>
+        <li><a routerLink="/equipos">Equipos</a></li>
+        <li *ngIf="!isUserLoggedIn"><a routerLink="/login">Login</a></li>
+        <li *ngIf="!isUserLoggedIn"><a routerLink="/registro">Registro</a></li>
+        <li class="has-children active" *ngIf="isUserLoggedIn">
+          <a>{{currentUser.name}}</a>
+          <ul class="dropdown arrow-top">
+            <li>
+              <a routerLink="/user">Perfil</a>
+            </li>
+            <li>
+                <div>
+                  <button class="btn btn-primary rounded-0" (click)=logOut();>
+                    Logout
+                  </button>
+                </div>
+            </li>
+          </ul>
+
+      </ul>
+    </div>
+  </nav>
+</header>

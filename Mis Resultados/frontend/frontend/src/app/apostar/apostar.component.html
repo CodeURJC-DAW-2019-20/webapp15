@@ -1,0 +1,102 @@
+<div class="site-section site-blocks-vs">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="border mb-3 rounded d-block d-lg-flex align-items-center p-3 next-match">
+                    <div class="mr-auto order-md-1 w-60 text-center text-lg-left mb-3 mb-lg-0">
+                        <h2>Realize sus apuestas</h2>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center mb-5">
+            <div class="col-md-12" *ngFor="let match of nextMatches">
+                <div class="row bg-white align-items-center ml-0 mr-0 py-4 match-entry">
+                    <div class="col-md-10 col-lg-5 mb-4 mb-lg-0">
+                        <div class="text-center text-lg-left">
+                            <div class="d-block d-lg-flex align-items-center">
+                                <div class="image image-small text-center mb-3 mb-lg-0 mr-lg-3">
+                                    <img src="../../assets/{{match.localTeam.nameImgShield}}.jpg" alt="Image"
+                                        class="img-fluid">
+                                </div>
+                                <div class="text">
+                                    <h3 class="h5 mb-0 text-black">{{match.localTeam.name}}</h3>
+                                    <span class="text-uppercase small country">España</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
+                        <button
+                            (click)="selectBet(match.localTeam.name,match.visitantTeam.name,match.betLocal,'betLocal');">{{match.betLocal}}</button>
+                    </div>
+                    <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
+                        <button
+                            (click)="selectBet(match.localTeam.name,match.visitantTeam.name,match.betTied,'betTied');">{{match.betTied}}</button>
+                    </div>
+                    <div class="col-md-0 col-lg-0 mb-4 mb-lg-0">
+                        <button
+                            (click)="selectBet(match.localTeam.name,match.visitantTeam.name,match.betVisit,'betVisit');">{{match.betVisit}}</button>
+                    </div>
+                    <div class="col-md-5 col-lg-0 text-center text-lg-right">
+                        <div class="">
+                            <div class="d-block d-lg-flex align-items-center">
+                                <div class="image image-small ml-lg-3 mb-3 mb-lg-0 order-2">
+                                    <img src="../../assets/{{match.visitantTeam.nameImgShield}}.jpg" alt="Image"
+                                        class="img-fluid">
+                                </div>
+                                <div class="text order-1 w-100">
+                                    <h3 class="h5 mb-0 text-black">{{match.visitantTeam.name}}</h3>
+                                    <span class="text-uppercase small country">España</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="codigoHtmlInicio">
+                <div class="border mb-3 rounded d-block d-lg-flex align-items-center p-3 next-match">
+                    <div class="mr-auto order-md-1 w-60 text-center text-lg-left mb-3 mb-lg-0">
+                        <h2>Apuesta</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" >
+                <div *ngFor="let match of betMatches">
+                    <h4>{{match.localTeam.name}} vs {{match.visitantTeam.name}} <span style="color: red;">Cuota seleccionada:
+                            {{match.betSelected}} Posibilidad de ganar: {{totalBet}} </span></h4>
+                </div>
+                <div class="d-flex flex-row bd-highlight mb-3"  *ngIf="codigoHtmlInicio">
+                    <div class="p-2 bd-highlight">
+                        <form id="calcular" method="post" action="">
+                            <label for="precio">Cantidad apostada<br></label>
+
+                            <input #prize type="text" id="precio">
+
+                            <button class="btn btn-primary rounded-0" (click)="calculateBet(prize.value);" >
+                                Calcular
+                            </button>
+                        </form>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <form id="borrar" method="get" action="">
+                            <button class="btn btn-primary rounded-0" (click)="deleteBet();">
+                                Borrar apuesta
+                            </button>
+                        </form>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <form id="apostar" method="post" action="">
+                            <button class="btn btn-primary rounded-0" (click)="doBet(prize.value);">
+                                Apostar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

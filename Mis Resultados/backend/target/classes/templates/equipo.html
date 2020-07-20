@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<title>Sportz &mdash; Equipos</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+<link rel="stylesheet" href="/../fonts/icomoon/style.css">
+<link rel="stylesheet" href="/../css/bootstrap.min.css">
+<link rel="stylesheet" href="/../css/magnific-popup.css">
+<link rel="stylesheet" href="/../css/jquery-ui.css">
+<link rel="stylesheet" href="/../css/owl.carousel.min.css">
+<link rel="stylesheet" href="/../css/owl.theme.default.min.css">
+
+
+<link rel="stylesheet" href="/../aos.css">
+
+<link rel="stylesheet" href="/../css/style.css">
+<style>
+i {
+  cursor:pointer;
+  padding:10px 12px 8px;
+  background:#fff;
+  border-radius:50%;
+  display:inline-block;
+  margin:0 0 15px;
+  color:#aaa;
+  transition:.2s;
+}
+
+i:hover {
+  color:#666;
+}
+
+/*i:before {
+  font-family:fontawesome;
+  content:'\f004';
+  font-style:normal;
+}*/
+
+span {
+  position: absolute;
+  bottom:70px;
+  left:0;
+  right:0;
+  visibility: hidden;
+  transition:.6s;
+  z-index:-2;
+  font-size:2px;
+  color:transparent;
+  font-weight:400;
+}
+
+#pressed > i {
+	animation: size .4s;
+  	color:#e23b3b;
+}
+
+i.press {
+  animation: size .4s;
+  color:#e23b3b;
+}
+
+span.press {
+  bottom:120px;
+  font-size:14px;
+  visibility:visible;
+  animation: fade 1s;
+}
+
+@keyframes fade {
+  0% {color:#transparent;}
+  50% {color:#e23b3b;}
+  100% {color:#transparent;}
+}
+
+@keyframes size {
+  0% {padding:10px 12px 8px;}
+  50% {padding:14px 16px 12px;  
+    margin-top:-4px;}
+  100% {padding:10px 12px 8px;}
+}
+
+button:active {
+  outline: none;
+  border: none;
+}
+button {
+  padding: 0;
+  border: none;
+  background: none;
+}
+button:focus {
+  outline: 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+	<div class="site-wrap">
+
+		<div class="site-mobile-menu">
+			<div class="site-mobile-menu-header">
+				<div class="site-mobile-menu-logo">
+					<a href="home"><img src="images/logo.png" alt="Image"></a>
+				</div>
+				<div class="site-mobile-menu-close mt-3">
+					<span class="icon-close2 js-menu-toggle"></span>
+				</div>
+			</div>
+			<div class="site-mobile-menu-body"></div>
+		</div>
+
+		{{>navbar}}
+
+		<div class="site-blocks-cover overlay"
+			style="background-image: url(/../images/{{teamStats.nameImgTemplate}}.jpg);" data-aos="fade"
+			data-stellar-background-ratio="0.5">
+			<div class="container">
+				<div class="row align-items-center justify-content-start">
+					<div class="col-md-6 text-center text-md-left" data-aos="fade-up"
+						data-aos-delay="400">
+						<h1 class="bg-text-line">{{teamName}}</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="site-section">
+			<div class="container">
+				<div class="row">
+					<div class="d-flex p-3 col-md-12 text-center mb-5" id="team" style="justify-content: center;">
+						<h2 class="text-black">Estadísticas {{teamName}}</h2>
+						
+						{{#user}}
+							
+							
+							<form id="setFav" method="post" action="/equipo/{{teamName}}/setFav">
+								<input type="hidden" type="text" name="fav_team" value="{{teamName}}" />
+								<div>
+									{{^press}}
+  									<button type="submit" form="setFav">
+  									{{/press}}
+  									{{#press}}
+  									<button id="pressed" type="submit" form="setFav">
+									{{/press}}
+  										<i class="fas fa-heart"></i>
+  										<span>¡Equipo añadido como favorito!</span>
+  									</button>
+  									<input type="hidden" name="_csrf" value="{{token}}" />
+								</div>
+							</form>
+						{{/user}}
+						
+					</div>
+				</div>
+				
+				<div class="row">
+
+					<div class="container">
+						<div class="row align-items-center justify-content-start">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Valor</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th>Puntos</th>
+										<td>{{teamStats.points}}</td>
+									</tr>
+									<tr>
+										<th>Clasificación</th>
+										<td>{{teamStats.position}}</td>
+									</tr>
+									<tr>
+										<th>Ganados</th>
+										<td>{{teamStats.winners}}</td>
+									</tr>
+									<tr>
+										<th>Perdidos</th>
+										<td>{{teamStats.lossers}}</td>
+									</tr>
+									<tr>
+										<th>Empatados</th>
+										<td>{{teamStats.tied}}</td>
+									</tr>
+									<tr>
+										<th>Liga</th>
+										<td>{{teamStats.tied}}</td>
+									</tr>
+									<tr>
+										<th>Goles a favor</th>
+										<td>{{teamStats.tied}}</td>
+									</tr>
+									<tr>
+										<th>Goles en contra</th>
+										<td>{{teamStats.tied}}</td>
+									</tr>
+									{{#teamStats.matches}}
+									<tr>
+										<th>Próximo partido {{-index}}</th>
+										<td>{{.}}</td>
+									</tr>
+									{{/teamStats.matches}}
+								</tbody>
+
+							</table>
+							
+						</div>
+						
+					</div>
+					<div class="container">
+				<div class="row">
+					<div class="d-flex p-3 col-md-12 text-center mb-5" id="title_estadio" style="justify-content: center;">
+						<h2 class="text-black">Ubicación estadio {{teamName}}</h2>
+					</div>
+				</div>
+				<div class="row">
+					  <div class="d-flex p-3 col-md-12 text-center mb-5" id="estadio" style="justify-content: center;">
+						<!--<div id="map" style="height: 400px; width: 400px;"></div>-->
+						<iframe
+  							width="600"
+  							height="450"
+  							frameborder="0" style="border:0"
+  							src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAiVwiMOSZbo9Tmkf1MCr-VQn3xLGEieXI&q={{teamDirection}}" allowfullscreen>
+						</iframe>
+					</div>
+				</div>
+
+					{{>footer}}
+					
+				</div>
+
+				<script src="/../js/jquery-3.3.1.min.js"></script>
+				<script src="/../js/jquery-migrate-3.0.1.min.js"></script>
+				<script src="/../js/jquery-ui.js"></script>
+				<script src="/../js/popper.min.js"></script>
+				<script src="/../js/bootstrap.min.js"></script>
+				<script src="/../js/owl.carousel.min.js"></script>
+				<script src="/../js/jquery.stellar.min.js"></script>
+				<script src="/../js/jquery.countdown.min.js"></script>
+				<script src="/../js/jquery.magnific-popup.min.js"></script>
+				<script src="/../js/aos.js"></script>
+
+				<script src="/../js/main.js"></script>
+				<!--  <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script> -->
+				<script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" data-auto-replace-svg="nest"></script>
+				<script>
+				// Favorite Button - Heart
+				$(function() {
+    				$( "i" ).click(function() {
+      					$( "i,span" ).toggleClass( "press", 1000 );
+    				});
+  				});
+				</script>
+    			<!-- <script>
+
+      function initMap() {
+        var myLatLng = {lat: -25.363, lng: 131.044};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Hello World!'
+        });
+      }
+    </script>-->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiVwiMOSZbo9Tmkf1MCr-VQn3xLGEieXI&callback=initMap">
+    </script>
+</body>
+
+</html>
