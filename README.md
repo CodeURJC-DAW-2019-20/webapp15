@@ -128,6 +128,7 @@ In order to run succesfully the app, you will have to follow the next steps:
 ![ERD Diagram](UML/BBDD_ERD_Refactor.JPG)
 
 #Participation Fase 3.
+
 ##Juan:
 -Implementation: All SessionRestController except pageable rest. MatchService and model SessionController for consume this service. UserComponent session for api rest login(LoginController). New querys in TeamRepository. 
 
