@@ -149,3 +149,47 @@ In order to run succesfully the app, you will have to follow the next steps:
 	- UserComponent
 	- LoginController
 	
+	
+# Fase 4.
+
+#Diagram of components,templates and service of front angular
+![ERD Diagram](UML/Angular.JPG)
+
+
+#Participation Fase 4.
+
+ ##Juan:
+ All Components,services and templates of front new.
+ 
+ 
+ Docker front and back in the same port.
+ 
+ 
+ Structure of new project.
+ 
+ 
+ Video,diagrams..
+ 
+ 
+ -Top 5 commits:
+	-Init project angular
+	-Login + Registro components
+	-Equipo angular frontend finish
+	-Funcionality bet
+	-Login finish
+	
+ -Top 5 files:
+ 	-Login.service
+	-Apostar.component.ts
+	-Apostar.component.html
+	-Header logOut
+	-Same url front and back
+	
+	
+ ##Video.
+ 
+ 
+
+
+
+	
